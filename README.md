@@ -6,4 +6,4 @@
 - [@wolf1996](https://github.com/wolf1996)
 - [@Pacman29](https://github.com/Pacman29)
 
-Mentor: [@nksoff](https://github.com/nksoff)
+Mentor: [@iliabulavintsev](https://github.com/IliaBulavintsev)
