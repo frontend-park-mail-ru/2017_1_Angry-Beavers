@@ -16,5 +16,10 @@
   "bugs": {
     "url": "https://github.com/frontend-park-mail-ru/2017_1_Angry-Beavers/issues"
   },
-  "homepage": "https://github.com/frontend-park-mail-ru/2017_1_Angry-Beavers#readme"
+  "homepage": "https://github.com/frontend-park-mail-ru/2017_1_Angry-Beavers#readme",
+  "dependencies": {
+    "body-parser": "^1.16.1",
+    "express": "^4.14.1"
+  },
+  "devDependencies": {}
 }
