@@ -46,7 +46,7 @@
          * @param {Object} [options={}] - Объект с параметрами
          */
         show(options = {}) {
-            this._el.style.display = 'block';
+            //this._el.style.display = 'block';
         }
 
         /**

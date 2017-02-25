@@ -2,9 +2,8 @@
  * Created by pacman29 on 20.02.17.
  */
 (function () {
-    class CreatePage{
-
-        constructor(opt){
+    class CreatePage extends window.View{
+        constructor(opt = {}){
             super(opt);
             this.body = (document.getElementsByTagName('body'))[0];
             this.links  = [];
@@ -62,7 +61,6 @@
 
         add_parts(parent,name,elem){
             this.parts.set(name,elem);
-            alert(name.toString());
             elem.hidden = false;
             parent.appendChild(elem);
         }
@@ -70,6 +68,11 @@
         get_parts(){
             return this.parts;
         }
+
+        resume(options = {}) {
+            this.show();
+        }
+
     }
     window.CreatePage = CreatePage;
-});
+}());

@@ -2,7 +2,7 @@
  * Created by pacman29 on 22.02.17.
  */
 (function () {
-   window.Footer = function Footer(opt) {
+   let Footer = function Footer(opt) {
        let footer = document.createElement('footer');
        footer.setAttribute('class','text-center footer');
        footer.innerHTML = `
@@ -15,8 +15,9 @@
         </div>
         `;
        return footer;
-   }
-});
+   };
+   window.Footer = Footer;
+}());
 /*
  <footer class="text-center">
     <div class="container">

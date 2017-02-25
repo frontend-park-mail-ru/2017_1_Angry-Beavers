@@ -6,7 +6,9 @@ const express = require('express');
 const parser = require('body-parser');
 const app = express();
 
-['/','/singin'].forEach((path) => { app.use(path, express.static('public/static')); });
+['/','/singin'].forEach((path) => {
+    app.use(path, express.static('public/static'));
+});
 app.use(express.static('public/static'));
 
 app.listen(process.env.PORT || 3000, function () {

@@ -22,14 +22,14 @@
        container.setAttribute('class','container appname');
        let row = document.createElement('div');
        row.setAttribute('class','row');
-       opt.data.attr.forEach(iter => {
+       opt.attr.forEach(iter => {
            row.appendChild(get_word(iter));
        });
        container.appendChild(row);
 
        return container;
    }
-});
+}());
 /*
  <div class="container">
     <div class="row">

@@ -5,7 +5,7 @@
    window.Registration = function Registration() {
 
    }
-});
+}());
 
 /*
 

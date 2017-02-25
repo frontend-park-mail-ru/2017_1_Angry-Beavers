@@ -13,7 +13,7 @@
                 img.setAttribute(i.toString(),data.attr[i].toString());
             }
             a.appendChild(img);
-            col.appendChild(col);
+            col.appendChild(a);
             return col;
         }
 
@@ -26,7 +26,7 @@
         container.appendChild(row);
         return container;
     }
-});
+}());
 
 /*
  <div class="container">

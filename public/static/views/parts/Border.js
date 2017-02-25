@@ -16,14 +16,14 @@
                 <div class="col-lg-1"></div>
                 <div class="col-lg-3">
                     <div class="row">
-                        <img src=${img} alt="Placeholder image" class="img-responsive">
+                        <img src="${img.toString()}" class="img-responsive">
                     </div>
                 </div>
              </div>
             `;
         return container;
     }
-});
+}());
 /*
  <div class="container my_btn_image">
     <div class="row">
