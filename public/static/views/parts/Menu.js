@@ -3,25 +3,12 @@
  */
 (function(){
     window.Menu = function Menu(opt) {
-        function create_icon(data,count) {
-            let col = document.createElement('div');
-            col.setAttribute('class',`col-lg-${Math.round(12/count)}`);
-            let a = document.createElement('a');
-            a.setAttribute('href',data.href);
-            let img = document.createElement('img');
-            for(let i in data.attr){
-                img.setAttribute(i.toString(),data.attr[i].toString());
-            }
-            a.appendChild(img);
-            col.appendChild(a);
-            return col;
-        }
 
         let container = document.createElement('div');
         container.setAttribute('class','container menu');
         let row = document.createElement('row');
         opt.icons.forEach(iter => {
-           row.appendChild(create_icon(iter));
+           row.appendChild(window.IconConstruct(iter,opt.icons.length));
         });
         container.appendChild(row);
         return container;
