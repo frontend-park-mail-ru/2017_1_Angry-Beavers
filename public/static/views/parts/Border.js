@@ -10,8 +10,8 @@
                 <div class="col-lg-2"></div>
                 <div class="col-lg-6">
                     <div id="inside_block" >
-                        <link src=${opt.stylesheet}>
-                        ${opt.el.innerHTML}
+                         <link rel="stylesheet" href=${opt.stylesheet}>
+                         ${opt.el.outerHTML}
                     </div>
                 </div>
                 <div class="col-lg-1"></div>

@@ -72,6 +72,15 @@
                         }
                     },
                     {
+                        href: "score",
+                        attr: {
+                            src:  "images/1.png",
+                            class: "img-responsive my_btn_image",
+                            onMouseOver: "this.src='images/GOOGFACE.png'",
+                            onMouseOut: "this.src='images/1.png'"
+                        }
+                    },
+                    {
                         href: "aboutus",
                         attr: {
                             src:  "images/About_us.png",
@@ -130,6 +139,93 @@
                 })
             }),
             "stylesheets/parts/Border.css");
+
+            this.addParts(this.body,"SingUp",window.Border({
+                    img: "images/add_your_data.png",
+                    stylesheet: "stylesheets/parts/Form.css",
+                    el : window.FormConstruct({
+                        text: "Регистрация",
+                        inputs:[
+                            {
+                                placeholder: "Your Email",
+                                class: "",
+                                name: "email",
+                                type: "text"
+                            },
+                            {
+                                placeholder: "Username",
+                                class: "",
+                                name: "username",
+                                type: "text"
+                            },
+                            {
+                                placeholder: "Password",
+                                class: "",
+                                name: "password",
+                                type: "password"
+                            },
+                            {
+                                placeholder: "Repeat password",
+                                class: "",
+                                name: "password_r",
+                                type: "password"
+                            }
+                        ],
+                        buttons: [
+                            {
+                                attrs: {
+                                    type: "submit",
+                                    class: ""
+                                },
+                                text: "Отправить"
+                            },
+                            {
+                                attrs: {
+                                    type: "reset",
+                                    class: ""
+                                },
+                                text: "Авторизация"
+                            }
+                        ]
+                    })
+                }),
+                "stylesheets/parts/Border.css");
+
+            this.addParts(this.body,"ScoreList",window.Border({
+                    img: "images/add_your_data.png",
+                    stylesheet: "stylesheets/parts/ScoreList.css",
+                    el : window.ScoreList({
+                        },
+                        [
+                            {
+                                position: "1",
+                                nickname: "lol_1",
+                                score: "999"
+                            },
+                            {
+                                position: "2",
+                                nickname: "lol_2",
+                                score: "888"
+                            },
+                            {
+                                position: "3",
+                                nickname: "lol_3",
+                                score: "777"
+                            },
+                            {
+                                position: "...",
+                                nickname: "...",
+                                score: "..."
+                            },
+                            {
+                                position: "4",
+                                nickname: "lol_4",
+                                score: "777"
+                            }
+                        ]
+                    )
+                }),
+                "stylesheets/parts/Border.css");
 
             this.addParts(this.body,"Footer",window.Footer({
                 text: "Copyright © MyWebsite. All rights reserved.",
