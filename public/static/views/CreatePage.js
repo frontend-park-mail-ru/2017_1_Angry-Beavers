@@ -95,7 +95,7 @@
                 ]
             }),"stylesheets/parts/Menu.css");
 
-            this.addParts(this.body,"SingIn",window.Border({
+            this.addParts(this.body,"SignIn",window.Border({
                 img: "images/add_your_data.png",
                 stylesheet: "stylesheets/parts/Form.css",
                 el : window.FormConstruct({
@@ -134,7 +134,7 @@
             }),
             "stylesheets/parts/Border.css");
 
-            this.addParts(this.body,"SingUp",window.Border({
+            this.addParts(this.body,"SignUp",window.Border({
                     img: "images/add_your_data.png",
                     stylesheet: "stylesheets/parts/Form.css",
                     el : window.FormConstruct({

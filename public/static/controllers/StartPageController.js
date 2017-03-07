@@ -34,22 +34,18 @@
         show(){
             this.page_parts.get("AppName").hidden = false;
             if(this.user.isAuth){
-                this.page_parts.get("MenuStart").hidden = false;
+                debugger;
+                this.router.go("/menu");
             }
             else {
-                this.page_parts.get("MenuGame").hidden = false;
+                this.page_parts.get("MenuStart").hidden = false;
             }
             this.page_parts.get("Footer").hidden = false;
         }
 
         hide(){
             this.page_parts.get("AppName").hidden = true;
-            if(this.user.isAuth){
-                this.page_parts.get("MenuStart").hidden = true;
-            }
-            else {
-                this.page_parts.get("MenuGame").hidden = true;
-            }
+            this.page_parts.get("MenuStart").hidden = true;
             this.page_parts.get("Footer").hidden = true;
         }
 

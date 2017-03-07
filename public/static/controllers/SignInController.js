@@ -14,12 +14,13 @@
             this.page_parts.get("AppName").querySelector(".my_ref").addEventListener('click', event => {
                 this.router.go("/");
             });
-
+            debugger;
             this.page_parts.get("SignIn").addEventListener('submit', event => {
                 alert("Check");
                 this.user.isAuth = 1;
-                this.router.go('/')
-            }).addEventListener('reset', event => {
+                this.router.go('/menu')
+            });
+            this.page_parts.get("SignIn").addEventListener('reset', event => {
                 this.router.go('/signup')
             });
 
@@ -31,10 +32,6 @@
         }
 
         show(){
-            this.page_parts.forEach(iter => {
-                iter.hidden = true;
-            });
-
             this.page_parts.get("AppName").hidden = false;
             this.page_parts.get("SignIn").hidden = false;
             this.page_parts.get("Footer").hidden = false;

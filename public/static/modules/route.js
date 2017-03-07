@@ -28,7 +28,9 @@
          * @returns {boolean} Результат проверки
          */
         match(pathname) {
-            return !!this.regex(pathname);
+            debugger;
+            let res = !!this.regex(pathname);
+            return res;
         }
 
         /**
@@ -39,15 +41,17 @@
         navigate(pathname, state = {}) {
             debugger;
             state = state || {};
-            const keys = this.regex(pathname);
+            //const keys = this.regex(pathname);
+            debugger;
             if (!this._view) {
+                debugger;
                 const view = new this.View(this.options);
                 view.init(this.options);
                 view.setRouter(this.__router);
                 this._view = view;
             }
 
-            this._view.resume(Object.assign(state, keys));
+            this._view.resume(Object.assign(state));
         }
 
         /**

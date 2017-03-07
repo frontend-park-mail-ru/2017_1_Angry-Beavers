@@ -56,7 +56,12 @@
          */
         onroute(pathname, state = {}) {
             debugger;
-            const route = this.routes.find(route => route.match(pathname));
+            const route = this.routes.find(route => {
+                //let res = route.match(pathname);
+                let res = (route.pathname === pathname);
+                debugger;
+                return res;
+            });
             if (!route) {
                 return;
             }

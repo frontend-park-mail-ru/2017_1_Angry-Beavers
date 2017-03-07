@@ -6,7 +6,7 @@ const express = require('express');
 const parser = require('body-parser');
 const app = express();
 
-['/','/singin','/play','/aboutus','/rules'].forEach((path) => {
+['/','/signin','/play','/aboutus','/rules'].forEach((path) => {
     app.use(path, express.static('public/static'));
 });
 app.use(express.static('public/static'));

@@ -9,6 +9,7 @@
         let SignInController = window.SignInController;
 
         const user = new User({});
+        debugger;
         user.getSession()
             .then(() => {
                 (new Router())

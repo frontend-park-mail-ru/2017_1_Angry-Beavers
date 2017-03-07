@@ -35,7 +35,7 @@
         getSession() {
             return new Promise((resolve, reject) => {
                 this.sendRequest('/', 'GET')
-                    .then(() => { this.isAuth = 1; this.login = this.responseObj.msg; resolve(); })
+                    .then(() => { this.isAuth = 0; this.login = this.responseObj.msg; resolve(); })
                     .catch(() => { this.isAuth = 0; resolve(); });
             });
         }
