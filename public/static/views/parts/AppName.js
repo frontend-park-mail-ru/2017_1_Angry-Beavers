@@ -26,7 +26,6 @@
            row.appendChild(get_word(iter));
        });
        container.appendChild(row);
-
        return container;
    }
 }());

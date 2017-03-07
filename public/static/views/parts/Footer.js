@@ -9,7 +9,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-xs-12">
-                    <p>${opt}</p>
+                    <p class=${opt.class}>${opt.text}</p>
                 </div>
             </div>
         </div>
