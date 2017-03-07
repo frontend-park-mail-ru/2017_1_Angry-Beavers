@@ -9,8 +9,7 @@
            col.setAttribute('class','col-lg-6');
            let h1 = document.createElement('h1');
            let a = document.createElement('a');
-           a.setAttribute('href',data.href);
-           a.setAttribute('class',data.stylesheet);
+           a.setAttribute('class',data.class);
            a.textContent = data.text;
 
            h1.appendChild(a);

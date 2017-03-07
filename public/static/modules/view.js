@@ -115,7 +115,6 @@
         setRouter(router) {
             this.router = router;
         }
-
     }
 
     // export

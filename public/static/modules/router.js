@@ -55,6 +55,7 @@
          * @param {Object} [state={}] - Объект state, который передаётся в вызов метода navigate
          */
         onroute(pathname, state = {}) {
+            debugger;
             const route = this.routes.find(route => route.match(pathname));
             if (!route) {
                 return;
@@ -77,6 +78,7 @@
             if (window.location.pathname === pathname) {
                 return;
             }
+            debugger;
             this.history.pushState(state, '', pathname);
             this.onroute(pathname, state);
         }

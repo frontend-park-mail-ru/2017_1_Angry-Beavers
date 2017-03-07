@@ -2,12 +2,11 @@
  * Created by pacman29 on 20.02.17.
  */
 (function () {
-    class CreatePage extends window.View{
+    class CreatePage{
         constructor(opt = {}){
             if(CreatePage.__instance){
                 return CreatePage.__instance;
             }
-            super(opt);
             this.body = (document.getElementsByTagName('body'))[0];
             this.links  = [];
             this.parts = new Map();
@@ -18,13 +17,11 @@
             this.addParts(this.body,"AppName",window.AppName({
                 attr : [
                     {
-                        href: "/",
-                        stylesheet: "my_ref my_font_for_gamename first",
+                        class: "my_ref my_font_for_gamename first",
                         text: "Joking"
                     },
                     {
-                        href: "/",
-                        stylesheet: "my_ref my_font_for_gamename second",
+                        class: "my_ref my_font_for_gamename second",
                         text: "Hazard"
                     }
                 ]
@@ -32,7 +29,6 @@
             this.addParts(this.body,"MenuStart",window.Menu({
                 icons: [
                     {
-                        href: "singin",
                         attr: {
                             src:  "images/1.png",
                             class: "img-responsive my_btn_image",
@@ -41,7 +37,6 @@
                         }
                     },
                     {
-                        href: "aboutus",
                         attr: {
                             src:  "images/About_us.png",
                             class: "img-responsive my_btn_image",
@@ -50,7 +45,6 @@
                         }
                     },
                     {
-                        href: "rules",
                         attr: {
                             src:  "images/About_rules.png",
                             class: "img-responsive my_btn_image",
@@ -248,13 +242,6 @@
         getParts(){
             return this.parts;
         }
-
-        resume(options = {}) {
-            this.parts.forEach(item =>{
-                item.hidden = false;
-            })
-        }
-
     }
     window.CreatePage = CreatePage;
 }());

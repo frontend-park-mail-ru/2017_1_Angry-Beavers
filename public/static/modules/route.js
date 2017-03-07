@@ -17,6 +17,7 @@
             id++;
             this.pathname = pathname;
             this.regex = this.pathToRegex(pathname);
+            debugger;
             this.View = view;
             this.options = options;
         }
@@ -36,6 +37,7 @@
          * @param {Object} [state={}] - Объект state, который был передан в событие popstate для объекта window
          */
         navigate(pathname, state = {}) {
+            debugger;
             state = state || {};
             const keys = this.regex(pathname);
             if (!this._view) {
