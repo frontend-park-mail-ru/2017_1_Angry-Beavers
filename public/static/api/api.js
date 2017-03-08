@@ -19,6 +19,12 @@
         };
         return fetch(url, initPomise).then(response => {
             return response.json();
+        }).then(response => {
+            if (response.result == undefined || (response.errorMsg && response.errorMsg != 'ok')) {
+                throw new Error(response.errorMsg);
+            } else {
+                return response.result;
+            }
         });
     };
 
@@ -26,12 +32,6 @@
         return _post('user/login', {
             passHash: passHash,
             userLogin: login
-        }).then(response => {
-            if (response.result === true) {
-                return response.result;
-            } else {
-                throw new Error(response.errorMsg);
-            }
         });
     };
 
@@ -40,10 +40,11 @@
             userLogin: login,
             passHash: password,
             userMail: email
-        }).then();
+        });
     };
 
     window.Api = {
-        login: login
+        login: login,
+        signUp: signUp
     };
 }());
