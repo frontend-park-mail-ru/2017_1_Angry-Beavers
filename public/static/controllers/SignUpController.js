@@ -19,16 +19,17 @@
             this.page_parts.get("SignUp").addEventListener('submit', event => {
                 event.preventDefault();
 
-                /*TODO :: вот тут нужно взять из полей и проверить можно ли зарегестрироваться
-                 поставить так, если все ок
-                 this.user.isAuth = 1;
-                 иначе выдать сообщение
-                 */
+                let login = document.getElementById('username').value;
+                let passw = document.getElementById('password').value;
+                let email =document.getElementById('email').value;
 
-
-                alert("Check");
-                this.user.isAuth = 1;
-                this.router.go('/menu')
+                window.Api.login(login, passw)
+                    .then(response => {
+                        this.user.isAuth = 1;
+                        this.router.go('/menu');
+                    }).catch(e =>{
+                        alert(e);
+                    });
             });
             this.page_parts.get("SignUp").addEventListener('reset', event => {
                 event.preventDefault();
