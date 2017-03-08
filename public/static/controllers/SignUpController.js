@@ -21,15 +21,17 @@
 
                 let login = document.getElementById('username').value;
                 let passw = document.getElementById('password').value;
-                let email =document.getElementById('email').value;
+                let email = document.getElementById('email').value;
 
-                window.Api.login(login, passw)
-                    .then(response => {
-                        this.user.isAuth = 1;
-                        this.router.go('/menu');
-                    }).catch(e =>{
-                        alert(e);
-                    });
+                window.Api.signUp(login, email, passw)
+                    .then(result => {
+                        if (result) {
+                            this.user.isAuth = 1;
+                            this.router.go('/menu');
+                        } else {
+                            throw new window.Api.Error('Can not login');
+                        }
+                    }).catch(alert);
             });
             this.page_parts.get("SignUp").addEventListener('reset', event => {
                 event.preventDefault();

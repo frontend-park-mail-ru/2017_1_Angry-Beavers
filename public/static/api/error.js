@@ -13,4 +13,6 @@
             return this._message;
         }
     }
+
+    window.Api.Error = Error;
 }());

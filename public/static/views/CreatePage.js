@@ -104,14 +104,14 @@
                         {
                             placeholder: "Username",
                             class: "",
-                            name: "username",
+                            id: "username",
                             type: "text",
                             required: ""
                         },
                         {
                             placeholder: "Password",
                             class: "",
-                            name: "password",
+                            id: "password",
                             type: "password",
                             required: ""
                         }

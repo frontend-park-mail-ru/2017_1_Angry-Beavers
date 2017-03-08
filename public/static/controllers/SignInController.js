@@ -19,15 +19,18 @@
             this.page_parts.get("SignIn").addEventListener('submit', event => {
                 event.preventDefault();
 
+                let login = document.getElementById('username').value;
+                let passw = document.getElementById('password').value;
+                window.Api.login(login, passw)
+                    .then(result =>{
+                        if (result) {
+                            this.user.isAuth = 1;
+                            this.router.go('/menu');
+                        } else {
+                            throw new window.Api.Error('Can not register');
+                        }
+                    }).catch(alert);
 
-                /*TODO :: вот тут нужно взять из полей и проверить логин и пароль, поставить так, если все ок
-                 this.user.isAuth = 1;
-                 иначе выдать сообщение
-                */
-
-                alert("Check");
-                this.user.isAuth = 1;
-                this.router.go('/menu')
             });
             this.page_parts.get("SignIn").addEventListener('reset', event => {
                 event.preventDefault();
