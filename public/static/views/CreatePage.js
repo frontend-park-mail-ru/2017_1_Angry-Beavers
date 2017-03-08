@@ -145,28 +145,28 @@
                             {
                                 placeholder: "Your Email",
                                 class: "",
-                                name: "email",
+                                id: "email",
                                 type: "text",
                                 required: ""
                             },
                             {
                                 placeholder: "Username",
                                 class: "",
-                                name: "username",
+                                id: "username",
                                 type: "text",
                                 required: ""
                             },
                             {
                                 placeholder: "Password",
                                 class: "",
-                                name: "password",
+                                id: "password",
                                 type: "password",
                                 required: ""
                             },
                             {
                                 placeholder: "Repeat password",
                                 class: "",
-                                name: "password_r",
+                                id: "password_r",
                                 type: "password",
                                 required: ""
                             }
