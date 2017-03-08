@@ -105,13 +105,15 @@
                             placeholder: "Username",
                             class: "",
                             name: "username",
-                            type: "text"
+                            type: "text",
+                            required: ""
                         },
                         {
                             placeholder: "Password",
                             class: "",
                             name: "password",
-                            type: "password"
+                            type: "password",
+                            required: ""
                         }
                     ],
                     buttons: [
@@ -144,25 +146,29 @@
                                 placeholder: "Your Email",
                                 class: "",
                                 name: "email",
-                                type: "text"
+                                type: "text",
+                                required: ""
                             },
                             {
                                 placeholder: "Username",
                                 class: "",
                                 name: "username",
-                                type: "text"
+                                type: "text",
+                                required: ""
                             },
                             {
                                 placeholder: "Password",
                                 class: "",
                                 name: "password",
-                                type: "password"
+                                type: "password",
+                                required: ""
                             },
                             {
                                 placeholder: "Repeat password",
                                 class: "",
                                 name: "password_r",
-                                type: "password"
+                                type: "password",
+                                required: ""
                             }
                         ],
                         buttons: [
@@ -217,6 +223,32 @@
                                 score: "777"
                             }
                         ]
+                    )
+                }),
+                "stylesheets/parts/Border.css");
+
+            this.addParts(this.body,"AboutUs",window.Border({
+                    img: "images/add_your_data.png",
+                    stylesheet: "stylesheets/parts/AboutUs.css",
+                    el : window.AboutUs({
+                            text: "Ага, вот эти ребята: ",
+                            members: [
+                                {
+                                    href: "https://github.com/Pacman29",
+                                    text: "Pacman29"
+                                }
+                            ]
+                        }
+                    )
+                }),
+                "stylesheets/parts/Border.css");
+
+            this.addParts(this.body,"Rules",window.Border({
+                    img: "images/add_your_data.png",
+                    stylesheet: "stylesheets/parts/Rules.css",
+                    el : window.Rules({
+                            text: "ну тут какие-то правила будут, наверное...",
+                        }
                     )
                 }),
                 "stylesheets/parts/Border.css");
