@@ -3,7 +3,6 @@
 
     // TODO сделать так, чтобы все тесты проходили
     const pathToRegex = function (pathname) {
-        debugger;
         const keyNames = [];
         const parts = pathname
           .split('/')
@@ -18,7 +17,6 @@
 
 
         return function (path) {
-            debugger;
             const keys = [];
             let length = parts.length;
             const check = parts.every((regexp, step) => {

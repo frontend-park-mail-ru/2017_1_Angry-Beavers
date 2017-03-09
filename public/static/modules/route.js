@@ -39,12 +39,9 @@
          * @param {Object} [state={}] - Объект state, который был передан в событие popstate для объекта window
          */
         navigate(pathname, state = {}) {
-            debugger;
             state = state || {};
             //const keys = this.regex(pathname);
-            debugger;
             if (!this._view) {
-                debugger;
                 const view = new this.View(this.options);
                 view.init(this.options);
                 view.setRouter(this.__router);
