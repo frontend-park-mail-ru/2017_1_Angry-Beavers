@@ -2,15 +2,15 @@
  * Created by pacman29 on 07.03.17.
  */
 (function () {
-    class SignInController extends window.View{
-        constructor(opt = {}){
+    class SignInController extends window.View {
+        constructor(opt = {}) {
             super(opt.user);
             this.user = opt.user;
             this.page_parts = opt.page.getParts();
             this.addListener();
         }
 
-        addListener(){
+        addListener() {
             this.page_parts.get("AppName").querySelector(".my_ref").addEventListener('click', event => {
                 event.preventDefault();
                 this.router.go("/");
@@ -22,7 +22,7 @@
                 let login = document.getElementById('username').value;
                 let passw = document.getElementById('password').value;
                 window.Api.login(login, passw)
-                    .then(result =>{
+                    .then(result => {
                         if (result) {
                             this.user.isAuth = 1;
                             this.router.go('/menu');
@@ -40,17 +40,17 @@
 
         }
 
-        resume(){
+        resume() {
             this.show();
         }
 
-        show(){
+        show() {
             this.page_parts.get("AppName").hidden = false;
             this.page_parts.get("SignIn").hidden = false;
             this.page_parts.get("Footer").hidden = false;
         }
 
-        hide(){
+        hide() {
             this.page_parts.get("AppName").hidden = true;
             this.page_parts.get("SignIn").hidden = true;
             this.page_parts.get("Footer").hidden = true;

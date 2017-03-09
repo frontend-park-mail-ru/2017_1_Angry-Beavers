@@ -5,7 +5,7 @@
     window.Rules = function (opt) {
         debugger;
         let div = document.createElement('div');
-        div.setAttribute('class','rules');
+        div.setAttribute('class', 'rules');
 
         let h3 = document.createElement('h3');
         h3.textContent = opt.text;
