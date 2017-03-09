@@ -4,10 +4,10 @@
 'use strict';
 
 (function () {
-    const _HOST = 'localhost:8080';
+    const _HOST = 'testherokujavabeavers.herokuapp.com';
 
     const _post = function (method, obj) {
-        const url = 'http://' + _HOST + "/api/" + method;
+        const url = 'https://' + _HOST + "/api/" + method;
         const initPomise = {
             method: 'POST',
             mode: 'cors',
