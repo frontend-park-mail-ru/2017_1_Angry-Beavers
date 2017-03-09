@@ -1,7 +1,7 @@
 /**
  * Created by pacman29 on 16.02.17.
  */
-(function() {
+(function () {
     // import
     class Form {
         /*
@@ -102,5 +102,5 @@
             return fields;
         }
     }
-    windows.Form = Form;
+    window.Form = Form;
 }())();

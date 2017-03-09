@@ -17,6 +17,7 @@
             id++;
             this.pathname = pathname;
             this.regex = this.pathToRegex(pathname);
+            debugger;
             this.View = view;
             this.options = options;
         }
@@ -27,7 +28,9 @@
          * @returns {boolean} Результат проверки
          */
         match(pathname) {
-            return !!this.regex(pathname);
+            debugger;
+            let res = !!this.regex(pathname);
+            return res;
         }
 
         /**
@@ -37,7 +40,7 @@
          */
         navigate(pathname, state = {}) {
             state = state || {};
-            const keys = this.regex(pathname);
+            //const keys = this.regex(pathname);
             if (!this._view) {
                 const view = new this.View(this.options);
                 view.init(this.options);
@@ -45,7 +48,7 @@
                 this._view = view;
             }
 
-            this._view.resume(Object.assign(state, keys));
+            this._view.resume(Object.assign(state));
         }
 
         /**

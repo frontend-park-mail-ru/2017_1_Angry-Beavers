@@ -1,4 +1,6 @@
 .appname .my_font_for_gamename {
+    cursor: pointer;
+    text-decoration: none;
     display: block;
     font-size: 170px;
     font-weight: bold;
@@ -21,6 +23,3 @@
     color: #88C1D8;
 }
 
-.appname .my_ref:link{
-    text-decoration: none;
-}
