@@ -8,9 +8,8 @@
         if(opt.hasOwnProperty('class')){
             tr.setAttribute('class',opt.class);
         }
-        tr.innerHTML = `<th class="col-lg-2">${opt.row.position}</th>
-                        <th class="col-lg-8">${opt.row.nickname}</th>
-                        <th class="col-lg-2">${opt.row.score}</th>`
+        let row = opt.row;
+        tr.innerHTML = template({position: row.position, nickname: row.nickname, score: row.score});
         return tr;
     }
 
