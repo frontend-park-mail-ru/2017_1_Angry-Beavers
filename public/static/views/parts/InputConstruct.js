@@ -4,8 +4,8 @@
 (function () {
     window.InputContruct = function (opt) {
         let input = document.createElement('input');
-        for(i in opt){
-            input.setAttribute(i.toString(),opt[i].toString());
+        for (i in opt) {
+            input.setAttribute(i.toString(), opt[i].toString());
         }
         return input;
     };

@@ -34,25 +34,25 @@
                 const responseObj = {};
 
                 fetch(url, initPomise)
-                .then(this.status.bind(this))
-                .then((response) => {
-                    this.serverStatus(response)
-                    .then(this.toJson)
-                    .then((data) => {
-                        this.collection = data;
-                        resolve();
+                    .then(this.status.bind(this))
+                    .then((response) => {
+                        this.serverStatus(response)
+                            .then(this.toJson)
+                            .then((data) => {
+                                this.collection = data;
+                                resolve();
+                            })
+                            .catch((error) => {
+                                this.toJson(error)
+                                    .then((error) => {
+                                        reject();
+                                    });
+                            });
                     })
                     .catch((error) => {
-                        this.toJson(error)
-                        .then((error) => {
-                            reject();
-                        });
+                        this.responseObj = {status: 0, msg: 'Not a server error!'};
+                        reject(this.responseObj);
                     });
-                })
-                .catch((error) => {
-                    this.responseObj = { status: 0, msg: 'Not a server error!' };
-                    reject(this.responseObj);
-                });
             });
         }
 
@@ -76,6 +76,7 @@
                 return Promise.reject(response);
             }
         }
+
         getCollection() {
             return this.collection;
         }
