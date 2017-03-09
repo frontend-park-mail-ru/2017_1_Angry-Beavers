@@ -9,7 +9,6 @@
         let h3 = document.createElement('h3');
         h3.textContent = opt.text;
         div.appendChild(h3);
-        debugger;
         opt.members.forEach(iter => {
             let a = document.createElement('a');
             a.textContent = iter.text;
