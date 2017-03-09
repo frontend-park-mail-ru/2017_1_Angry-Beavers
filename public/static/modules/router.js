@@ -55,10 +55,16 @@
          * @param {Object} [state={}] - Объект state, который передаётся в вызов метода navigate
          */
         onroute(pathname, state = {}) {
-            debugger;
+            let path = pathname;
+            if(path != "/"){
+                if(path[path.length-1] === '/'){
+                    path = path.slice(0,path.length-1);
+                }
+            }
+
             const route = this.routes.find(route => {
                 //let res = route.match(pathname);
-                let res = (route.pathname === pathname);
+                let res = (route.pathname === path);
                 debugger;
                 return res;
             });
