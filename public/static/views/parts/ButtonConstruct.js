@@ -4,8 +4,8 @@
 (function () {
     window.ButtonConstruct = function (opt) {
         let button = document.createElement('button');
-        for(let i in opt.attrs){
-            button.setAttribute(i.toString(),opt.attrs[i].toString());
+        for (let i in opt.attrs) {
+            button.setAttribute(i.toString(), opt.attrs[i].toString());
         }
         button.textContent = opt.text;
         return button;

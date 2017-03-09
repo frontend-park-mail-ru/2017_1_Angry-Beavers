@@ -56,9 +56,9 @@
          */
         onroute(pathname, state = {}) {
             let path = pathname;
-            if(path != "/"){
-                if(path[path.length-1] === '/'){
-                    path = path.slice(0,path.length-1);
+            if (path != "/") {
+                if (path[path.length - 1] === '/') {
+                    path = path.slice(0, path.length - 1);
                 }
             }
 

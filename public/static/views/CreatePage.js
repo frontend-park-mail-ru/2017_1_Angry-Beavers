@@ -2,20 +2,20 @@
  * Created by pacman29 on 20.02.17.
  */
 (function () {
-    class CreatePage{
-        constructor(opt = {}){
-            if(CreatePage.__instance){
+    class CreatePage {
+        constructor(opt = {}) {
+            if (CreatePage.__instance) {
                 return CreatePage.__instance;
             }
             this.body = (document.getElementsByTagName('body'))[0];
-            this.links  = [];
+            this.links = [];
             this.parts = new Map();
             let link_name = document.createElement('link');
-            link_name.setAttribute('rel','stylesheet');
-            link_name.setAttribute('href','');
+            link_name.setAttribute('rel', 'stylesheet');
+            link_name.setAttribute('href', '');
             this.links.push();
-            this.addParts(this.body,"AppName",window.AppName({
-                attr : [
+            this.addParts(this.body, "AppName", window.AppName({
+                attr: [
                     {
                         class: "my_ref my_font_for_gamename first",
                         text: "Joking"
@@ -25,12 +25,12 @@
                         text: "Hazard"
                     }
                 ]
-            }),"stylesheets/parts/AppName.css");
-            this.addParts(this.body,"MenuStart",window.Menu({
+            }), "stylesheets/parts/AppName.css");
+            this.addParts(this.body, "MenuStart", window.Menu({
                 icons: [
                     {
                         attr: {
-                            src:  "images/1.png",
+                            src: "images/1.png",
                             class: "img-responsive my_btn_image",
                             onMouseOver: "this.src='images/GOOGFACE.png'",
                             onMouseOut: "this.src='images/1.png'"
@@ -38,7 +38,7 @@
                     },
                     {
                         attr: {
-                            src:  "images/About_us.png",
+                            src: "images/About_us.png",
                             class: "img-responsive my_btn_image",
                             onMouseOver: "this.src='images/We_do_it.png'",
                             onMouseOut: "this.src='images/About_us.png'"
@@ -46,20 +46,20 @@
                     },
                     {
                         attr: {
-                            src:  "images/About_rules.png",
+                            src: "images/About_rules.png",
                             class: "img-responsive my_btn_image",
                             onMouseOver: "this.src='images/About_rules_2.png'",
                             onMouseOut: "this.src='images/About_rules.png'"
                         }
                     }
                 ]
-            }),"stylesheets/parts/Menu.css");
-            this.addParts(this.body,"MenuGame",window.Menu({
+            }), "stylesheets/parts/Menu.css");
+            this.addParts(this.body, "MenuGame", window.Menu({
                 icons: [
                     {
                         href: "play",
                         attr: {
-                            src:  "images/1.png",
+                            src: "images/1.png",
                             class: "img-responsive my_btn_image",
                             onMouseOver: "this.src='images/GOOGFACE.png'",
                             onMouseOut: "this.src='images/1.png'"
@@ -68,7 +68,7 @@
                     {
                         href: "score",
                         attr: {
-                            src:  "images/1.png",
+                            src: "images/1.png",
                             class: "img-responsive my_btn_image",
                             onMouseOver: "this.src='images/GOOGFACE.png'",
                             onMouseOut: "this.src='images/1.png'"
@@ -77,7 +77,7 @@
                     {
                         href: "aboutus",
                         attr: {
-                            src:  "images/About_us.png",
+                            src: "images/About_us.png",
                             class: "img-responsive my_btn_image",
                             onMouseOver: "this.src='images/We_do_it.png'",
                             onMouseOut: "this.src='images/About_us.png'"
@@ -86,62 +86,62 @@
                     {
                         href: "rules",
                         attr: {
-                            src:  "images/About_rules.png",
+                            src: "images/About_rules.png",
                             class: "img-responsive my_btn_image",
                             onMouseOver: "this.src='images/About_rules_2.png'",
                             onMouseOut: "this.src='images/About_rules.png'"
                         }
                     }
                 ]
-            }),"stylesheets/parts/Menu.css");
+            }), "stylesheets/parts/Menu.css");
 
-            this.addParts(this.body,"SignIn",window.Border({
-                img: "images/add_your_data.png",
-                stylesheet: "stylesheets/parts/Form.css",
-                el : window.FormConstruct({
-                    text: "Авторизация",
-                    inputs:[
-                        {
-                            placeholder: "Username",
-                            class: "",
-                            id: "username",
-                            type: "text",
-                            required: ""
-                        },
-                        {
-                            placeholder: "Password",
-                            class: "",
-                            id: "password",
-                            type: "password",
-                            required: ""
-                        }
-                    ],
-                    buttons: [
-                        {
-                            attrs: {
-                                type: "submit",
-                                class: ""
-                            },
-                            text: "Вход"
-                        },
-                        {
-                            attrs: {
-                                type: "reset",
-                                class: ""
-                            },
-                            text: "Регистрация"
-                        }
-                    ]
-                })
-            }),
-            "stylesheets/parts/Border.css");
-
-            this.addParts(this.body,"SignUp",window.Border({
+            this.addParts(this.body, "SignIn", window.Border({
                     img: "images/add_your_data.png",
                     stylesheet: "stylesheets/parts/Form.css",
-                    el : window.FormConstruct({
+                    el: window.FormConstruct({
+                        text: "Авторизация",
+                        inputs: [
+                            {
+                                placeholder: "Username",
+                                class: "",
+                                id: "username",
+                                type: "text",
+                                required: ""
+                            },
+                            {
+                                placeholder: "Password",
+                                class: "",
+                                id: "password",
+                                type: "password",
+                                required: ""
+                            }
+                        ],
+                        buttons: [
+                            {
+                                attrs: {
+                                    type: "submit",
+                                    class: ""
+                                },
+                                text: "Вход"
+                            },
+                            {
+                                attrs: {
+                                    type: "reset",
+                                    class: ""
+                                },
+                                text: "Регистрация"
+                            }
+                        ]
+                    })
+                }),
+                "stylesheets/parts/Border.css");
+
+            this.addParts(this.body, "SignUp", window.Border({
+                    img: "images/add_your_data.png",
+                    stylesheet: "stylesheets/parts/Form.css",
+                    el: window.FormConstruct({
                         text: "Регистрация",
-                        inputs:[
+                        inputs: [
                             {
                                 placeholder: "Your Email",
                                 class: "",
@@ -191,11 +191,10 @@
                 }),
                 "stylesheets/parts/Border.css");
 
-            this.addParts(this.body,"ScoreList",window.Border({
+            this.addParts(this.body, "ScoreList", window.Border({
                     img: "images/add_your_data.png",
                     stylesheet: "stylesheets/parts/ScoreList.css",
-                    el : window.ScoreList({
-                        },
+                    el: window.ScoreList({},
                         [
                             {
                                 position: "1",
@@ -227,10 +226,10 @@
                 }),
                 "stylesheets/parts/Border.css");
 
-            this.addParts(this.body,"AboutUs",window.Border({
+            this.addParts(this.body, "AboutUs", window.Border({
                     img: "images/add_your_data.png",
                     stylesheet: "stylesheets/parts/AboutUs.css",
-                    el : window.AboutUs({
+                    el: window.AboutUs({
                             text: "Ага, вот эти ребята: ",
                             members: [
                                 {
@@ -243,35 +242,35 @@
                 }),
                 "stylesheets/parts/Border.css");
 
-            this.addParts(this.body,"Rules",window.Border({
+            this.addParts(this.body, "Rules", window.Border({
                     img: "images/add_your_data.png",
                     stylesheet: "stylesheets/parts/Rules.css",
-                    el : window.Rules({
+                    el: window.Rules({
                             text: "ну тут какие-то правила будут, наверное...",
                         }
                     )
                 }),
                 "stylesheets/parts/Border.css");
 
-            this.addParts(this.body,"Footer",window.Footer({
+            this.addParts(this.body, "Footer", window.Footer({
                 text: "Copyright © MyWebsite. All rights reserved.",
                 class: "my_font"
-            }),"stylesheets/parts/Footer.css");
+            }), "stylesheets/parts/Footer.css");
         }
 
-        addParts(parent, name, elem, stylesheet = ""){
-            if(stylesheet !== "") {
+        addParts(parent, name, elem, stylesheet = "") {
+            if (stylesheet !== "") {
                 let style = document.createElement('link');
                 style.setAttribute('rel', 'stylesheet');
                 style.setAttribute('href', stylesheet);
                 this.body.appendChild(style);
             }
-            this.parts.set(name,elem);
+            this.parts.set(name, elem);
             elem.hidden = true;
             parent.appendChild(elem);
         }
 
-        getParts(){
+        getParts() {
             return this.parts;
         }
     }

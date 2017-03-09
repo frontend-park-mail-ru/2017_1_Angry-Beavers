@@ -5,15 +5,15 @@
     const pathToRegex = function (pathname) {
         const keyNames = [];
         const parts = pathname
-          .split('/')
-          .filter(part => part)
-          .map(part => {
-              if (/^:/.exec(part)) {
-                  keyNames.push(part.slice(1));
-                  return new RegExp(`^/([^/]+)`, `ig`);
-              }
-              return new RegExp(`^/${part}`, `ig`);
-          });
+            .split('/')
+            .filter(part => part)
+            .map(part => {
+                if (/^:/.exec(part)) {
+                    keyNames.push(part.slice(1));
+                    return new RegExp(`^/([^/]+)`, `ig`);
+                }
+                return new RegExp(`^/${part}`, `ig`);
+            });
 
 
         return function (path) {

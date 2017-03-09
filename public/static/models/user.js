@@ -35,19 +35,28 @@
         getSession() {
             return new Promise((resolve, reject) => {
                 this.sendRequest('/', 'GET')
-                    .then(() => { this.isAuth = 0; this.login = this.responseObj.msg; resolve(); })
-                    .catch(() => { this.isAuth = 0; resolve(); });
+                    .then(() => {
+                        this.isAuth = 0;
+                        this.login = this.responseObj.msg;
+                        resolve();
+                    })
+                    .catch(() => {
+                        this.isAuth = 0;
+                        resolve();
+                    });
             });
         }
 
         registration() {
-            this.sendRequest('/registration', 'POST', { email: this.email,
+            this.sendRequest('/registration', 'POST', {
+                email: this.email,
                 login: this.login,
-                password: this.password });
+                password: this.password
+            });
         }
 
         login() {
-            this.sendRequest('/auth', 'POST', { login: this.login, password: this.password });
+            this.sendRequest('/auth', 'POST', {login: this.login, password: this.password});
         }
 
         sendRequest(to, method, body = {}) {
@@ -67,28 +76,28 @@
                 const responseObj = {};
 
                 fetch(url, initPomise)
-                .then(this.status.bind(this))
-                .then((response) => {
-                    this.serverStatus(response)
-                    //.then(this.toJson)
-                    .then((data) => {
-                        // console.log(data.login);
-                        this.responseObj = { status: 1, msg: data.login };
-                        resolve(this.responseObj);
+                    .then(this.status.bind(this))
+                    .then((response) => {
+                        this.serverStatus(response)
+                        //.then(this.toJson)
+                            .then((data) => {
+                                // console.log(data.login);
+                                this.responseObj = {status: 1, msg: data.login};
+                                resolve(this.responseObj);
+                            })
+                            .catch((error) => {
+                                this.toJson(error)
+                                    .then((error) => {
+                                        // console.log(error.msg);
+                                        this.responseObj = {status: 0, msg: error.msg};
+                                        reject(this.responseObj);
+                                    });
+                            });
                     })
                     .catch((error) => {
-                        this.toJson(error)
-                        .then((error) => {
-                            // console.log(error.msg);
-                            this.responseObj = { status: 0, msg: error.msg };
-                            reject(this.responseObj);
-                        });
+                        this.responseObj = {status: 0, msg: 'Not a server error!'};
+                        reject(this.responseObj);
                     });
-                })
-                .catch((error) => {
-                    this.responseObj = { status: 0, msg: 'Not a server error!' };
-                    reject(this.responseObj);
-                });
             });
         }
 
