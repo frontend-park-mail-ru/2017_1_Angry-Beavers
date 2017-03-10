@@ -7,3 +7,5 @@
 - [@Pacman29](https://github.com/Pacman29)
 
 Mentor: [@iliabulavintsev](https://github.com/IliaBulavintsev)
+
+Приложение: [тут](https://jokinghazard.herokuapp.com/)
