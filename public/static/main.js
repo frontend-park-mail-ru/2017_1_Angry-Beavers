@@ -14,17 +14,15 @@
 
         debugger;
         const user = new User({});
-        user.getSession()
-            .then(() => {
-                (new Router())
-                    .addRoute('/', StartPageController, {user: user, page: Page})
-                    .addRoute('/signin', SignInController, {user: user, page: Page})
-                    .addRoute('/signup', SignUpController, {user: user, page: Page})
-                    .addRoute('/menu', MenuController, {user: user, page: Page})
-                    .addRoute('/scorelist', ScorelistController, {user: user, page: Page})
-                    .addRoute('/aboutus', AboutUsController, {user: user, page: Page})
-                    .addRoute('/rules', RulesController, {user: user, page: Page})
-                    .start();
-            });
+        (new Router())
+            .addRoute('/', StartPageController, {user: user, page: Page})
+            .addRoute('/signin', SignInController, {user: user, page: Page})
+            .addRoute('/signup', SignUpController, {user: user, page: Page})
+            .addRoute('/menu', MenuController, {user: user, page: Page})
+            .addRoute('/scorelist', ScorelistController, {user: user, page: Page})
+            .addRoute('/aboutus', AboutUsController, {user: user, page: Page})
+            .addRoute('/rules', RulesController, {user: user, page: Page})
+            .start();
+
     }
 }());
