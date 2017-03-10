@@ -17,12 +17,14 @@
             },
             body: JSON.stringify(obj),
         };
+        debugger;
         return fetch(url, initPomise).then(response => {
             return response.json();
         }).then(response => {
             if (!response.result) {
                 throw new Error(response.errorMsg);
             } else {
+                debugger;
                 return response.result;
             }
         });
