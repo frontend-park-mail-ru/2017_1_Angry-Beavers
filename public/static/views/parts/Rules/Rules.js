@@ -4,7 +4,6 @@
 (function () {
     let rulesTemplate = template;
     window.Rules = function (opt) {
-        debugger;
         let div = document.createElement('div');
         div.innerHTML = rulesTemplate({
             text: opt.text
