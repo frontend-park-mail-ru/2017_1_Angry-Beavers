@@ -20,7 +20,7 @@
         return fetch(url, initPomise).then(response => {
             return response.json();
         }).then(response => {
-            if (response.result == undefined || (response.errorMsg && response.errorMsg != 'ok')) {
+            if (!response.result) {
                 throw new Error(response.errorMsg);
             } else {
                 return response.result;
