@@ -16,8 +16,6 @@
             this.id = `p${id}`;
             id++;
             this.pathname = pathname;
-            this.regex = this.pathToRegex(pathname);
-            debugger;
             this.View = view;
             this.options = options;
         }
@@ -27,11 +25,6 @@
          * @param {string} pathname - Путь в приложении
          * @returns {boolean} Результат проверки
          */
-        match(pathname) {
-            debugger;
-            let res = !!this.regex(pathname);
-            return res;
-        }
 
         /**
          * Активирует текущий Route (переходит по нему)

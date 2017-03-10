@@ -38,7 +38,7 @@
         show() {
             this.page_parts.get("AppName").hidden = false;
             if (this.user.isAuth) {
-                debugger;
+
                 this.router.go("/menu");
             }
             else {

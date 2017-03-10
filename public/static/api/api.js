@@ -5,9 +5,10 @@
 
 (function () {
     const _HOST = 'testherokujavabeavers.herokuapp.com';
-
+    // const _HOST = 'localhost:5000';
     const _post = function (method, obj) {
-        const url = 'https://' + _HOST + "/api/" + method;
+        const url = 'http://' + _HOST + "/api/" + method;
+        //const url = _HOST + "/api/" + method;
         const initPomise = {
             method: 'POST',
             mode: 'cors',
@@ -17,14 +18,12 @@
             },
             body: JSON.stringify(obj),
         };
-        debugger;
         return fetch(url, initPomise).then(response => {
             return response.json();
         }).then(response => {
             if (!response.result) {
                 throw new Error(response.errorMsg);
             } else {
-                debugger;
                 return response.result;
             }
         });
