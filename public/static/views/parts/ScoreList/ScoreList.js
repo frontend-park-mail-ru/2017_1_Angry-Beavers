@@ -2,14 +2,14 @@
  * Created by pacman29 on 05.03.17.
  */
 (function () {
-
+    let scoreListTemplate = template;
     function row(opt) {
         let tr = document.createElement('tr');
         if (opt.hasOwnProperty('class')) {
             tr.setAttribute('class', opt.class);
         }
         let row = opt.row;
-        tr.innerHTML = template({position: row.position, nickname: row.nickname, score: row.score});
+        tr.innerHTML = scoreListTemplate({position: row.position, nickname: row.nickname, score: row.score});
         return tr;
     }
 
