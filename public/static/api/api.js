@@ -7,7 +7,7 @@
     const _HOST = 'testherokujavabeavers.herokuapp.com';
     // const _HOST = 'localhost:5000';
     const _post = function (method, obj) {
-        const url = 'http://' + _HOST + "/api/" + method;
+        const url = 'https://' + _HOST + "/api/" + method;
         //const url = _HOST + "/api/" + method;
         const initPomise = {
             method: 'POST',
