@@ -11,8 +11,7 @@
         let SignUpController = window.SignUpController;
         let AboutUsController = window.AboutUsController;
         let RulesController = window.RulesController;
-
-        debugger;
+        
         const user = new User({});
         (new Router())
             .addRoute('/', StartPageController, {user: user, page: Page})
