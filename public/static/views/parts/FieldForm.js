@@ -95,8 +95,6 @@
                 }
 
                 fields[node.name] = node.value;
-                console.log("LOGIN: ");
-                console.log(node.value);
             });
 
             return fields;

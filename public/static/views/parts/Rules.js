@@ -3,7 +3,6 @@
  */
 (function () {
     window.Rules = function (opt) {
-        debugger;
         let div = document.createElement('div');
         div.setAttribute('class', 'rules');
 
