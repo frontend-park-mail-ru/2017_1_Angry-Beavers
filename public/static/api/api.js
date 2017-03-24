@@ -8,7 +8,6 @@
     // const _HOST = 'localhost:5000';
     const _post = function (method, obj) {
         const url = 'https://' + _HOST + "/api/" + method;
-        //const url = _HOST + "/api/" + method;
         const initPomise = {
             method: 'POST',
             mode: 'cors',
@@ -29,9 +28,9 @@
         });
     };
 
-    const login = function (login, passHash) {
+    const login = function (login, password) {
         return _post('user/login', {
-            passHash: passHash,
+            pass: password,
             userLogin: login
         });
     };
@@ -39,7 +38,7 @@
     const signUp = function (login, email, password) {
         return _post('user/signup', {
             userLogin: login,
-            passHash: password,
+            pass: password,
             userMail: email
         });
     };
