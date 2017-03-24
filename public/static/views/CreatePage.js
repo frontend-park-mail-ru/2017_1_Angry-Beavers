@@ -3,7 +3,7 @@
  */
 (function () {
     class CreatePage {
-        constructor(opt = {}) {
+        constructor() {
             if (CreatePage.__instance) {
                 return CreatePage.__instance;
             }
