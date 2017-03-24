@@ -4,8 +4,9 @@
   "description": "Angry Beavers - Joking Hazard",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run pug && node ./bin/www",
-    "pug": "pug -c -D -E pug.js public/static/views/parts/**/*.pug"
+    "start": "npm run generate_pug && node ./bin/www",
+    "generate_pug": "./bin/generate_pug",
+    "delete_pug": "./bin/delete_pug"
   },
   "repository": {
     "type": "git",
