@@ -15,7 +15,6 @@
                 event.preventDefault();
                 this.router.go("/");
             });
-            debugger;
             this.page_parts.get("SignUp").addEventListener('submit', event => {
                 event.preventDefault();
 

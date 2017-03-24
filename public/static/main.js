@@ -12,7 +12,6 @@
         let AboutUsController = window.AboutUsController;
         let RulesController = window.RulesController;
 
-        debugger;
         const user = new User({});
         user.getSession()
             .then(() => {

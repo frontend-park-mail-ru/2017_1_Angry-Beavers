@@ -38,7 +38,6 @@
         show() {
             this.page_parts.get("AppName").hidden = false;
             if (this.user.isAuth) {
-                debugger;
                 this.router.go("/menu");
             }
             else {
@@ -52,8 +51,6 @@
             this.page_parts.get("MenuStart").hidden = true;
             this.page_parts.get("Footer").hidden = true;
         }
-
-
     }
 
     window.StartPageController = StartPageController;
