@@ -28,7 +28,7 @@
          * Необходимо переопределять своей логикой
          * @param {Object} [options={}] - Объект с параметрами
          */
-        pause(options = {}) {
+        pause() {
             this.hide();
         }
 
@@ -37,7 +37,7 @@
          * Необходимо переопределять своей логикой
          * @param {Object} [options={}] - Объект с параметрами
          */
-        resume(options = {}) {
+        resume() {
             this.show();
         }
 
@@ -45,7 +45,7 @@
          * Показывает view
          * @param {Object} [options={}] - Объект с параметрами
          */
-        show(options = {}) {
+        show() {
             //this._el.style.display = 'block';
         }
 
@@ -53,7 +53,7 @@
          * Скрывает view
          * @param {Object} [options={}] - Объект с параметрами
          */
-        hide(options = {}) {
+        hide() {
             this._el.style.display = 'none';
         }
 
@@ -62,7 +62,7 @@
          * Необходимо переопределять
          * @param {Object} [options={}] - Объект с параметрами
          */
-        render(options = {}) {
+        render() {
 
         }
 

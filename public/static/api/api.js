@@ -5,7 +5,7 @@
 
 (function () {
     const _HOST = 'testherokujavabeavers.herokuapp.com';
-
+    // const _HOST = 'localhost:5000';
     const _post = function (method, obj) {
         const url = 'https://' + _HOST + "/api/" + method;
         const initPomise = {
@@ -17,22 +17,20 @@
             },
             body: JSON.stringify(obj),
         };
-        debugger;
         return fetch(url, initPomise).then(response => {
             return response.json();
         }).then(response => {
             if (!response.result) {
                 throw new Error(response.errorMsg);
             } else {
-                debugger;
                 return response.result;
             }
         });
     };
 
-    const login = function (login, passHash) {
+    const login = function (login, password) {
         return _post('user/login', {
-            passHash: passHash,
+            pass: password,
             userLogin: login
         });
     };
@@ -40,7 +38,7 @@
     const signUp = function (login, email, password) {
         return _post('user/signup', {
             userLogin: login,
-            passHash: password,
+            pass: password,
             userMail: email
         });
     };
