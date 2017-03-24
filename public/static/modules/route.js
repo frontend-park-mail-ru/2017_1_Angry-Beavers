@@ -17,7 +17,6 @@
             id++;
             this.pathname = pathname;
             this.regex = this.pathToRegex(pathname);
-            debugger;
             this.View = view;
             this.options = options;
         }
@@ -28,7 +27,6 @@
          * @returns {boolean} Результат проверки
          */
         match(pathname) {
-            debugger;
             let res = !!this.regex(pathname);
             return res;
         }

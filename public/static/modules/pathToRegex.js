@@ -20,7 +20,6 @@
             const keys = [];
             let length = parts.length;
             const check = parts.every((regexp, step) => {
-                debugger;
                 const tmp = regexp.exec(path);
                 if (!tmp) {
                     return false;

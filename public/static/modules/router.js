@@ -65,7 +65,6 @@
             const route = this.routes.find(route => {
                 //let res = route.match(pathname);
                 let res = (route.pathname === path);
-                debugger;
                 return res;
             });
             if (!route) {
@@ -89,7 +88,6 @@
             if (window.location.pathname === pathname) {
                 return;
             }
-            debugger;
             this.history.pushState(state, '', pathname);
             this.onroute(pathname, state);
         }
