@@ -2,10 +2,9 @@
   "name": "joking-hazard",
   "version": "1.0.0",
   "description": "Angry Beavers - Joking Hazard",
-  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run pug && node index.js",
+    "start": "npm run pug && node ./bin/www",
     "pug": "pug -c -D -E pug.js public/static/views/parts/**/*.pug"
   },
   "repository": {
@@ -22,7 +21,9 @@
   "dependencies": {
     "body-parser": "^1.16.1",
     "express": "^4.14.1",
-    "pug": "^2.0.0-beta11"
+    "npm-cli": "^0.1.0",
+    "pug": "^2.0.0-beta11",
+    "pug-cli": "^1.0.0-alpha6"
   },
   "devDependencies": {}
 }
