@@ -1,3 +1,9 @@
+/**
+ * Created by ed on 26.03.17.
+ */
+
+'use strict';
+
 (function () {
     window.IconConstruct = function (data, count) {
         let col = document.createElement('div');

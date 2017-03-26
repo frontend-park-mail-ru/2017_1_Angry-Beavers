@@ -1,6 +1,9 @@
 /**
  * Created by pacman29 on 22.02.17.
  */
+
+'use strict';
+
 (function () {
     window.Footer = function (opt) {
         let footer = document.createElement('footer');

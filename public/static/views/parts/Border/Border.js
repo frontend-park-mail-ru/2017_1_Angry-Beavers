@@ -8,7 +8,6 @@
     window.Border = function Border(opt = {}) {
         let container = document.createElement('div');
         container.innerHTML = pugBorder({
-            stylesheet: opt.stylesheet,
             img: opt.img,
             element: opt.el
         });

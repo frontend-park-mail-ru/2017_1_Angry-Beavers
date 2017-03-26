@@ -1,6 +1,9 @@
 /**
  * Created by pacman29 on 28.02.17.
  */
+
+'use strict';
+
 (function () {
     window.FormConstruct = function (opt) {
         let inputs = opt.inputs;
