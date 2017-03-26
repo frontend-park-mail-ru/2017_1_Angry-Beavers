@@ -11,7 +11,7 @@
         }
 
         addListener() {
-            this.page_parts.get("AppName").querySelector(".my_ref").addEventListener('click', event => {
+            this.page_parts.get("AppName").querySelector(".appname").addEventListener('click', event => {
                 event.preventDefault();
                 this.router.go("/");
             });

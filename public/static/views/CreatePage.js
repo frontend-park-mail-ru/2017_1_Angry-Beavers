@@ -11,18 +11,7 @@
             this.links = [];
             this.parts = new Map();
             this.links.push();
-            this.addParts(this.body, "AppName", window.AppName({
-                attr: [
-                    {
-                        class: "my_ref my_font_for_gamename first",
-                        text: "Joking"
-                    },
-                    {
-                        class: "my_ref my_font_for_gamename second",
-                        text: "Hazard"
-                    }
-                ]
-            }));
+            this.addParts(this.body, "AppName", window.AppName());
             this.addParts(this.body, "MenuStart", window.Menu({
                 icons: [
                     {
@@ -217,19 +206,7 @@
                 )
             }));
 
-            this.addParts(this.body, "AboutUs", window.Border({
-                img: "images/add_your_data.png",
-                el: window.AboutUs({
-                        text: "Ага, вот эти ребята: ",
-                        members: [
-                            {
-                                href: "https://github.com/Pacman29",
-                                text: "Pacman29"
-                            }
-                        ]
-                    }
-                )
-            }));
+            this.addParts(this.body, "AboutUs", window.AboutUs());
 
             this.addParts(this.body, "Rules", window.Border({
                 img: "images/add_your_data.png",

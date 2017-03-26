@@ -5,11 +5,9 @@
 'use strict';
 
 (function () {
-    window.AppName = function (opt) {
+    window.AppName = function () {
         let container = document.createElement('div');
-        container.innerHTML = pugAppName({
-            opt: opt
-        });
+        container.innerHTML = pugAppName();
         return container;
     }
 }());
