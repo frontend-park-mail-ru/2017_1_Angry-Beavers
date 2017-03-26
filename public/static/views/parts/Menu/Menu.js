@@ -1,13 +1,17 @@
 /**
  * Created by pacman29 on 21.02.17.
  */
+
+'use strict';
+
 (function () {
     window.Menu = function Menu(opt) {
-
         let container = document.createElement('div');
         container.setAttribute('class', 'container menu');
         let row = document.createElement('row');
         opt.icons.forEach(iter => {
+            
+            iter.class
             row.appendChild(window.IconConstruct(iter, opt.icons.length));
         });
         container.appendChild(row);

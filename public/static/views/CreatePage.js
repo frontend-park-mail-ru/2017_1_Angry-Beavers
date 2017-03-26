@@ -10,9 +10,6 @@
             this.body = (document.getElementsByTagName('body'))[0];
             this.links = [];
             this.parts = new Map();
-            let link_name = document.createElement('link');
-            link_name.setAttribute('rel', 'stylesheet');
-            link_name.setAttribute('href', '');
             this.links.push();
             this.addParts(this.body, "AppName", window.AppName({
                 attr: [
@@ -25,7 +22,7 @@
                         text: "Hazard"
                     }
                 ]
-            }), "stylesheets/parts/AppName.css");
+            }));
             this.addParts(this.body, "MenuStart", window.Menu({
                 icons: [
                     {
@@ -53,7 +50,7 @@
                         }
                     }
                 ]
-            }), "stylesheets/parts/Menu.css");
+            }));
             this.addParts(this.body, "MenuGame", window.Menu({
                 icons: [
                     {
@@ -93,178 +90,162 @@
                         }
                     }
                 ]
-            }), "stylesheets/parts/Menu.css");
+            }));
 
             this.addParts(this.body, "SignIn", window.Border({
-                    img: "images/add_your_data.png",
-                    stylesheet: "stylesheets/parts/Form.css",
-                    el: window.FormConstruct({
-                        text: "Авторизация",
-                        inputs: [
-                            {
-                                placeholder: "Username",
-                                class: "",
-                                id: "username",
-                                type: "text",
-                                required: ""
+                img: "images/add_your_data.png",
+                el: window.FormConstruct({
+                    text: "Авторизация",
+                    inputs: [
+                        {
+                            placeholder: "Username",
+                            class: "",
+                            id: "username",
+                            type: "text",
+                            required: ""
+                        },
+                        {
+                            placeholder: "Password",
+                            class: "",
+                            id: "password",
+                            type: "password",
+                            required: ""
+                        }
+                    ],
+                    buttons: [
+                        {
+                            attrs: {
+                                type: "submit",
+                                class: ""
                             },
-                            {
-                                placeholder: "Password",
-                                class: "",
-                                id: "password",
-                                type: "password",
-                                required: ""
-                            }
-                        ],
-                        buttons: [
-                            {
-                                attrs: {
-                                    type: "submit",
-                                    class: ""
-                                },
-                                text: "Вход"
+                            text: "Вход"
+                        },
+                        {
+                            attrs: {
+                                type: "reset",
+                                class: ""
                             },
-                            {
-                                attrs: {
-                                    type: "reset",
-                                    class: ""
-                                },
-                                text: "Регистрация"
-                            }
-                        ]
-                    })
-                }),
-                "stylesheets/parts/Border.css");
+                            text: "Регистрация"
+                        }
+                    ]
+                })
+            }));
 
             this.addParts(this.body, "SignUp", window.Border({
-                    img: "images/add_your_data.png",
-                    stylesheet: "stylesheets/parts/Form.css",
-                    el: window.FormConstruct({
-                        text: "Регистрация",
-                        inputs: [
-                            {
-                                placeholder: "Your Email",
-                                class: "",
-                                id: "email",
-                                type: "text",
-                                required: ""
+                img: "images/add_your_data.png",
+                el: window.FormConstruct({
+                    text: "Регистрация",
+                    inputs: [
+                        {
+                            placeholder: "Your Email",
+                            class: "",
+                            id: "email",
+                            type: "text",
+                            required: ""
+                        },
+                        {
+                            placeholder: "Username",
+                            class: "",
+                            id: "username",
+                            type: "text",
+                            required: ""
+                        },
+                        {
+                            placeholder: "Password",
+                            class: "",
+                            id: "password",
+                            type: "password",
+                            required: ""
+                        },
+                        {
+                            placeholder: "Repeat password",
+                            class: "",
+                            id: "password_r",
+                            type: "password",
+                            required: ""
+                        }
+                    ],
+                    buttons: [
+                        {
+                            attrs: {
+                                type: "submit",
+                                class: ""
                             },
-                            {
-                                placeholder: "Username",
-                                class: "",
-                                id: "username",
-                                type: "text",
-                                required: ""
+                            text: "Отправить"
+                        },
+                        {
+                            attrs: {
+                                type: "reset",
+                                class: ""
                             },
-                            {
-                                placeholder: "Password",
-                                class: "",
-                                id: "password",
-                                type: "password",
-                                required: ""
-                            },
-                            {
-                                placeholder: "Repeat password",
-                                class: "",
-                                id: "password_r",
-                                type: "password",
-                                required: ""
-                            }
-                        ],
-                        buttons: [
-                            {
-                                attrs: {
-                                    type: "submit",
-                                    class: ""
-                                },
-                                text: "Отправить"
-                            },
-                            {
-                                attrs: {
-                                    type: "reset",
-                                    class: ""
-                                },
-                                text: "Авторизация"
-                            }
-                        ]
-                    })
-                }),
-                "stylesheets/parts/Border.css");
+                            text: "Авторизация"
+                        }
+                    ]
+                })
+            }));
 
             this.addParts(this.body, "ScoreList", window.Border({
-                    img: "images/add_your_data.png",
-                    stylesheet: "stylesheets/parts/ScoreList.css",
-                    el: window.ScoreList({},
-                        [
-                            {
-                                position: "1",
-                                nickname: "lol_1",
-                                score: "999"
-                            },
-                            {
-                                position: "2",
-                                nickname: "lol_2",
-                                score: "888"
-                            },
-                            {
-                                position: "3",
-                                nickname: "lol_3",
-                                score: "777"
-                            },
-                            {
-                                position: "...",
-                                nickname: "...",
-                                score: "..."
-                            },
-                            {
-                                position: "4",
-                                nickname: "lol_4",
-                                score: "777"
-                            }
-                        ]
-                    )
-                }),
-                "stylesheets/parts/Border.css");
+                img: "images/add_your_data.png",
+                el: window.ScoreList({},
+                    [
+                        {
+                            position: "1",
+                            nickname: "lol_1",
+                            score: "999"
+                        },
+                        {
+                            position: "2",
+                            nickname: "lol_2",
+                            score: "888"
+                        },
+                        {
+                            position: "3",
+                            nickname: "lol_3",
+                            score: "777"
+                        },
+                        {
+                            position: "...",
+                            nickname: "...",
+                            score: "..."
+                        },
+                        {
+                            position: "4",
+                            nickname: "lol_4",
+                            score: "777"
+                        }
+                    ]
+                )
+            }));
 
             this.addParts(this.body, "AboutUs", window.Border({
-                    img: "images/add_your_data.png",
-                    stylesheet: "stylesheets/parts/AboutUs.css",
-                    el: window.AboutUs({
-                            text: "Ага, вот эти ребята: ",
-                            members: [
-                                {
-                                    href: "https://github.com/Pacman29",
-                                    text: "Pacman29"
-                                }
-                            ]
-                        }
-                    )
-                }),
-                "stylesheets/parts/Border.css");
+                img: "images/add_your_data.png",
+                el: window.AboutUs({
+                        text: "Ага, вот эти ребята: ",
+                        members: [
+                            {
+                                href: "https://github.com/Pacman29",
+                                text: "Pacman29"
+                            }
+                        ]
+                    }
+                )
+            }));
 
             this.addParts(this.body, "Rules", window.Border({
-                    img: "images/add_your_data.png",
-                    stylesheet: "stylesheets/parts/Rules.css",
-                    el: window.Rules({
-                            text: "ну тут какие-то правила будут, наверное...",
-                        }
-                    )
-                }),
-                "stylesheets/parts/Border.css");
+                img: "images/add_your_data.png",
+                el: window.Rules({
+                        text: "ну тут какие-то правила будут, наверное...",
+                    }
+                )
+            }));
 
             this.addParts(this.body, "Footer", window.Footer({
                 text: "Copyright © MyWebsite. All rights reserved.",
                 class: "my_font"
-            }), "stylesheets/parts/Footer.css");
+            }));
         }
 
-        addParts(parent, name, elem, stylesheet = "") {
-            if (stylesheet !== "") {
-                let style = document.createElement('link');
-                style.setAttribute('rel', 'stylesheet');
-                style.setAttribute('href', stylesheet);
-                this.body.appendChild(style);
-            }
+        addParts(parent, name, elem) {
             this.parts.set(name, elem);
             elem.hidden = true;
             parent.appendChild(elem);

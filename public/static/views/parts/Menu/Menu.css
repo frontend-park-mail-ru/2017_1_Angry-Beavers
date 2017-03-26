@@ -1,8 +1,8 @@
-.border {
-    text-align: right;
+.menu .my_btn_image {
+    cursor: pointer;
     border-radius: 12px;
     border-color: black;
     border-width: 8px;
     border-style: solid;
-    margin:  10px auto;
+    margin: 10px auto;
 }

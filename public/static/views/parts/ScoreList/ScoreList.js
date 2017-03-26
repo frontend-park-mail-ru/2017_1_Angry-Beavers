@@ -1,6 +1,9 @@
 /**
  * Created by pacman29 on 05.03.17.
  */
+
+'use strict';
+
 (function () {
     function row(opt) {
         let tr = document.createElement('tr');
