@@ -35,8 +35,6 @@
                 event.preventDefault();
                 this.router.go('/signup')
             });
-
-
         }
 
         resume() {
