@@ -4,5 +4,6 @@
 div.aboutus
     h3= text
     each member in members
-        a()&attributes(member)= member.text
+        div
+            a()&attributes(member)= member.text
 
