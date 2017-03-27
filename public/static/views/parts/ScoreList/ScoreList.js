@@ -37,7 +37,7 @@
             player: YOU
         });
 
-        return window.Border({
+        return window.BorderConstruct({
             el: div,
             img: RIGHT_IMG
         });

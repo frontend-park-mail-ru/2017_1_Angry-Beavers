@@ -5,9 +5,9 @@
 'use strict';
 
 (function () {
-    window.Border = function Border(opt = {}) {
+    window.BorderConstruct = function Border(opt = {}) {
         let container = document.createElement('div');
-        container.innerHTML = pugBorder({
+        container.innerHTML = pugBorderConstruct({
             img: opt.img,
             element: opt.el
         });
