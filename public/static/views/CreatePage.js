@@ -81,7 +81,7 @@
                 ]
             }));
 
-            this.addParts(this.body, "SignIn", window.Border({
+            this.addParts(this.body, "SignIn", window.BorderConstruct({
                 img: "images/add_your_data.png",
                 el: window.FormConstruct({
                     text: "Авторизация",
@@ -120,7 +120,7 @@
                 })
             }));
 
-            this.addParts(this.body, "SignUp", window.Border({
+            this.addParts(this.body, "SignUp", window.BorderConstruct({
                 img: "images/add_your_data.png",
                 el: window.FormConstruct({
                     text: "Регистрация",
