@@ -104,14 +104,14 @@
                             {
                                 placeholder: "Username",
                                 class: "",
-                                id: "username",
+                                id: "singin_username",
                                 type: "text",
                                 required: ""
                             },
                             {
                                 placeholder: "Password",
                                 class: "",
-                                id: "password",
+                                id: "singin_password",
                                 type: "password",
                                 required: ""
                             }
@@ -145,28 +145,28 @@
                             {
                                 placeholder: "Your Email",
                                 class: "",
-                                id: "email",
+                                id: "singup_email",
                                 type: "text",
                                 required: ""
                             },
                             {
                                 placeholder: "Username",
                                 class: "",
-                                id: "username",
+                                id: "singup_username",
                                 type: "text",
                                 required: ""
                             },
                             {
                                 placeholder: "Password",
                                 class: "",
-                                id: "password",
+                                id: "singup_password",
                                 type: "password",
                                 required: ""
                             },
                             {
                                 placeholder: "Repeat password",
                                 class: "",
-                                id: "password_r",
+                                id: "singup_password_r",
                                 type: "password",
                                 required: ""
                             }
@@ -235,6 +235,10 @@
                                 {
                                     href: "https://github.com/Pacman29",
                                     text: "Pacman29"
+                                },
+                                {
+                                    href: "https://github.com/lieroz",
+                                    text: "lieroz"
                                 }
                             ]
                         }

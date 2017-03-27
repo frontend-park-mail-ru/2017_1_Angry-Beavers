@@ -18,8 +18,8 @@
             this.page_parts.get("SignIn").addEventListener('submit', event => {
                 event.preventDefault();
 
-                let login = document.getElementById('username').value;
-                let passw = document.getElementById('password').value;
+                let login = document.getElementById('singin_username').value;
+                let passw = document.getElementById('singin_password').value;
                 window.Api.login(login, passw)
                     .then(result => {
                         if (result) {
