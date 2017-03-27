@@ -1,5 +1,26 @@
 //
-   Created by pacman29 on 09.03.17.
-th.col-lg-2= (position)
-th.col-lg-8= (nickname)
-th.col-lg-2= (score)
+   Created by ed on 28.03.17.
+
+mixin row(player)
+    if player
+        tr
+            th.col-lg-2= player.position
+            th.col-lg-8= player.nickname
+            th.col-lg-2= player.score
+    else if player === 0
+        tr.header
+            th.col-lg-2= "..."
+            th.col-lg-8= "..."
+            th.col-lg-2= "..."
+    else
+        tr.header
+            th.col-lg-2= "#"
+            th.col-lg-8= "Nickname"
+            th.col-lg-2= "Score"
+
+table.score_list
+    +row()
+    each topPlayer in topPlayers
+        +row(topPlayer)
+    +row(0)
+    +row(player)

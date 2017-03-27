@@ -5,35 +5,41 @@
 'use strict';
 
 (function () {
-    function row(opt) {
-        let tr = document.createElement('tr');
-        if (opt.hasOwnProperty('class')) {
-            tr.setAttribute('class', opt.class);
-        }
-        let row = opt.row;
-        tr.innerHTML = pugScoreList({position: row.position, nickname: row.nickname, score: row.score});
-        return tr;
-    }
+    const RIGHT_IMG = "images/add_your_data.png";
+    const PLAYERS = [
+        {
+            position: "1",
+            nickname: "lol_1",
+            score: "999"
+        },
+        {
+            position: "2",
+            nickname: "lol_2",
+            score: "888"
+        },
+        {
+            position: "3",
+            nickname: "lol_3",
+            score: "777"
+        },
+    ];
+    const YOU = {
+        position: "1337",
+        nickname: "Andrew",
+        score: "-7"
+    };
 
-    window.ScoreList = function (opt, players) {
-        let table = document.createElement('table');
-        table.setAttribute('class', 'score_list');
-        let header = row({
-            class: "header",
-            row: {
-                position: "#",
-                nickname: "nickname",
-                score: "score"
-            }
+    window.ScoreList = function () {
+        let div = document.createElement('div');
+
+        div.innerHTML = pugScoreList({
+            topPlayers: PLAYERS,
+            player: YOU
         });
 
-        table.appendChild(header);
-
-        players.forEach(item => {
-            let tmp = {row: item};
-            table.appendChild(row(tmp));
+        return window.Border({
+            el: div,
+            img: RIGHT_IMG
         });
-
-        return table;
     }
 }());
