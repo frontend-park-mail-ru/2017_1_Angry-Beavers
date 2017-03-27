@@ -19,10 +19,13 @@
             this.page_parts.get("SignUp").addEventListener('submit', event => {
                 event.preventDefault();
 
-                let login = document.getElementById('username').value;
-                let passw = document.getElementById('password').value;
-                let email = document.getElementById('email').value;
+                let form = document.get
 
+                let login = document.getElementById('singup_username').value;
+                let passw = document.getElementById('singup_password').value;
+                let email = document.getElementById('singup_email').value;
+
+                debugger;
                 window.Api.signUp(login, email, passw)
                     .then(result => {
                         if (result) {
