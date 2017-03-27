@@ -173,39 +173,7 @@
                 })
             }));
 
-            this.addParts(this.body, "ScoreList", window.Border({
-                img: "images/add_your_data.png",
-                el: window.ScoreList({},
-                    [
-                        {
-                            position: "1",
-                            nickname: "lol_1",
-                            score: "999"
-                        },
-                        {
-                            position: "2",
-                            nickname: "lol_2",
-                            score: "888"
-                        },
-                        {
-                            position: "3",
-                            nickname: "lol_3",
-                            score: "777"
-                        },
-                        {
-                            position: "...",
-                            nickname: "...",
-                            score: "..."
-                        },
-                        {
-                            position: "4",
-                            nickname: "lol_4",
-                            score: "777"
-                        }
-                    ]
-                )
-            }));
-
+            this.addParts(this.body, "ScoreList", window.ScoreList());
             this.addParts(this.body, "AboutUs", window.AboutUs());
             this.addParts(this.body, "Rules", window.Rules());
             this.addParts(this.body, "Footer", window.Footer());
