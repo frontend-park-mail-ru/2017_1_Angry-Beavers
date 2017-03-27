@@ -36,6 +36,7 @@
     };
 
     const signUp = function (login, email, password) {
+        debugger;
         return _post('user/signup', {
             userLogin: login,
             pass: password,
