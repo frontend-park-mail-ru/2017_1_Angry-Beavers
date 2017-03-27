@@ -208,11 +208,7 @@
 
             this.addParts(this.body, "AboutUs", window.AboutUs());
             this.addParts(this.body, "Rules", window.Rules());
-
-            this.addParts(this.body, "Footer", window.Footer({
-                text: "Copyright © MyWebsite. All rights reserved.",
-                class: "my_font"
-            }));
+            this.addParts(this.body, "Footer", window.Footer());
         }
 
         addParts(parent, name, elem) {
