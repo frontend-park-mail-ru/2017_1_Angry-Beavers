@@ -5,10 +5,14 @@
 'use strict';
 
 (function () {
-    window.Footer = function (opt) {
+    const TEXT = "Copyright © Angry Beavers. All rights reserved.";
+
+    window.Footer = function () {
         let footer = document.createElement('footer');
         footer.setAttribute('class', 'text-center footer');
-        footer.innerHTML = pugFooter({_css: opt.class, text: opt.text});
+        footer.innerHTML = pugFooter({
+            text: TEXT
+        });
         return footer;
     };
 }());
