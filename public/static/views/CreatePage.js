@@ -207,14 +207,7 @@
             }));
 
             this.addParts(this.body, "AboutUs", window.AboutUs());
-
-            this.addParts(this.body, "Rules", window.Border({
-                img: "images/add_your_data.png",
-                el: window.Rules({
-                        text: "ну тут какие-то правила будут, наверное...",
-                    }
-                )
-            }));
+            this.addParts(this.body, "Rules", window.Rules());
 
             this.addParts(this.body, "Footer", window.Footer({
                 text: "Copyright © MyWebsite. All rights reserved.",
