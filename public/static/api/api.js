@@ -4,7 +4,7 @@
 'use strict';
 
 (function () {
-    const _HOST = 'testherokujavabeavers.herokuapp.com';
+    const _HOST = 'jokinghazardserver.herokuapp.com';
     // const _HOST = 'localhost:5000';
     const _post = function (method, obj) {
         const url = 'https://' + _HOST + "/api/" + method;
