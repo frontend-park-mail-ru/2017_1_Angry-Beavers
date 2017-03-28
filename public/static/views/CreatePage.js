@@ -13,46 +13,7 @@
             this.links.push();
             this.addParts(this.body, "AppName", window.AppName());
             this.addParts(this.body, "MenuStart", window.MenuStart());
-            this.addParts(this.body, "MenuGame", window.MenuStart({
-                icons: [
-                    {
-                        href: "play",
-                        attr: {
-                            src: "images/1.png",
-                            class: "img-responsive my_btn_image",
-                            onMouseOver: "this.src='images/GOOGFACE.png'",
-                            onMouseOut: "this.src='images/1.png'"
-                        }
-                    },
-                    {
-                        href: "score",
-                        attr: {
-                            src: "images/1.png",
-                            class: "img-responsive my_btn_image",
-                            onMouseOver: "this.src='images/GOOGFACE.png'",
-                            onMouseOut: "this.src='images/1.png'"
-                        }
-                    },
-                    {
-                        href: "aboutus",
-                        attr: {
-                            src: "images/About_us.png",
-                            class: "img-responsive my_btn_image",
-                            onMouseOver: "this.src='images/We_do_it.png'",
-                            onMouseOut: "this.src='images/About_us.png'"
-                        }
-                    },
-                    {
-                        href: "rules",
-                        attr: {
-                            src: "images/About_rules.png",
-                            class: "img-responsive my_btn_image",
-                            onMouseOver: "this.src='images/About_rules_2.png'",
-                            onMouseOut: "this.src='images/About_rules.png'"
-                        }
-                    }
-                ]
-            }));
+            this.addParts(this.body, "MenuGame", window.MenuGame());
 
             this.addParts(this.body, "SignIn", window.BorderConstruct({
                 img: "images/add_your_data.png",
