@@ -30,7 +30,7 @@
                         }
                     }).catch(alert);
             });
-            document.getElementById("formSignIn_signUpBtn").addEventListener('reset', event => {
+            document.getElementById("formSignIn_signUpBtn").addEventListener('click', event => {
                 event.preventDefault();
                 this.router.go('/signup')
             });
