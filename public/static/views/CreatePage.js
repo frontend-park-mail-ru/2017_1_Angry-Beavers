@@ -14,49 +14,11 @@
             this.addParts(this.body, "AppName", window.AppName());
             this.addParts(this.body, "MenuStart", window.MenuStart());
             this.addParts(this.body, "MenuGame", window.MenuGame());
+            this.addParts(this.body, "SignIn", window.FormSignIn());
 
-            this.addParts(this.body, "SignIn", window.BorderConstruct({
+            this.addParts(this.body, "SignUp", window.FormSignIn({
                 img: "images/add_your_data.png",
-                el: window.FormConstruct({
-                    text: "Авторизация",
-                    inputs: [
-                        {
-                            placeholder: "Username",
-                            class: "",
-                            id: "username",
-                            type: "text",
-                            required: ""
-                        },
-                        {
-                            placeholder: "Password",
-                            class: "",
-                            id: "password",
-                            type: "password",
-                            required: ""
-                        }
-                    ],
-                    buttons: [
-                        {
-                            attrs: {
-                                type: "submit",
-                                class: ""
-                            },
-                            text: "Вход"
-                        },
-                        {
-                            attrs: {
-                                type: "reset",
-                                class: ""
-                            },
-                            text: "Регистрация"
-                        }
-                    ]
-                })
-            }));
-
-            this.addParts(this.body, "SignUp", window.BorderConstruct({
-                img: "images/add_your_data.png",
-                el: window.FormConstruct({
+                el: window.FormSignIn({
                     text: "Регистрация",
                     inputs: [
                         {

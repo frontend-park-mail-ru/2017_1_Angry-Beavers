@@ -15,11 +15,11 @@
                 event.preventDefault();
                 this.router.go("/");
             });
-            this.page_parts.get("SignIn").addEventListener('submit', event => {
+            document.getElementById("formSignIn_signInBtn").addEventListener('click', event => {
                 event.preventDefault();
 
-                let login = document.getElementById('username').value;
-                let passw = document.getElementById('password').value;
+                let login = document.getElementById('formSignIn_loginInput').value;
+                let passw = document.getElementById('formSignIn_passwordInput').value;
                 window.Api.login(login, passw)
                     .then(result => {
                         if (result) {
@@ -29,9 +29,8 @@
                             throw new window.Api.Error('Can not register');
                         }
                     }).catch(alert);
-
             });
-            this.page_parts.get("SignIn").addEventListener('reset', event => {
+            document.getElementById("formSignIn_signUpBtn").addEventListener('reset', event => {
                 event.preventDefault();
                 this.router.go('/signup')
             });
