@@ -2,7 +2,7 @@
  * Created by pacman29 on 24.02.17.
  */
 (function () {
-    class StartPageController extends window.View {
+    class MenuStartController extends window.View {
         constructor(opt = {}) {
             super(opt.user);
             this.user = opt.user;
@@ -15,21 +15,20 @@
                 event.preventDefault();
                 this.router.go("/");
             });
-            let imgs = this.page_parts.get("MenuStart").getElementsByTagName('img');
-            imgs[0].addEventListener('click', event => {
+
+            document.getElementById('menuStart_signIn').addEventListener('click', event => {
                 event.preventDefault();
                 this.router.go('/signin');
             });
-            imgs[1].addEventListener('click', event => {
+            document.getElementById('menuStart_aboutUs').addEventListener('click', event => {
                 event.preventDefault();
                 this.router.go('/aboutus');
             });
-            imgs[2].addEventListener('click', event => {
+            document.getElementById('menuStart_rules').addEventListener('click', event => {
                 event.preventDefault();
                 this.router.go('/rules');
             });
         }
-
 
         resume() {
             this.show();
@@ -53,5 +52,5 @@
         }
     }
 
-    window.StartPageController = StartPageController;
+    window.MenuStartController = MenuStartController;
 }());
