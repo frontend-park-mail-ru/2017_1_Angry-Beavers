@@ -2,7 +2,7 @@
  * Created by pacman29 on 08.03.17.
  */
 (function () {
-    class MenuController extends window.View {
+    class MenuGameController extends window.View {
         constructor(opt = {}) {
             super(opt.user);
             this.user = opt.user;
@@ -15,20 +15,20 @@
                 event.preventDefault();
                 this.router.go("/");
             });
-            let imgs = this.page_parts.get("MenuGame").getElementsByTagName('img');
-            imgs[0].addEventListener('click', event => {
+
+            document.getElementById("menuGame_play").addEventListener('click', event => {
                 event.preventDefault();
                 this.router.go('/play');
             });
-            imgs[1].addEventListener('click', event => {
+            document.getElementById("menuGame_score").addEventListener('click', event => {
                 event.preventDefault();
                 this.router.go('/scorelist');
             });
-            imgs[2].addEventListener('click', event => {
+            document.getElementById("menuGame_aboutUs").addEventListener('click', event => {
                 event.preventDefault();
                 this.router.go('/aboutus');
             });
-            imgs[3].addEventListener('click', event => {
+            document.getElementById("menuGame_rules").addEventListener('click', event => {
                 event.preventDefault();
                 this.router.go('/rules');
             });
@@ -60,6 +60,6 @@
 
     }
 
-    window.MenuController = MenuController;
+    window.MenuGameController = MenuGameController;
 }());
 
