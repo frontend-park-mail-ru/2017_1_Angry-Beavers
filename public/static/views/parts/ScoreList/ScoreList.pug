@@ -1,5 +1,22 @@
 //
-   Created by pacman29 on 09.03.17.
-th.col-lg-2= (position)
-th.col-lg-8= (nickname)
-th.col-lg-2= (score)
+   Created by ed on 28.03.17.
+
+mixin row(player)
+    tr.scorelist-row
+        if player
+                th.col-lg-2.scorelist-cell= player.position
+                th.col-lg-8.scorelist-cell= player.nickname
+                th.col-lg-2.scorelist-cell= player.score
+        else if player === 0
+                th.scorelist-separator(colspan=3)= "..."
+        else
+                th.col-lg-2.scorelist-head= "#"
+                th.col-lg-8.scorelist-head= "Nickname"
+                th.col-lg-2.scorelist-head= "Score"
+
+table.scorelist
+    +row()
+    each topPlayer in topPlayers
+        +row(topPlayer)
+    +row(0)
+    +row(player)
