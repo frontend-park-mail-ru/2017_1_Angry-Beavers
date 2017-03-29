@@ -8,7 +8,7 @@
     const ITEMS = [
         {
             id: "menuStart_signIn",
-            defaultImg: "images/1.png",
+            defaultImg: "images/Login_btn.png",
             backImg: "images/GOOGFACE.png"
         },
         {

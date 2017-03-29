@@ -8,18 +8,18 @@
     const ITEMS = [
         {
             id: "menuGame_play",
-            defaultImg: "images/1.png",
-            backImg: "images/GOOGFACE.png"
+            defaultImg: "images/Game.png",
+            backImg: "images/Game_hold.png"
         },
         {
             id: "menuGame_score",
-            defaultImg: "images/About_us.png",
-            backImg: "images/We_do_it.png"
+            defaultImg: "images/Score_btn.png",
+            backImg: "images/Score_btn_hold.png"
         },
         {
             id: "menuGame_aboutUs",
-            defaultImg: "images/About_rules.png",
-            backImg: "images/About_rules_2.png"
+            defaultImg: "images/About_us.png",
+            backImg: "images/We_do_it.png"
         },
         {
             id: "menuGame_rules",

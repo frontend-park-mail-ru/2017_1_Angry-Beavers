@@ -5,7 +5,7 @@
 'use strict';
 
 (function () {
-    const RIGHT_IMG = "images/add_your_data.png";
+    const RIGHT_IMG = "images/Scorelist.png";
     const PLAYERS = [
         {
             position: "1",
