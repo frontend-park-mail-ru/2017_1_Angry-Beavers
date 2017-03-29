@@ -1,16 +1,34 @@
 /**
  * Created by pacman29 on 08.03.17.
  */
+
+'use strict';
+
 (function () {
-    let aboutUsTemplate = template;
-    window.AboutUs = function (opt) {
+    const RIGHT_IMG = "images/Dance.png";
+    const HEAD_TEXT = "Ага, вот эти ребята: ";
+    const MEMBERS = [
+        {
+            link: "https://github.com/ed-asriyan",
+            name: "Ed Asriyan"
+        },
+        {
+            link: "https://github.com/Pacman29",
+            name: "Pacman29"
+        }
+    ];
+
+    window.AboutUs = function () {
         let div = document.createElement('div');
 
-        div.innerHTML = aboutUsTemplate({
-            members: opt.members,
-            text: opt.text
+        div.innerHTML = pugAboutUs({
+            members: MEMBERS,
+            headText: HEAD_TEXT
         });
 
-        return div;
+        return window.BorderConstruct({
+            el: div,
+            img: RIGHT_IMG
+        });
     }
 }());

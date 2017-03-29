@@ -1,8 +1,11 @@
 /**
  * Created by pacman29 on 08.03.17.
  */
+
+'use strict';
+
 (function () {
-    class MenuController extends window.View {
+    class MenuGameController extends window.View {
         constructor(opt = {}) {
             super(opt.user);
             this.user = opt.user;
@@ -11,24 +14,24 @@
         }
 
         addListener() {
-            this.page_parts.get("AppName").querySelector(".my_ref").addEventListener('click', event => {
+            this.page_parts.get("AppName").querySelector(".appname").addEventListener('click', event => {
                 event.preventDefault();
                 this.router.go("/");
             });
-            let imgs = this.page_parts.get("MenuGame").getElementsByTagName('img');
-            imgs[0].addEventListener('click', event => {
+
+            document.getElementById("menuGame_play").addEventListener('click', event => {
                 event.preventDefault();
                 this.router.go('/play');
             });
-            imgs[1].addEventListener('click', event => {
+            document.getElementById("menuGame_score").addEventListener('click', event => {
                 event.preventDefault();
                 this.router.go('/scorelist');
             });
-            imgs[2].addEventListener('click', event => {
+            document.getElementById("menuGame_aboutUs").addEventListener('click', event => {
                 event.preventDefault();
                 this.router.go('/aboutus');
             });
-            imgs[3].addEventListener('click', event => {
+            document.getElementById("menuGame_rules").addEventListener('click', event => {
                 event.preventDefault();
                 this.router.go('/rules');
             });
@@ -42,7 +45,6 @@
         show() {
             this.page_parts.get("AppName").hidden = false;
             if (!this.user.isAuth) {
-                
                 this.router.go("/");
             }
             else {
@@ -60,6 +62,6 @@
 
     }
 
-    window.MenuController = MenuController;
+    window.MenuGameController = MenuGameController;
 }());
 

@@ -19,13 +19,6 @@
             this.View = view;
             this.options = options;
         }
-
-        /**
-         * Проверяет, соответствует ли переданный pathname текущему Route
-         * @param {string} pathname - Путь в приложении
-         * @returns {boolean} Результат проверки
-         */
-
         /**
          * Активирует текущий Route (переходит по нему)
          * @param {string} pathname - Путь в приложении

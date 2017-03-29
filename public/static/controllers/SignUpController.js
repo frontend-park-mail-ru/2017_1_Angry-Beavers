@@ -11,21 +11,17 @@
         }
 
         addListener() {
-            this.page_parts.get("AppName").querySelector(".my_ref").addEventListener('click', event => {
+            this.page_parts.get("AppName").querySelector(".appname").addEventListener('click', event => {
                 event.preventDefault();
                 this.router.go("/");
             });
-
-            this.page_parts.get("SignUp").addEventListener('submit', event => {
+            document.getElementById('formSignUp_signUpBtn').addEventListener('click', event => {
                 event.preventDefault();
 
-                let form = document.get
+                let login = document.getElementById('formSignUp_loginInput').value;
+                let passw = document.getElementById('formSignUp_passwordInput').value;
+                let email = document.getElementById('formSignUp_emailInput').value;
 
-                let login = document.getElementById('singup_username').value;
-                let passw = document.getElementById('singup_password').value;
-                let email = document.getElementById('singup_email').value;
-
-                debugger;
                 window.Api.signUp(login, email, passw)
                     .then(result => {
                         if (result) {
@@ -36,12 +32,10 @@
                         }
                     }).catch(alert);
             });
-            this.page_parts.get("SignUp").addEventListener('reset', event => {
+            document.getElementById('formSignUp_signInBtn').addEventListener('click', event => {
                 event.preventDefault();
                 this.router.go('/signin')
             });
-
-
         }
 
         resume() {

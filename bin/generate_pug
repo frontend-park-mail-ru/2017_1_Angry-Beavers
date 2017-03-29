@@ -1,0 +1,32 @@
+#!/usr/bin/python
+
+import subprocess
+import os.path
+
+def get_pug_templates():
+    COMMAND = ['find', './public/static',
+               '-name', '*.pug',
+               '-type', 'f',
+              ]
+
+    result = subprocess.Popen(COMMAND, stdout=subprocess.PIPE)
+    print 'Run:', ' '.join(COMMAND)
+    return [ x.decode('UTF-8').strip() for x in result.stdout ]
+
+def run_pug(file_name):
+    base_name = str(os.path.basename(file_name)).strip();
+    name, extension = os.path.splitext(base_name);
+
+    COMMAND = ['pug', file_name,
+               '-E', 'pug.js',
+               '-n', 'pug' + name,
+               '-c',
+               '-D',
+              ]
+
+    subprocess.call(COMMAND, stdout=subprocess.PIPE)
+    print 'Run:', ' '.join(COMMAND)
+
+if __name__ == '__main__':
+    for x in get_pug_templates():
+        run_pug(x)

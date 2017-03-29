@@ -2,7 +2,7 @@
  * Created by pacman29 on 08.03.17.
  */
 (function () {
-    class ScorelistController extends window.View {
+    class ScoreListController extends window.View {
         constructor(opt = {}) {
             super(opt.user);
             this.user = opt.user;
@@ -11,7 +11,7 @@
         }
 
         addListener() {
-            this.page_parts.get("AppName").querySelector(".my_ref").addEventListener('click', event => {
+            this.page_parts.get("AppName").querySelector(".appname").addEventListener('click', event => {
                 event.preventDefault();
                 this.router.go("/");
             });
@@ -41,5 +41,5 @@
 
     }
 
-    window.ScorelistController = ScorelistController;
+    window.ScoreListController = ScoreListController;
 }());

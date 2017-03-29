@@ -1,0 +1,5 @@
+#!/bin/bash
+
+echo Deleting...
+find ./public/static -name *.pug.js -type f -delete
+echo Done.
