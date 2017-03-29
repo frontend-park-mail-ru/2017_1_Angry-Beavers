@@ -5,7 +5,7 @@
 'use strict';
 
 (function () {
-    const RIGHT_IMG = "images/add_your_data.png";
+    const RIGHT_IMG = "images/Dance.png";
     const HEAD_TEXT = "Ага, вот эти ребята: ";
     const MEMBERS = [
         {
