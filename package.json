@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Angry Beavers - Joking Hazard",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jasmine-node spec/",
     "start": "npm run generate_pug && npm run run_node",
     "run_node": "node ./bin/www",
     "generate_pug": "./bin/generate_pug",
