@@ -1,8 +1,10 @@
 /**
  * Created by pacman29 on 04.04.17.
  */
-const fetch = require("node-fetch");
-const api = require("../../public/static/api/api.js");
+
+'use strict';
+
+const api = require("../public/static/api/api.js");
 
 let test_user = {
     email: "test8@test.ru",
@@ -12,9 +14,9 @@ let test_user = {
 
 describe("API tests.", () => {
 
-    it("SignUp", function(done) {
-        window.Api.signUp(test_user.login,test_user.email,test_user.password).then(ok => {
-            if(ok){
+    it("SignUp", function (done) {
+        api.signUp(test_user.login, test_user.email, test_user.password).then(ok => {
+            if (ok) {
                 done();
             } else {
                 fail();
@@ -22,9 +24,9 @@ describe("API tests.", () => {
         })
     });
 
-    it("SignIn", function(done) {
-        window.Api.login(test_user.login,test_user.password).then(ok =>{
-            if(ok){
+    it("SignIn", function (done) {
+        api.login(test_user.login, test_user.password).then(ok => {
+            if (ok) {
                 done();
             } else {
                 fail();
@@ -33,10 +35,10 @@ describe("API tests.", () => {
     });
 
 
-    it("SignIn_fail", function(done) {
+    it("SignIn_fail", function (done) {
         try {
-            window.Api.login(test_user.login+"bla",test_user.password+"bla")
-        } catch (err ){
+            api.login(test_user.login + "bla", test_user.password + "bla")
+        } catch (err) {
             expect(err).toBe('Error: Invalid authentication data! en');
         }
         done();
