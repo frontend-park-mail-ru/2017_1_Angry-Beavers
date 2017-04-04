@@ -75,7 +75,7 @@ if (!isBrowser) {
     } else {
         exports.login = login;
         exports.signUp = signUp;
-        exports.logput = logout;
+        exports.logout = logout;
         exports.deleteUser = deleteUser;
     }
 })();

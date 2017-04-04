@@ -13,35 +13,72 @@ let test_user = {
 };
 
 describe("API tests.", () => {
-
     it("SignUp", function (done) {
-        api.signUp(test_user.login, test_user.email, test_user.password).then(ok => {
-            if (ok) {
-                done();
-            } else {
-                fail();
-            }
-        })
+        return api.signUp(test_user.login, test_user.email, test_user.password)
+            .then(done)
+            .catch(() => {
+            });
+    });
+
+    it("SignUp_fail", function (done) {
+        api.signUp(test_user.login, test_user.email, test_user.password)
+            .catch(done);
     });
 
     it("SignIn", function (done) {
-        api.login(test_user.login, test_user.password).then(ok => {
-            if (ok) {
-                done();
-            } else {
-                fail();
-            }
-        })
+        api.login(test_user.login, test_user.password)
+            .then(done)
+            .catch(() => {
+            });
     });
 
 
     it("SignIn_fail", function (done) {
-        try {
-            api.login(test_user.login + "bla", test_user.password + "bla")
-        } catch (err) {
-            expect(err).toBe('Error: Invalid authentication data! en');
-        }
-        done();
+        api.login(test_user.login + "bla", test_user.password + "bla")
+            .catch(err => {
+                if (err === 'Error: Invalid authentication data! en') {
+                    done();
+                }
+            });
     });
 
-});
+    it("LogOut", (done) => {
+            api.logout()
+                .then(done)
+                .catch(() => {
+                });
+        }
+    );
+
+    it("LogOut_fail", (done) => {
+        api.logout().catch(err => {
+            if (err === 'Error: Invalid session! en') {
+                done();
+            }
+        });
+    });
+
+    it("SignIn", function (done) {
+        api.login(test_user.login, test_user.password)
+            .then(done)
+            .catch(() => {
+            });
+    });
+
+    it("DeleteUser", (done) => {
+        api.deleteUser()
+            .then(done)
+            .catch(err => {
+            });
+    });
+
+    it("DeleteUser_fail", (done) => {
+        api.deleteUser()
+            .catch(err => {
+                if (err === 'Error: Invalid session! en') {
+                    done();
+                }
+            });
+    })
+})
+;
