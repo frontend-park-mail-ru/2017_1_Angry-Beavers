@@ -53,9 +53,14 @@
         return _call('user/logout', 'GET');
     };
 
+    const deleteUser = function () {
+        return _call('user/delete', 'DELETE');
+    };
+
     window.Api = {
         login: login,
         signUp: signUp,
-        logout: logout
+        logout: logout,
+        delete: deleteUser
     };
 }());
