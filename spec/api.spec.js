@@ -4,10 +4,10 @@
 "use strict";
 
 const fetch = require("node-fetch");
-const _HOST = 'testherokujavabeavers.herokuapp.com';
+const _HOST = 'jokinghazardserver.herokuapp.com';
+// const _HOST = 'localhost:5000';
 const _post = function (method, obj) {
-    const url = 'http://' + _HOST + "/api/" + method;
-    //const url = _HOST + "/api/" + method;
+    const url = 'https://' + _HOST + "/api/" + method;
     const initPomise = {
         method: 'POST',
         mode: 'cors',
@@ -20,7 +20,7 @@ const _post = function (method, obj) {
     return fetch(url, initPomise).then(response => {
         return response.json();
     }).then(response => {
-        if (response.result == undefined || (response.errorMsg && response.errorMsg != 'ok')) {
+        if (!response.result) {
             throw new Error(response.errorMsg);
         } else {
             return response.result;
@@ -28,9 +28,9 @@ const _post = function (method, obj) {
     });
 };
 
-const login = function (login, passHash) {
+const login = function (login, password) {
     return _post('user/login', {
-        passHash: passHash,
+        pass: password,
         userLogin: login
     });
 };
@@ -38,23 +38,25 @@ const login = function (login, passHash) {
 const signUp = function (login, email, password) {
     return _post('user/signup', {
         userLogin: login,
-        passHash: password,
+        pass: password,
         userMail: email
     });
 };
 
 let test_user = {
-    email: "test@test.ru",
-    password: "test",
-    login: "test"
-}
-describe("API tests.", function() {
+    email: "test4@test.ru",
+    password: "test4",
+    login: "test4"
+};
+
+describe("API tests.", () => {
 
     it("SignUp", function(done) {
         signUp(test_user.login,test_user.email,test_user.password).then(ok => {
             expect(ok).toBe(true);
             done();
         }).catch(err => {
+            console.log(err);
             fail();
             done();
         })
@@ -65,9 +67,20 @@ describe("API tests.", function() {
             expect(ok).toBe(true);
             done();
         }).catch(err => {
+            console.log(err);
             fail();
             done();
         })
+    });
+
+
+    it("SignIn_fail", function(done) {
+        try {
+            login(test_user.login+"bla",test_user.password+"bla")
+        } catch (err ){
+            expect(err).toBe('Error: Invalid authentication data! en');
+        }
+        done();
     });
 
 });
