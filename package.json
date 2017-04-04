@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Angry Beavers - Joking Hazard",
   "scripts": {
-    "test": "mocha -r jsdom-global/register  public/static/api/api.js",
+    "test": "mocha -r jsdom-global/register  test/api_test.js",
     "start": "npm run generate_pug && npm run run_node",
     "run_node": "node ./bin/www",
     "generate_pug": "./bin/generate_pug",
