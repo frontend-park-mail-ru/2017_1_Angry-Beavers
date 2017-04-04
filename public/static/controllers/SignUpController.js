@@ -18,24 +18,62 @@
             document.getElementById('formSignUp_signUpBtn').addEventListener('click', event => {
                 event.preventDefault();
 
-                let login = document.getElementById('formSignUp_loginInput').value;
-                let passw = document.getElementById('formSignUp_passwordInput').value;
-                let email = document.getElementById('formSignUp_emailInput').value;
-
-                window.Api.signUp(login, email, passw)
-                    .then(result => {
-                        if (result) {
-                            this.user.isAuth = 1;
-                            this.router.go('/menu');
-                        } else {
-                            throw new window.Api.Error('Can not login');
-                        }
-                    }).catch(alert);
+                let credentials = this.validateForm();
+                if (credentials) {
+                    window.Api.signUp(credentials.login, credentials.email, credentials.password)
+                        .then(result => {
+                            if (result) {
+                                this.user.isAuth = 1;
+                                this.router.go('/menu');
+                            } else {
+                                throw new window.Api.Error('Can not login');
+                            }
+                        }).catch(alert);
+                }
             });
             document.getElementById('formSignUp_signInBtn').addEventListener('click', event => {
                 event.preventDefault();
                 this.router.go('/signin')
             });
+        }
+
+        validateForm() {
+            let login = document.getElementById('formSignUp_loginInput').value;
+            let passw = document.getElementById('formSignUp_passwordInput').value;
+            let passwRepeat = document.getElementById('formSignUp_passwordRepeatInput').value;
+            let email = document.getElementById('formSignUp_emailInput').value;
+
+            // email check
+            if (!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)) {
+                alert("Некорректный e-mail");
+                return false;
+            }
+
+            // login check
+            if (login.length < 4) {
+                alert("Минимальная длина логина - 4 символа");
+                return false;
+            }
+            if (!/^[a-zA-Z0-9_]*$/.test(login)) {
+                alert("Логин может содержать только символы латинского алфавита, цифры и _");
+                return false;
+            }
+
+            // password check
+            if (passw.length < 6) {
+                alert("Минимальная длина пароля - 6 символов");
+                return false;
+            }
+            if (passw !== passwRepeat) {
+                alert("Пароли не совпадают");
+                return false;
+            }
+
+            return {
+                login: login,
+                password: passw,
+                email: email
+            }
         }
 
         resume() {
