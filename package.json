@@ -22,10 +22,13 @@
   "homepage": "https://github.com/frontend-park-mail-ru/2017_1_Angry-Beavers#readme",
   "dependencies": {
     "body-parser": "^1.16.1",
+    "es6-promise": "^4.1.0",
     "express": "^4.14.1",
+    "isomorphic-fetch": "^2.2.1",
     "npm-cli": "^0.1.0",
     "pug": "^2.0.0-beta11",
-    "pug-cli": "^1.0.0-alpha6"
+    "pug-cli": "^1.0.0-alpha6",
+    "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
     "chai": "^3.5.0",
@@ -34,6 +37,7 @@
     "jsdom-global": "2.1.1",
     "mocha": "^3.2.0",
     "mocha-jsdom": "^1.1.0",
-    "node-fetch": "^1.6.3"
+    "node-fetch": "^1.6.3",
+    "whatwg-fetch": "^2.0.3"
   }
 }

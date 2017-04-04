@@ -7,7 +7,7 @@
 let isBrowser = typeof require === 'undefined';
 
 if (!isBrowser) {
-    var fetch = require('node-fetch');
+    var fetch = require('isomorphic-fetch');
 }
 
 (function () {
@@ -31,6 +31,8 @@ if (!isBrowser) {
         }
 
         return fetch(url, initPomise).then(response => {
+            console.log(response.status);
+            console.log(JSON.stringify(response));
             return response.json();
         }).then(response => {
             if (!response.result) {
@@ -57,7 +59,7 @@ if (!isBrowser) {
     };
 
     const logout = function () {
-        return _call('user/logout', 'GET');
+        return _call('user/logout', 'POST');
     };
 
     const deleteUser = function () {
