@@ -11,37 +11,10 @@ if (!isBrowser) {
 }
 
 (function () {
-    const _HOST = 'jokinghazardserver.herokuapp.com';
+    const _HOST = '';
 
     // const _HOST = 'localhost:5000';
-    const _call = function (method, httpMethod, obj) {
-        const url = 'https://' + _HOST + "/api/" + method;
-        const initPomise = {
-            method: httpMethod,
-            mode: 'cors',
-            credentials: 'include',
-            headers: {
-                'Content-type': 'application/json',
-            }
-        };
-        if (httpMethod === 'POST') {
-            if (obj !== undefined) {
-                initPomise.body = JSON.stringify(obj);
-            }
-        }
 
-        return fetch(url, initPomise).then(response => {
-            console.log(response.status);
-            console.log(JSON.stringify(response));
-            return response.json();
-        }).then(response => {
-            if (!response.result) {
-                throw new Error(response.errorMsg);
-            } else {
-                return response.data;
-            }
-        });
-    };
 
     const login = function (login, password) {
         return _call('user/login', 'POST', {
@@ -50,21 +23,7 @@ if (!isBrowser) {
         });
     };
 
-    const signUp = function (login, email, password) {
-        return _call('user/signup', 'POST', {
-            userLogin: login,
-            pass: password,
-            userMail: email
-        });
-    };
 
-    const logout = function () {
-        return _call('user/logout', 'POST');
-    };
-
-    const deleteUser = function () {
-        return _call('user/delete', 'DELETE');
-    };
 
 
     if (isBrowser) {
