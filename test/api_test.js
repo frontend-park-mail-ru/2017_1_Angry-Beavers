@@ -20,13 +20,15 @@ describe("API tests.", () => {
             .then(() => {
                 done();
             })
-            .catch(() => {
-                assert.fail();
+            .catch(e => {
+                done(e);
             });
     });
-    return;
     it("SignUp_fail", function (done) {
         session.signUp(test_user.login, test_user.email, test_user.password)
+            .then(() => {
+                done("Sign up success");
+            })
             .catch(() => {
                 done();
             });
@@ -37,7 +39,8 @@ describe("API tests.", () => {
             .then(() => {
                 done();
             })
-            .catch((err) => {
+            .catch(e => {
+                done(e);
             });
     });
 
@@ -46,22 +49,30 @@ describe("API tests.", () => {
                 .then(() => {
                     done();
                 })
-                .catch((err) => {
+                .catch(e => {
+                    done(e);
                 });
         }
     );
 
     it("SignIn_fail", function (done) {
         session.login(test_user.login + "bla", test_user.password + "bla")
+            .then(() => {
+                done("Sign in success");
+            })
             .catch(() => {
                 done();
             });
     });
 
     it("LogOut_fail", (done) => {
-        session.logout().catch(err => {
-            done();
-        });
+        session.logout()
+            .then(() => {
+                done("Log out success");
+            })
+            .catch(() => {
+                done();
+            });
     });
 
     it("SignIn", function (done) {
@@ -69,7 +80,8 @@ describe("API tests.", () => {
             .then(() => {
                 done();
             })
-            .catch((err) => {
+            .catch(e => {
+                done(e);
             });
     });
 
@@ -78,32 +90,18 @@ describe("API tests.", () => {
             .then(() => {
                 done();
             })
-            .catch(err => {
+            .catch(e => {
+                done(e);
             });
     });
 
     it("DeleteUser_fail", (done) => {
         session.deleteUser()
+            .then(() => {
+                done("Delete success");
+            })
             .catch(() => {
                 done();
             });
     });
-
-    it("SignUp", function (done) {
-        session.signUp(test_user.login, test_user.email, test_user.password)
-            .then(() => {
-                done();
-            })
-            .catch((err) => {
-            });
-    });
-    it("LogOut", (done) => {
-            session.logout()
-                .then(() => {
-                    done();
-                })
-                .catch((err) => {
-                });
-        }
-    );
 });
