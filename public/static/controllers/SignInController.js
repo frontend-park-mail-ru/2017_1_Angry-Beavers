@@ -42,7 +42,11 @@
 
         show() {
             this.page_parts.get("AppName").hidden = false;
-            this.page_parts.get("SignIn").hidden = false;
+            if(this.user.isAuth){
+                this.router.go('/');
+            } else {
+                this.page_parts.get("SignIn").hidden = false;
+            }
             this.page_parts.get("Footer").hidden = false;
         }
 
