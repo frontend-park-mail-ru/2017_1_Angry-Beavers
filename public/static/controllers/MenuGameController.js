@@ -45,7 +45,7 @@
         show() {
             this.page_parts.get("AppName").hidden = false;
             if (!this.user.isAuth) {
-                this.router.go("/");
+                this.router.go('/signin');
             }
             else {
                 this.page_parts.get("MenuGame").hidden = false;
