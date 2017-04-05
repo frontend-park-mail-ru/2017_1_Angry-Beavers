@@ -12,15 +12,15 @@
         let AboutUsController = window.AboutUsController;
         let RulesController = window.RulesController;
 
-        const user = new User({});
+        const session = new Session();
         (new Router())
-            .addRoute('/', MenuStartController, {user: user, page: Page})
-            .addRoute('/signin', SignInController, {user: user, page: Page})
-            .addRoute('/signup', SignUpController, {user: user, page: Page})
-            .addRoute('/menu', MenuGameController, {user: user, page: Page})
-            .addRoute('/scorelist', ScoreListController, {user: user, page: Page})
-            .addRoute('/aboutus', AboutUsController, {user: user, page: Page})
-            .addRoute('/rules', RulesController, {user: user, page: Page})
+            .addRoute('/', MenuStartController, {session: session, page: Page})
+            .addRoute('/signin', SignInController, {session: session, page: Page})
+            .addRoute('/signup', SignUpController, {session: session, page: Page})
+            .addRoute('/menu', MenuGameController, {session: session, page: Page})
+            .addRoute('/scorelist', ScoreListController, {session: session, page: Page})
+            .addRoute('/aboutus', AboutUsController, {session: session, page: Page})
+            .addRoute('/rules', RulesController, {session: session, page: Page})
             .start();
     }
 }());

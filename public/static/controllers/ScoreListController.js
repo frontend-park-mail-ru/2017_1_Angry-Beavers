@@ -4,9 +4,7 @@
 (function () {
     class ScoreListController extends window.View {
         constructor(opt = {}) {
-            super(opt.user);
-            this.user = opt.user;
-            this.page_parts = opt.page.getParts();
+            super(opt);
             this.addListener();
         }
 
