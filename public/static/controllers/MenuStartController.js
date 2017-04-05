@@ -40,7 +40,7 @@
         show() {
             this.page_parts.get("AppName").hidden = false;
             if (this.user.isAuth) {
-                this.router.go("/menu");
+                this.router.go('/');
             }
             else {
                 this.page_parts.get("MenuStart").hidden = false;
