@@ -22,7 +22,7 @@
 
         /**
          * Добавляет новый Route в роутер
-         * @param {string} pathname - Шаблон пути
+         * @param {string} pathname - Шаблон пути (будет преобразован в регулярное выражение)
          * @param {View} view - Класс конкретной View
          * @param {Object} [options={}] - Дополнительные параметры, которые будут переданы во view при её создании и инициализации
          * @returns {Router}
@@ -64,7 +64,7 @@
 
             const route = this.routes.find(route => {
                 //let res = route.match(pathname);
-                let res = (route.pathname === path);
+                let res = route.pathname.test(path);
                 return res;
             });
             if (!route) {
