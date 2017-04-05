@@ -4,9 +4,7 @@
 (function () {
     class SignUpController extends window.View {
         constructor(opt = {}) {
-            super(opt.user);
-            this.user = opt.user;
-            this.page_parts = opt.page.getParts();
+            super(opt);
             this.addListener();
         }
 
@@ -20,15 +18,13 @@
 
                 let credentials = this.validateForm();
                 if (credentials) {
-                    window.Api.signUp(credentials.login, credentials.email, credentials.password)
-                        .then(result => {
-                            if (result) {
-                                this.user.isAuth = 1;
-                                this.router.go('/menu');
-                            } else {
-                                throw new window.Api.Error('Can not login');
-                            }
-                        }).catch(alert);
+                    this.session.signUp(credentials.login, credentials.email, credentials.password)
+                        .then(() => {
+                            this.router.go('/menu');
+                        })
+                        .catch(e => {
+                            alert(e);
+                        });
                 }
             });
             document.getElementById('formSignUp_signInBtn').addEventListener('click', event => {
@@ -82,7 +78,7 @@
 
         show() {
             this.page_parts.get("AppName").hidden = false;
-            if(this.user.isAuth){
+            if(this.session.isAuth){
                 this.router.go('/');
             } else {
                 this.page_parts.get("SignUp").hidden = false;

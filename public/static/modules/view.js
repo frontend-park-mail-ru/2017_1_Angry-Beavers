@@ -8,6 +8,10 @@
          * @param {Object} [options={}] - Объект с параметрами
          */
         constructor(options = {}) {
+            this.session = options.session;
+            this.user = options.user;
+            this.page_parts = options.page.getParts();
+
             if (options.createElement) {
                 this.tagName = options.tagName || 'div';
                 this._el = document.createElement(this.tagName);
