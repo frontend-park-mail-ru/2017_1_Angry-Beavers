@@ -40,7 +40,7 @@ if (!isBrowser) {
                 credentials: 'include',
                 headers: {
                     'Content-type': 'application/json',
-                    'cookie': this._cookie
+                    'Cookie': this._cookie
                 }
             };
             if (httpMethod === 'POST') {
@@ -52,12 +52,15 @@ if (!isBrowser) {
             let _this = this;
             return fetch(url, initPomise)
                 .then(response => {
-                    if (response['set-cookie'] !== undefined) {
-                        _this._cookie = response['set-cookie'];
+                    let cookies = response.headers._headers['set-cookie'];
+                    if (cookies !== undefined) {
+                        // todo: убрать этот костыль
+                        _this._cookie = cookies[0];
                     }
 
                     return response.json();
-                }).then(response => {
+                })
+                .then(response => {
                     if (!response.result) {
                         throw new Error(response.errorMsg);
                     } else {
@@ -68,34 +71,34 @@ if (!isBrowser) {
 
         login(login, password) {
             let _this = this;
-            return this._call('user/login', 'POST', {
+            return this._call('POST', 'user/login', {
                 pass: password,
                 userLogin: login
             }).then(() => {
-                _this.user = new User();
-                _this.user.login = login;
+                _this._user = {}; // todo: in ES6 rewrite with new User
+                _this._user.login = login;
             });
         };
 
         signUp(login, email, password) {
             let _this = this;
-            return this._call('user/signup', 'POST', {
+            return this._call('POST', 'user/signup', {
                 userLogin: login,
                 pass: password,
                 userMail: email
             }).then(() => {
-                _this.user = new User();
-                _this.user.login = login;
-                _this.user.email = email;
+                _this._user = {}; // todo: in ES6 rewrite with new User
+                _this._user.login = login;
+                _this._user.email = email;
             });
         };
 
         logout() {
-            return this._call('user/logout', 'POST');
+            return this._call('POST', 'user/logout');
         };
 
         deleteUser() {
-            return this._call('user/delete', 'DELETE');
+            return this._call('DELETE', 'user/delete');
         };
     }
 
