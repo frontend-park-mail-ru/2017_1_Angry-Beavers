@@ -4,9 +4,7 @@
 (function () {
     class SignInController extends window.View {
         constructor(opt = {}) {
-            super(opt.user);
-            this.user = opt.user;
-            this.page_parts = opt.page.getParts();
+            super(opt);
             this.addListener();
         }
 
@@ -20,15 +18,13 @@
 
                 let login = document.getElementById('formSignIn_loginInput').value;
                 let passw = document.getElementById('formSignIn_passwordInput').value;
-                window.Api.login(login, passw)
-                    .then(result => {
-                        if (result) {
-                            this.user.isAuth = 1;
-                            this.router.go('/menu');
-                        } else {
-                            throw new window.Api.Error('Can not register');
-                        }
-                    }).catch(alert);
+                this.session.login(login, passw)
+                    .then(() => {
+                        this.router.go('/menu');
+                    })
+                    .catch(e => {
+                        alert(e);
+                    });
             });
             document.getElementById("formSignIn_signUpBtn").addEventListener('click', event => {
                 event.preventDefault();
@@ -42,7 +38,7 @@
 
         show() {
             this.page_parts.get("AppName").hidden = false;
-            if(this.user.isAuth){
+            if(this.session.isAuth){
                 this.router.go('/');
             } else {
                 this.page_parts.get("SignIn").hidden = false;

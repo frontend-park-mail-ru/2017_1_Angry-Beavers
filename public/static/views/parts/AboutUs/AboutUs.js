@@ -15,6 +15,14 @@
         {
             link: "https://github.com/Pacman29",
             name: "Pacman29"
+        },
+        {
+            link: "https://github.com/lieroz",
+            name: "lieroz"
+        },
+        {
+            link: "https://github.com/wolf1996",
+            name: "wolf1996"
         }
     ];
 

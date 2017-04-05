@@ -7,9 +7,7 @@
 (function () {
     class MenuGameController extends window.View {
         constructor(opt = {}) {
-            super(opt.user);
-            this.user = opt.user;
-            this.page_parts = opt.page.getParts();
+            super(opt);
             this.addListener();
         }
 
@@ -44,7 +42,7 @@
 
         show() {
             this.page_parts.get("AppName").hidden = false;
-            if (!this.user.isAuth) {
+            if (!this.session.isAuth) {
                 this.router.go('/signin');
             }
             else {
