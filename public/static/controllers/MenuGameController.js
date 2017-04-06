@@ -4,7 +4,6 @@
 
 'use strict';
 
-
 class MenuGameController extends window.View {
     constructor(opt = {}) {
         super(opt);
