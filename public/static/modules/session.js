@@ -29,7 +29,7 @@ if (!isBrowser) {
         }
 
         get isAuth() {
-            return this.user;
+            return this.user.isAuth;
         }
 
         _call(httpMethod, method, data) {
@@ -79,6 +79,7 @@ if (!isBrowser) {
             }).then(() => {
                 _this._user = {}; // todo: in ES6 rewrite with new User
                 _this._user.login = login;
+                _this._user.isAuth = true;
             });
         };
 
@@ -92,15 +93,21 @@ if (!isBrowser) {
                 _this._user = {}; // todo: in ES6 rewrite with new User
                 _this._user.login = login;
                 _this._user.email = email;
+                _this._user.isAuth = true;
             });
         };
 
         logout() {
-            return this._call('POST', 'user/logout');
+            let _this = this;
+            return this._call('POST', 'user/logout').then(() =>{
+                _this._user.isAuth = false;
+            });
         };
 
         deleteUser() {
-            return this._call('DELETE', 'user/delete');
+            return this._call('DELETE', 'user/delete').then(() =>{
+                _this._user.isAuth = false;
+            });
         };
     }
 
