@@ -14,7 +14,6 @@
         addListener() {
             this.page_parts.get("AppName").querySelector(".appname").addEventListener('click', event => {
                 event.preventDefault();
-                debugger;
                 this.router.go("/menu");
             });
 
@@ -43,6 +42,7 @@
 
         show() {
             this.page_parts.get("AppName").hidden = false;
+            debugger;
             if (!this.session.isAuth) {
                 this.router.go('/signin');
             }
