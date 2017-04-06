@@ -30,10 +30,10 @@
     "npm-cli": "^0.1.0",
     "pug": "^2.0.0-beta11",
     "pug-cli": "^1.0.0-alpha6",
+    "webpack": "^2.3.3",
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
-    "babel-loader": "^6.4.1",
     "chai": "^3.5.0",
     "eslint": "^3.17.1",
     "jsdom": "9.12.0",
