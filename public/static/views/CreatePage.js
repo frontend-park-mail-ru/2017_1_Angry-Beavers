@@ -6,6 +6,7 @@
 
 import AppName from './parts/AppName/AppName';
 import AboutUs from './parts/AboutUs/AboutUs';
+import Footer from './parts/Footer/Footer';
 
 class CreatePage {
     constructor() {
@@ -25,7 +26,7 @@ class CreatePage {
         this.addParts(this.body, "ScoreList", window.ScoreList());
         this.addParts(this.body, "AboutUs", AboutUs());
         this.addParts(this.body, "Rules", window.Rules());
-        this.addParts(this.body, "Footer", window.Footer());
+        this.addParts(this.body, "Footer", Footer());
     }
 
     addParts(parent, name, elem) {
