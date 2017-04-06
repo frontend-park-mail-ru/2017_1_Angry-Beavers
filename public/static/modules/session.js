@@ -21,6 +21,7 @@ if (!isBrowser) {
             this._host = options.host || DEFAULT_HOST;
 
             this._cookies = '';
+            this._user = {isAuth: false};
         }
 
         get user() {
@@ -29,7 +30,7 @@ if (!isBrowser) {
         }
 
         get isAuth() {
-            return this.user.isAuth;
+            return this._user.isAuth;
         }
 
         _call(httpMethod, method, data) {
