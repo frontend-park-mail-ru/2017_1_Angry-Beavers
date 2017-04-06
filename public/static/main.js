@@ -1,6 +1,7 @@
 import Router from './modules/router';
+import CreatePage from './views/CreatePage';
 
-let Page = new window.CreatePage();
+let Page = new CreatePage();
 let MenuStartController = window.MenuStartController;
 let SignInController = window.SignInController;
 let MenuGameController = window.MenuGameController;
