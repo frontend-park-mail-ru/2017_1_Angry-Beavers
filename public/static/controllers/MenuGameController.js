@@ -17,11 +17,6 @@ class MenuGameController extends View {
     }
 
     addListener() {
-        this.page_parts.get("AppName").querySelector(".appname").addEventListener('click', event => {
-            event.preventDefault();
-            this.router.go("/");
-        });
-
         document.getElementById("menuGame_play").addEventListener('click', event => {
             event.preventDefault();
             this.router.go('/play');

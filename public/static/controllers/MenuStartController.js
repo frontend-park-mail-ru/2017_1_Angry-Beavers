@@ -19,7 +19,12 @@ class MenuStartController extends View {
     addListener() {
         this.page_parts.get("AppName").querySelector(".appname").addEventListener('click', event => {
             event.preventDefault();
-            this.router.go("/");
+            if(this.session.isAuth){
+                this.router.go("/menu");
+            } else {
+                this.router.go("/");
+            }
+
         });
 
         document.getElementById('menuStart_signIn').addEventListener('click', event => {
