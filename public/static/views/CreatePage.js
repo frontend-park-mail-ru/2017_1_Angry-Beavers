@@ -11,6 +11,7 @@ import FormSignIn from './parts/FormSignIn/FormSignIn';
 import FormSignUp from './parts/FormSignUp/FormSignUp';
 import MenuStart from './parts/MenuStart/MenuStart';
 import MenuGame from './parts/MenuGame/MenuGame';
+import ScoreList from './parts/ScoreList/ScoreList';
 
 class CreatePage {
     constructor() {
@@ -27,7 +28,7 @@ class CreatePage {
         this.addParts(this.body, "MenuGame", MenuGame());
         this.addParts(this.body, "SignIn", FormSignIn());
         this.addParts(this.body, "SignUp", FormSignUp());
-        this.addParts(this.body, "ScoreList", window.ScoreList());
+        this.addParts(this.body, "ScoreList", ScoreList());
         this.addParts(this.body, "AboutUs", AboutUs());
         this.addParts(this.body, "Rules", window.Rules());
         this.addParts(this.body, "Footer", Footer());
