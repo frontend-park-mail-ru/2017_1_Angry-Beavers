@@ -4,7 +4,12 @@
 (function () {
     class RulesController extends window.View {
         constructor(opt = {}) {
+
+            if(RulesController.__instance){
+                return RulesController.__instance;
+            }
             super(opt);
+            RulesController.__instance = this;
             this.addListener();
         }
 

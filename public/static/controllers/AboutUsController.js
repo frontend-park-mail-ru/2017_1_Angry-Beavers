@@ -4,7 +4,11 @@
 (function () {
     class AboutUsController extends window.View {
         constructor(opt = {}) {
+            if(AboutUsController.__instance){
+                return AboutUsController.__instance;
+            }
             super(opt);
+            AboutUsController.__instance = this;
             this.addListener();
         }
 

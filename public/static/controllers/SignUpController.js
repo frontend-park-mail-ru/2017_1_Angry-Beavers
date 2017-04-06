@@ -4,7 +4,12 @@
 (function () {
     class SignUpController extends window.View {
         constructor(opt = {}) {
+
+            if(SignUpController.__instance){
+                return SignUpController.__instance;
+            }
             super(opt);
+            SignUpController.__instance = this;
             this.addListener();
         }
 
