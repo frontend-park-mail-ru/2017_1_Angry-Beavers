@@ -18,6 +18,10 @@ module.exports = {
             {
                 test: /\.css$/,
                 loaders: ['style-loader', 'css-loader']
+            },
+            {
+                test: /\.pug$/,
+                loaders: ['pug-loader']
             }
         ]
     }

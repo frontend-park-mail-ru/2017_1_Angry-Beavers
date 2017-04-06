@@ -4,6 +4,8 @@
 
 'use strict';
 
+import pugMenuGame from './MenuGame.pug';
+
 import MenuConstruct from '../../constructs/MenuConstruct/MenuConstruct';
 
 const ITEMS = [

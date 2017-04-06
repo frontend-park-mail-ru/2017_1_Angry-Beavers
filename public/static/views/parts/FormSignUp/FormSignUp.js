@@ -6,6 +6,7 @@
 
 import BorderConstruct from '../../constructs/BorderConstruct/BorderConstruct';
 import FormConsruct from '../../constructs/FormConstruct/FormConstruct';
+import pugFormSignUp from './FormSignUp.pug';
 
 const RIGHT_IMG = "images/add_your_data.png";
 const TITLE = "Регистрация";
