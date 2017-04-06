@@ -1,5 +1,6 @@
 import Router from './modules/router';
 import CreatePage from './views/CreatePage';
+import Session from './modules/session';
 
 let Page = new CreatePage();
 let MenuStartController = window.MenuStartController;
