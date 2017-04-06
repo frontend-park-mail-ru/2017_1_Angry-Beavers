@@ -5,10 +5,10 @@ import Session from './modules/session';
 import MenuStartController from './controllers/MenuStartController';
 import MenuGameController from './controllers/MenuGameController';
 import SignInController from './controllers/SignInController';
+import SignUpController from './controllers/SignUpController';
 import ScoreListController from './controllers/ScoreListController';
 
 let Page = new CreatePage();
-let SignUpController = window.SignUpController;
 let AboutUsController = window.AboutUsController;
 let RulesController = window.RulesController;
 
