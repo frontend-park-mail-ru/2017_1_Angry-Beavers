@@ -4,6 +4,8 @@
 
 'use strict';
 
+import BorderConstruct from '../../constructs/BorderConstruct/BorderConstruct';
+
 const RIGHT_IMG = "images/Dance.png";
 const HEAD_TEXT = "Ага, вот эти ребята: ";
 const MEMBERS = [
@@ -33,7 +35,7 @@ const AboutUs = function () {
         headText: HEAD_TEXT
     });
 
-    return window.BorderConstruct({
+    return BorderConstruct({
         el: div,
         img: RIGHT_IMG
     });

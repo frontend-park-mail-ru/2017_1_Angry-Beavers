@@ -4,6 +4,8 @@
 
 'use strict';
 
+import BorderConstruct from '../../constructs/BorderConstruct/BorderConstruct';
+
 const RIGHT_IMG = "images/add_your_data.png";
 const TITLE = "Регистрация";
 
@@ -60,7 +62,7 @@ const FormSignUp = function () {
             ],
         }
     });
-    return window.BorderConstruct({
+    return BorderConstruct({
         img: RIGHT_IMG,
         el: div
     });
