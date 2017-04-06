@@ -4,6 +4,8 @@
 
 'use strict';
 
+import BorderConstruct from '../../constructs/BorderConstruct/BorderConstruct';
+
 const RIGHT_IMG = "images/Scorelist.png";
 const PLAYERS = [
     {
@@ -36,7 +38,7 @@ const ScoreList = function () {
         player: YOU
     });
 
-    return window.BorderConstruct({
+    return BorderConstruct({
         el: div,
         img: RIGHT_IMG
     });
