@@ -4,10 +4,12 @@
   "description": "Angry Beavers - Joking Hazard",
   "scripts": {
     "test": "mocha -r jsdom-global/register  test/api_test.js",
-    "start": "npm run generate_pug && npm run run_node",
+    "start": "npm run generate_pug && npm run generate_bundle && npm run run_node",
     "run_node": "node ./bin/www",
     "generate_pug": "./bin/generate_pug",
-    "delete_pug": "./bin/delete_pug"
+    "delete_pug": "./bin/delete_pug",
+    "generate_bundle": "webpack",
+    "delete_bundle": "rm ./public/static/bundle.js"
   },
   "repository": {
     "type": "git",
@@ -31,6 +33,7 @@
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
+    "babel-loader": "^6.4.1",
     "chai": "^3.5.0",
     "eslint": "^3.17.1",
     "jsdom": "9.12.0",
