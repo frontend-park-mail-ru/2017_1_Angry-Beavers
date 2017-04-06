@@ -1,7 +1,6 @@
 'use strict';
 
-const Route = window.Route;
-
+import Route from './route';
 
 /** Класс роутера */
 class Router {
