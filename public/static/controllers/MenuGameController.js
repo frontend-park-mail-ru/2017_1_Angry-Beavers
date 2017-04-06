@@ -7,7 +7,11 @@
 (function () {
     class MenuGameController extends window.View {
         constructor(opt = {}) {
+            if(MenuGameController.__instance){
+                return MenuGameController.__instance;
+            }
             super(opt);
+            MenuGameController.__instance = this;
             this.addListener();
         }
 

@@ -4,7 +4,12 @@
 (function () {
     class ScoreListController extends window.View {
         constructor(opt = {}) {
+
+            if(ScoreListController.__instance){
+                return ScoreListController.__instance;
+            }
             super(opt);
+            ScoreListController.__instance = this;
             this.addListener();
         }
 

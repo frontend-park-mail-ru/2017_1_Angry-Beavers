@@ -7,7 +7,12 @@
 (function () {
     class MenuStartController extends window.View {
         constructor(opt = {}) {
+
+            if(MenuStartController.__instance){
+                return MenuStartController.__instance;
+            }
             super(opt);
+            MenuStartController.__instance = this;
             this.addListener();
         }
 
