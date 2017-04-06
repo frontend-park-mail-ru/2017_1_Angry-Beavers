@@ -4,6 +4,8 @@
 
 'use strict';
 
+import './Footer.css';
+
 const TEXT = "Copyright © Angry Beavers. All rights reserved.";
 
 const Footer = function () {

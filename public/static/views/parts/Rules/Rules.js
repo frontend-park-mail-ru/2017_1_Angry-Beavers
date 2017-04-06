@@ -4,6 +4,8 @@
 
 'use strict';
 
+import './Rules.css';
+
 import BorderConstruct from '../../constructs/BorderConstruct/BorderConstruct';
 
 const RIGHT_IMG = "images/Rules_page.png";
