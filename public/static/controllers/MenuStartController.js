@@ -20,9 +20,9 @@
             this.page_parts.get("AppName").querySelector(".appname").addEventListener('click', event => {
                 event.preventDefault();
                 if(this.session.isAuth) {
-                    this.router.go("/menu");
+                    this.router.go('/menu');
                 } else {
-                    this.router.go("/");
+                    this.router.go('/');
                 }
             });
 
