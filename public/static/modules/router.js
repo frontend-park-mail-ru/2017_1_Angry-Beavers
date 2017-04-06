@@ -64,6 +64,7 @@
 
             const route = this.routes.find(route => {
                 //let res = route.match(pathname);
+                debugger;
                 let res = route.pathname.test(path);
                 return res;
             })
