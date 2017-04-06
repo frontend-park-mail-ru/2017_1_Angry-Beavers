@@ -12,6 +12,7 @@ import FormSignUp from './parts/FormSignUp/FormSignUp';
 import MenuStart from './parts/MenuStart/MenuStart';
 import MenuGame from './parts/MenuGame/MenuGame';
 import ScoreList from './parts/ScoreList/ScoreList';
+import Rules from './parts/Rules/Rules';
 
 class CreatePage {
     constructor() {
@@ -30,7 +31,7 @@ class CreatePage {
         this.addParts(this.body, "SignUp", FormSignUp());
         this.addParts(this.body, "ScoreList", ScoreList());
         this.addParts(this.body, "AboutUs", AboutUs());
-        this.addParts(this.body, "Rules", window.Rules());
+        this.addParts(this.body, "Rules", Rules());
         this.addParts(this.body, "Footer", Footer());
     }
 

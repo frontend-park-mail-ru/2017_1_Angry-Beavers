@@ -4,20 +4,20 @@
 
 'use strict';
 
-(function () {
-    const RIGHT_IMG = "images/Rules_page.png";
-    const HEAD_TEXT = "ну тут какие-то правила будут, наверное...";
+const RIGHT_IMG = "images/Rules_page.png";
+const HEAD_TEXT = "ну тут какие-то правила будут, наверное...";
 
-    window.Rules = function () {
-        let div = document.createElement('div');
+const Rules = function () {
+    let div = document.createElement('div');
 
-        div.innerHTML = pugRules({
-            title: HEAD_TEXT
-        });
+    div.innerHTML = pugRules({
+        title: HEAD_TEXT
+    });
 
-        return window.BorderConstruct({
-            el: div,
-            img: RIGHT_IMG
-        });
-    }
-}());
+    return window.BorderConstruct({
+        el: div,
+        img: RIGHT_IMG
+    });
+};
+
+export default Rules;
