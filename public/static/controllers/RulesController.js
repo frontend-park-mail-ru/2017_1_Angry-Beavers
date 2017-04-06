@@ -16,6 +16,15 @@ class RulesController extends View {
     }
 
     addListener() {
+        this.page_parts.get("AppName").querySelector(".appname").addEventListener('click', event => {
+            event.preventDefault();
+            if(this.session.isAuth){
+                this.router.go("/menu");
+            } else {
+                this.router.go("/");
+            }
+
+        });
     }
 
     resume() {
