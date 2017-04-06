@@ -12,7 +12,7 @@
         constructor(pathname, view, options = {}) {
             this.id = `p${id}`;
             id++;
-            this.pathname = new RegExp("\\"+pathname+"((\\?[a-z0-9\\-?\\[\\]=&;#]+)|$)","g");
+            this.pathname = new RegExp("\\"+pathname+"((\\?[a-z0-9\\-?\\[\\]=&;#]+)|$)");
             this.View = view;
             this.options = options;
         }
