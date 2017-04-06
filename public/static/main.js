@@ -3,9 +3,9 @@ import CreatePage from './views/CreatePage';
 import Session from './modules/session';
 
 import MenuStartController from './controllers/MenuStartController';
+import SignInController from './controllers/SignInController';
 
 let Page = new CreatePage();
-let SignInController = window.SignInController;
 let MenuGameController = window.MenuGameController;
 let ScoreListController = window.ScoreListController;
 let SignUpController = window.SignUpController;
