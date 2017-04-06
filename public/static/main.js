@@ -2,8 +2,9 @@ import Router from './modules/router';
 import CreatePage from './views/CreatePage';
 import Session from './modules/session';
 
+import MenuStartController from './controllers/MenuStartController';
+
 let Page = new CreatePage();
-let MenuStartController = window.MenuStartController;
 let SignInController = window.SignInController;
 let MenuGameController = window.MenuGameController;
 let ScoreListController = window.ScoreListController;
