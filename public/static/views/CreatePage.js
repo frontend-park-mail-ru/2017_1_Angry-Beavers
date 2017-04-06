@@ -5,6 +5,7 @@
 'use strict';
 
 import AppName from './parts/AppName/AppName';
+import AboutUs from './parts/AboutUs/AboutUs';
 
 class CreatePage {
     constructor() {
@@ -22,7 +23,7 @@ class CreatePage {
         this.addParts(this.body, "SignIn", window.FormSignIn());
         this.addParts(this.body, "SignUp", window.FormSignUp());
         this.addParts(this.body, "ScoreList", window.ScoreList());
-        this.addParts(this.body, "AboutUs", window.AboutUs());
+        this.addParts(this.body, "AboutUs", AboutUs());
         this.addParts(this.body, "Rules", window.Rules());
         this.addParts(this.body, "Footer", window.Footer());
     }

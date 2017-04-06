@@ -4,39 +4,39 @@
 
 'use strict';
 
-(function () {
-    const RIGHT_IMG = "images/Dance.png";
-    const HEAD_TEXT = "Ага, вот эти ребята: ";
-    const MEMBERS = [
-        {
-            link: "https://github.com/ed-asriyan",
-            name: "Ed Asriyan"
-        },
-        {
-            link: "https://github.com/Pacman29",
-            name: "Pacman29"
-        },
-        {
-            link: "https://github.com/lieroz",
-            name: "lieroz"
-        },
-        {
-            link: "https://github.com/wolf1996",
-            name: "wolf1996"
-        }
-    ];
-
-    window.AboutUs = function () {
-        let div = document.createElement('div');
-
-        div.innerHTML = pugAboutUs({
-            members: MEMBERS,
-            headText: HEAD_TEXT
-        });
-
-        return window.BorderConstruct({
-            el: div,
-            img: RIGHT_IMG
-        });
+const RIGHT_IMG = "images/Dance.png";
+const HEAD_TEXT = "Ага, вот эти ребята: ";
+const MEMBERS = [
+    {
+        link: "https://github.com/ed-asriyan",
+        name: "Ed Asriyan"
+    },
+    {
+        link: "https://github.com/Pacman29",
+        name: "Pacman29"
+    },
+    {
+        link: "https://github.com/lieroz",
+        name: "lieroz"
+    },
+    {
+        link: "https://github.com/wolf1996",
+        name: "wolf1996"
     }
-}());
+];
+
+const AboutUs = function () {
+    let div = document.createElement('div');
+
+    div.innerHTML = pugAboutUs({
+        members: MEMBERS,
+        headText: HEAD_TEXT
+    });
+
+    return window.BorderConstruct({
+        el: div,
+        img: RIGHT_IMG
+    });
+};
+
+export default AboutUs;
