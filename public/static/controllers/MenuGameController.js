@@ -14,6 +14,7 @@
         addListener() {
             this.page_parts.get("AppName").querySelector(".appname").addEventListener('click', event => {
                 event.preventDefault();
+                debugger;
                 this.router.go("/menu");
             });
 
