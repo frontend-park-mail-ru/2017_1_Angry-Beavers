@@ -38,6 +38,7 @@
     "babel-core": "^6.24.0",
     "babel-preset-es2015": "^6.24.0",
     "chai": "^3.5.0",
+    "config-chain": "^1.1.11",
     "eslint": "^3.17.1",
     "jsdom": "9.12.0",
     "jsdom-global": "2.1.1",
