@@ -66,7 +66,8 @@
                 //let res = route.match(pathname);
                 let res = route.pathname.test(path);
                 return res;
-            });
+            })
+            debugger;
             if (!route) {
                 return;
             }
