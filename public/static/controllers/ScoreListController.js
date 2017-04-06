@@ -4,7 +4,9 @@
 
 'use strict';
 
-class ScoreListController extends window.View {
+import View from '../modules/view';
+
+class ScoreListController extends View {
     constructor(opt = {}) {
         super(opt);
         this.addListener();

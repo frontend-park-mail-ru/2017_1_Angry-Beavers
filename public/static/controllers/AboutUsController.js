@@ -4,7 +4,9 @@
 
 'use strict';
 
-class AboutUsController extends window.View {
+import View from '../modules/view';
+
+class AboutUsController extends View {
     constructor(opt = {}) {
         super(opt);
         this.addListener();
