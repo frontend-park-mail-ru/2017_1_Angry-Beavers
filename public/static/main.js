@@ -10,15 +10,15 @@ import SignUpController from './controllers/SignUpController';
 import ScoreListController from './controllers/ScoreListController';
 import RulesController from './controllers/RulesController';
 
-let Page = new CreatePage();
-
+const page = new CreatePage();
 const session = new Session();
+
 (new Router())
-    .addRoute('/', MenuStartController, {session: session, page: Page})
-    .addRoute('/signin', SignInController, {session: session, page: Page})
-    .addRoute('/signup', SignUpController, {session: session, page: Page})
-    .addRoute('/menu', MenuGameController, {session: session, page: Page})
-    .addRoute('/scorelist', ScoreListController, {session: session, page: Page})
-    .addRoute('/aboutus', AboutUsController, {session: session, page: Page})
-    .addRoute('/rules', RulesController, {session: session, page: Page})
+    .addRoute('/', MenuStartController, {session: session, page: page})
+    .addRoute('/signin', SignInController, {session: session, page: page})
+    .addRoute('/signup', SignUpController, {session: session, page: page})
+    .addRoute('/menu', MenuGameController, {session: session, page: page})
+    .addRoute('/scorelist', ScoreListController, {session: session, page: page})
+    .addRoute('/aboutus', AboutUsController, {session: session, page: page})
+    .addRoute('/rules', RulesController, {session: session, page: page})
     .start();
