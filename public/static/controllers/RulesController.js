@@ -1,38 +1,43 @@
 /**
  * Created by pacman29 on 08.03.17.
  */
-(function () {
-    class RulesController extends window.View {
-        constructor(opt = {}) {
+'use strict';
 
-            if(RulesController.__instance){
-                return RulesController.__instance;
-            }
-            super(opt);
-            RulesController.__instance = this;
-            this.addListener();
+import View from '../modules/view';
+
+class RulesController extends View {
+    constructor(opt = {}) {
+        if(RulesController.__instance){
+            return RulesController.__instance;
         }
-
-        addListener() {
-        }
-
-        resume() {
-            this.show();
-        }
-
-        show() {
-            this.page_parts.get("AppName").hidden = false;
-            this.page_parts.get("Rules").hidden = false;
-            this.page_parts.get("Footer").hidden = false;
-        }
-
-        hide() {
-            this.page_parts.get("AppName").hidden = true;
-            this.page_parts.get("Rules").hidden = true;
-            this.page_parts.get("Footer").hidden = true;
-        }
-
+        super(opt);
+        RulesController.__instance = this;
+        this.addListener();
     }
 
-    window.RulesController = RulesController;
-}());
+    addListener() {
+        this.page_parts.get("AppName").querySelector(".appname").addEventListener('click', event => {
+            event.preventDefault();
+            this.router.go("/");
+        });
+    }
+
+    resume() {
+        this.show();
+    }
+
+    show() {
+        this.page_parts.get("AppName").hidden = false;
+        this.page_parts.get("Rules").hidden = false;
+        this.page_parts.get("Footer").hidden = false;
+    }
+
+    hide() {
+        this.page_parts.get("AppName").hidden = true;
+        this.page_parts.get("Rules").hidden = true;
+        this.page_parts.get("Footer").hidden = true;
+    }
+
+}
+
+export default RulesController;

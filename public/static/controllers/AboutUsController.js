@@ -1,37 +1,42 @@
 /**
  * Created by pacman29 on 08.03.17.
  */
-(function () {
-    class AboutUsController extends window.View {
-        constructor(opt = {}) {
-            if(AboutUsController.__instance){
-                return AboutUsController.__instance;
-            }
-            super(opt);
-            AboutUsController.__instance = this;
-            this.addListener();
-        }
+'use strict';
 
-        addListener() {
-        }
+import View from '../modules/view';
 
-        resume() {
-            this.show();
+class AboutUsController extends View {
+    constructor(opt = {}) {
+        if(AboutUsController.__instance){
+            return AboutUsController.__instance;
         }
-
-        show() {
-            this.page_parts.get("AppName").hidden = false;
-            this.page_parts.get("AboutUs").hidden = false;
-            this.page_parts.get("Footer").hidden = false;
-        }
-
-        hide() {
-            this.page_parts.get("AppName").hidden = true;
-            this.page_parts.get("AboutUs").hidden = true;
-            this.page_parts.get("Footer").hidden = true;
-        }
-
+        super(opt);
+        AboutUsController.__instance = this;
+        this.addListener();
     }
 
-    window.AboutUsController = AboutUsController;
-}());
+    addListener() {
+        this.page_parts.get("AppName").addEventListener('click', event => {
+            event.preventDefault();
+            this.router.go("/");
+        });
+    }
+
+    resume() {
+        this.show();
+    }
+
+    show() {
+        this.page_parts.get("AppName").hidden = false;
+        this.page_parts.get("AboutUs").hidden = false;
+        this.page_parts.get("Footer").hidden = false;
+    }
+
+    hide() {
+        this.page_parts.get("AppName").hidden = true;
+        this.page_parts.get("AboutUs").hidden = true;
+        this.page_parts.get("Footer").hidden = true;
+    }
+}
+
+export default AboutUsController;

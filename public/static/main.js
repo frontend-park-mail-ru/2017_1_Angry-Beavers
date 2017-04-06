@@ -1,26 +1,24 @@
-(function () {
-    if (typeof window === 'object') {
-        const Router = window.Router;
-        const User = window.User;
+import Router from './modules/router';
+import CreatePage from './views/CreatePage';
+import Session from './modules/session';
 
-        let Page = new window.CreatePage();
-        let MenuStartController = window.MenuStartController;
-        let SignInController = window.SignInController;
-        let MenuGameController = window.MenuGameController;
-        let ScoreListController = window.ScoreListController;
-        let SignUpController = window.SignUpController;
-        let AboutUsController = window.AboutUsController;
-        let RulesController = window.RulesController;
+import AboutUsController from './controllers/AboutUsController';
+import MenuStartController from './controllers/MenuStartController';
+import MenuGameController from './controllers/MenuGameController';
+import SignInController from './controllers/SignInController';
+import SignUpController from './controllers/SignUpController';
+import ScoreListController from './controllers/ScoreListController';
+import RulesController from './controllers/RulesController';
 
-        const session = new Session();
-        (new Router())
-            .addRoute('/', MenuStartController, {session: session, page: Page})
-            .addRoute('/signin', SignInController, {session: session, page: Page})
-            .addRoute('/signup', SignUpController, {session: session, page: Page})
-            .addRoute('/menu', MenuGameController, {session: session, page: Page})
-            .addRoute('/scorelist', ScoreListController, {session: session, page: Page})
-            .addRoute('/aboutus', AboutUsController, {session: session, page: Page})
-            .addRoute('/rules', RulesController, {session: session, page: Page})
-            .start();
-    }
-}());
+const page = new CreatePage();
+const session = new Session();
+
+(new Router())
+    .addRoute('/', MenuStartController, {session: session, page: page})
+    .addRoute('/signin', SignInController, {session: session, page: page})
+    .addRoute('/signup', SignUpController, {session: session, page: page})
+    .addRoute('/menu', MenuGameController, {session: session, page: page})
+    .addRoute('/scorelist', ScoreListController, {session: session, page: page})
+    .addRoute('/aboutus', AboutUsController, {session: session, page: page})
+    .addRoute('/rules', RulesController, {session: session, page: page})
+    .start();
