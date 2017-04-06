@@ -8,8 +8,6 @@
     class MenuStartController extends window.View {
         constructor(opt = {}) {
             super(opt.user);
-            this.user = opt.user;
-            this.page_parts = opt.page.getParts();
             this.addListener();
         }
 
