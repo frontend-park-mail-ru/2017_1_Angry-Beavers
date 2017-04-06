@@ -21,7 +21,6 @@ if (!isBrowser) {
             this._host = options.host || DEFAULT_HOST;
 
             this._cookies = '';
-            this._user = {isAuth: false};
         }
 
         get user() {
@@ -30,7 +29,7 @@ if (!isBrowser) {
         }
 
         get isAuth() {
-            return this._user.isAuth;
+            return this.user;
         }
 
         _call(httpMethod, method, data) {
@@ -80,7 +79,6 @@ if (!isBrowser) {
             }).then(() => {
                 _this._user = {}; // todo: in ES6 rewrite with new User
                 _this._user.login = login;
-                _this._user.isAuth = true;
             });
         };
 
@@ -94,21 +92,15 @@ if (!isBrowser) {
                 _this._user = {}; // todo: in ES6 rewrite with new User
                 _this._user.login = login;
                 _this._user.email = email;
-                _this._user.isAuth = true;
             });
         };
 
         logout() {
-            let _this = this;
-            return this._call('POST', 'user/logout').then(() =>{
-                _this._user.isAuth = false;
-            });
+            return this._call('POST', 'user/logout');
         };
 
         deleteUser() {
-            return this._call('DELETE', 'user/delete').then(() =>{
-                _this._user.isAuth = false;
-            });
+            return this._call('DELETE', 'user/delete');
         };
     }
 
