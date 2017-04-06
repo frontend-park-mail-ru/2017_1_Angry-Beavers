@@ -4,15 +4,18 @@
 
 'use strict';
 
-(function () {
-    const TEXT = "Copyright © Angry Beavers. All rights reserved.";
+import './Footer.css';
+import pugFooter from './Footer.pug';
 
-    window.Footer = function () {
-        let footer = document.createElement('footer');
-        footer.setAttribute('class', 'text-center footer');
-        footer.innerHTML = pugFooter({
-            text: TEXT
-        });
-        return footer;
-    };
-}());
+const TEXT = "Copyright © Angry Beavers. All rights reserved.";
+
+const Footer = function () {
+    let footer = document.createElement('footer');
+    footer.setAttribute('class', 'text-center footer');
+    footer.innerHTML = pugFooter({
+        text: TEXT
+    });
+    return footer;
+};
+
+export default Footer;

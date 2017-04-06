@@ -1,48 +1,51 @@
 /**
  * Created by pacman29 on 08.03.17.
  */
-(function () {
-    class ScoreListController extends window.View {
-        constructor(opt = {}) {
+'use strict';
 
-            if(ScoreListController.__instance){
-                return ScoreListController.__instance;
-            }
-            super(opt);
-            ScoreListController.__instance = this;
-            this.addListener();
+import View from '../modules/view';
+
+class ScoreListController extends View {
+    constructor(opt = {}) {
+        if(ScoreListController.__instance){
+            return ScoreListController.__instance;
         }
-
-        addListener() {
-
-        }
-
-        resume() {
-            this.show();
-        }
-
-        show() {
-            this.page_parts.get("AppName").hidden = false;
-            if(!this.session.isAuth){
-                this.router.go('/signin');
-            } else {
-                this.page_parts.get("ScoreList").hidden = false;
-            }
-            /*
-             TODO :: Здесь нужно заполнить лидерборд, тут надо просто подумать
-             */
-
-
-            this.page_parts.get("Footer").hidden = false;
-        }
-
-        hide() {
-            this.page_parts.get("AppName").hidden = true;
-            this.page_parts.get("ScoreList").hidden = true;
-            this.page_parts.get("Footer").hidden = true;
-        }
-
+        super(opt);
+        ScoreListController.__instance = this;
+        this.addListener();
     }
 
-    window.ScoreListController = ScoreListController;
-}());
+    addListener() {
+        this.page_parts.get("AppName").querySelector(".appname").addEventListener('click', event => {
+            event.preventDefault();
+            this.router.go("/");
+        });
+    }
+
+    resume() {
+        this.show();
+    }
+
+    show() {
+        this.page_parts.get("AppName").hidden = false;
+        if (!this.session.isAuth) {
+            this.router.go('/signin');
+        } else {
+            this.page_parts.get("ScoreList").hidden = false;
+        }
+
+        /*
+         TODO :: Здесь нужно заполнить лидерборд, тут надо просто подумать
+         */
+
+        this.page_parts.get("Footer").hidden = false;
+    }
+
+    hide() {
+        this.page_parts.get("AppName").hidden = true;
+        this.page_parts.get("ScoreList").hidden = true;
+        this.page_parts.get("Footer").hidden = true;
+    }
+}
+
+export default ScoreListController;

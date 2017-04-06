@@ -4,63 +4,58 @@
 
 'use strict';
 
-(function () {
-    class MenuStartController extends window.View {
-        constructor(opt = {}) {
+import View from '../modules/view';
 
-            if(MenuStartController.__instance){
-                return MenuStartController.__instance;
-            }
-            super(opt);
-            MenuStartController.__instance = this;
-            this.addListener();
+class MenuStartController extends View {
+    constructor(opt = {}) {
+        if(MenuStartController.__instance){
+            return MenuStartController.__instance;
         }
-
-        addListener() {
-            this.page_parts.get("AppName").querySelector(".appname").addEventListener('click', event => {
-                event.preventDefault();
-                if(this.session.isAuth) {
-                    this.router.go('/menu');
-                } else {
-                    this.router.go('/');
-                }
-            });
-
-            document.getElementById('menuStart_signIn').addEventListener('click', event => {
-                event.preventDefault();
-                this.router.go('/signin');
-            });
-            document.getElementById('menuStart_aboutUs').addEventListener('click', event => {
-                event.preventDefault();
-                this.router.go('/aboutus');
-            });
-            document.getElementById('menuStart_rules').addEventListener('click', event => {
-                event.preventDefault();
-                this.router.go('/rules');
-            });
-        }
-
-        resume() {
-            this.show();
-        }
-
-        show() {
-            this.page_parts.get("AppName").hidden = false;
-            if (this.session.isAuth) {
-                this.router.go('/menu');
-            }
-            else {
-                this.page_parts.get("MenuStart").hidden = false;
-            }
-            this.page_parts.get("Footer").hidden = false;
-        }
-
-        hide() {
-            this.page_parts.get("AppName").hidden = true;
-            this.page_parts.get("MenuStart").hidden = true;
-            this.page_parts.get("Footer").hidden = true;
-        }
+        super(opt);
+        MenuStartController.__instance = this;
+        this.addListener();
     }
 
-    window.MenuStartController = MenuStartController;
-}());
+    addListener() {
+        this.page_parts.get("AppName").querySelector(".appname").addEventListener('click', event => {
+            event.preventDefault();
+            this.router.go("/");
+        });
+
+        document.getElementById('menuStart_signIn').addEventListener('click', event => {
+            event.preventDefault();
+            this.router.go('/signin');
+        });
+        document.getElementById('menuStart_aboutUs').addEventListener('click', event => {
+            event.preventDefault();
+            this.router.go('/aboutus');
+        });
+        document.getElementById('menuStart_rules').addEventListener('click', event => {
+            event.preventDefault();
+            this.router.go('/rules');
+        });
+    }
+
+    resume() {
+        this.show();
+    }
+
+    show() {
+        this.page_parts.get("AppName").hidden = false;
+        if (this.session.isAuth) {
+            this.router.go('/');
+        }
+        else {
+            this.page_parts.get("MenuStart").hidden = false;
+        }
+        this.page_parts.get("Footer").hidden = false;
+    }
+
+    hide() {
+        this.page_parts.get("AppName").hidden = true;
+        this.page_parts.get("MenuStart").hidden = true;
+        this.page_parts.get("Footer").hidden = true;
+    }
+}
+
+export default MenuStartController;

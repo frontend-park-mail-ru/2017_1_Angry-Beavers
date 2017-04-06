@@ -4,10 +4,13 @@
 
 'use strict';
 
-(function () {
-    window.AppName = function () {
-        let container = document.createElement('div');
-        container.innerHTML = pugAppName();
-        return container;
-    }
-}());
+import './AppName.css';
+import pugAppName from './AppName.pug';
+
+const AppName = function () {
+    let container = document.createElement('div');
+    container.innerHTML = pugAppName();
+    return container;
+};
+
+export default AppName;
