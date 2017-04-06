@@ -2,6 +2,7 @@ import Router from './modules/router';
 import CreatePage from './views/CreatePage';
 import Session from './modules/session';
 
+import AboutUsController from './controllers/AboutUsController';
 import MenuStartController from './controllers/MenuStartController';
 import MenuGameController from './controllers/MenuGameController';
 import SignInController from './controllers/SignInController';
@@ -9,7 +10,6 @@ import SignUpController from './controllers/SignUpController';
 import ScoreListController from './controllers/ScoreListController';
 
 let Page = new CreatePage();
-let AboutUsController = window.AboutUsController;
 let RulesController = window.RulesController;
 
 const session = new Session();
