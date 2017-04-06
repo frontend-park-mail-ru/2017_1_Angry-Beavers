@@ -4,7 +4,9 @@
 
 'use strict';
 
-class SignInController extends window.View {
+import View from '../modules/view';
+
+class SignInController extends View {
     constructor(opt = {}) {
         super(opt);
         this.addListener();

@@ -4,7 +4,9 @@
 
 'use strict';
 
-class RulesController extends window.View {
+import View from '../modules/view';
+
+class RulesController extends View {
     constructor(opt = {}) {
         super(opt);
         this.addListener();

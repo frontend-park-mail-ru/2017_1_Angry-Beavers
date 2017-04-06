@@ -4,7 +4,9 @@
 
 'use strict';
 
-class MenuGameController extends window.View {
+import View from '../modules/view';
+
+class MenuGameController extends View {
     constructor(opt = {}) {
         super(opt);
         this.addListener();
