@@ -7,7 +7,7 @@
 (function () {
     class MenuStartController extends window.View {
         constructor(opt = {}) {
-            super(opt.user);
+            super(opt);
             this.addListener();
         }
 
