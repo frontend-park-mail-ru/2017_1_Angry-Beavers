@@ -8,9 +8,9 @@ import MenuGameController from './controllers/MenuGameController';
 import SignInController from './controllers/SignInController';
 import SignUpController from './controllers/SignUpController';
 import ScoreListController from './controllers/ScoreListController';
+import RulesController from './controllers/RulesController';
 
 let Page = new CreatePage();
-let RulesController = window.RulesController;
 
 const session = new Session();
 (new Router())
