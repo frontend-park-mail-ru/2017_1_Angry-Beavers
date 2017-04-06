@@ -4,7 +4,7 @@
 
 'use strict';
 
-const Session = require("../public/static/modules/session");
+import Session from "../public/static/modules/session";
 
 const session = new Session();
 
