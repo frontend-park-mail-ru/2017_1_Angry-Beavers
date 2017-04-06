@@ -4,11 +4,9 @@
 
 'use strict';
 
-let isBrowser = true;
-
+let isBrowser = typeof navigator !== "undefined";
 if (!isBrowser) {
-    // todo: решить проблему с fetch на тестах
-    // var fetch = require('node-fetch');
+    var fetch = require('node-fetch');
 }
 
 
