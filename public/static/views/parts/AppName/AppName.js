@@ -5,6 +5,7 @@
 'use strict';
 
 import './AppName.css';
+import pugAppName from './AppName.pug';
 
 const AppName = function () {
     let container = document.createElement('div');
