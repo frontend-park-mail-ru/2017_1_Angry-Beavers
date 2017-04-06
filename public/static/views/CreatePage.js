@@ -8,6 +8,7 @@ import AppName from './parts/AppName/AppName';
 import AboutUs from './parts/AboutUs/AboutUs';
 import Footer from './parts/Footer/Footer';
 import FormSignIn from './parts/FormSignIn/FormSignIn';
+import FormSignUp from './parts/FormSignUp/FormSignUp';
 
 class CreatePage {
     constructor() {
@@ -23,7 +24,7 @@ class CreatePage {
         this.addParts(this.body, "MenuStart", window.MenuStart());
         this.addParts(this.body, "MenuGame", window.MenuGame());
         this.addParts(this.body, "SignIn", FormSignIn());
-        this.addParts(this.body, "SignUp", window.FormSignUp());
+        this.addParts(this.body, "SignUp", FormSignUp());
         this.addParts(this.body, "ScoreList", window.ScoreList());
         this.addParts(this.body, "AboutUs", AboutUs());
         this.addParts(this.body, "Rules", window.Rules());
