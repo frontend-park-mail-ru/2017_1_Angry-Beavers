@@ -4,6 +4,7 @@
 
 'use strict';
 
+import './AboutUs.css';
 import BorderConstruct from '../../constructs/BorderConstruct/BorderConstruct';
 
 const RIGHT_IMG = "images/Dance.png";

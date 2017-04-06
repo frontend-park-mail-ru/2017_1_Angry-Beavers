@@ -4,6 +4,8 @@
 
 'use strict';
 
+import MenuConstruct from '../../constructs/MenuConstruct/MenuConstruct';
+
 const ITEMS = [
     {
         id: "menuStart_signIn",

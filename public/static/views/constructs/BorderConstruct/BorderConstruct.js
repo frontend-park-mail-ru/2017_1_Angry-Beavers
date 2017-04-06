@@ -4,6 +4,8 @@
 
 'use strict';
 
+import './BorderConstruct.css';
+
 const BorderConstruct = function Border(opt = {}) {
     let container = document.createElement('div');
     container.innerHTML = pugBorderConstruct({

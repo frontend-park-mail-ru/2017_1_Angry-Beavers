@@ -4,6 +4,8 @@
 
 'use strict';
 
+import './ScoreList.css';
+
 import BorderConstruct from '../../constructs/BorderConstruct/BorderConstruct';
 
 const RIGHT_IMG = "images/Scorelist.png";
