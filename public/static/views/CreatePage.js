@@ -4,6 +4,8 @@
 
 'use strict';
 
+import AppName from './parts/AppName/AppName';
+
 class CreatePage {
     constructor() {
         if (CreatePage.__instance) {
@@ -14,7 +16,7 @@ class CreatePage {
         this.parts = new Map();
         this.links.push();
 
-        this.addParts(this.body, "AppName", window.AppName());
+        this.addParts(this.body, "AppName", AppName());
         this.addParts(this.body, "MenuStart", window.MenuStart());
         this.addParts(this.body, "MenuGame", window.MenuGame());
         this.addParts(this.body, "SignIn", window.FormSignIn());
