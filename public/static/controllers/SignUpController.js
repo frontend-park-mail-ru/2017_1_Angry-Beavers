@@ -9,10 +9,7 @@
         }
 
         addListener() {
-            this.page_parts.get("AppName").querySelector(".appname").addEventListener('click', event => {
-                event.preventDefault();
-                this.router.go("/");
-            });
+
             document.getElementById('formSignUp_signUpBtn').addEventListener('click', event => {
                 event.preventDefault();
 

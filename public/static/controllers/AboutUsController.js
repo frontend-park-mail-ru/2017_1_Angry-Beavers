@@ -9,10 +9,6 @@
         }
 
         addListener() {
-            this.page_parts.get("AppName").addEventListener('click', event => {
-                event.preventDefault();
-                this.router.go("/");
-            });
         }
 
         resume() {
