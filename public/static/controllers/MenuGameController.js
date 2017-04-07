@@ -8,7 +8,7 @@ import View from '../modules/view';
 
 class MenuGameController extends View {
     constructor(opt = {}) {
-        if(MenuGameController.__instance){
+        if (MenuGameController.__instance) {
             return MenuGameController.__instance;
         }
         super(opt);
@@ -17,6 +17,21 @@ class MenuGameController extends View {
     }
 
     addListener() {
+        this.page_parts.get("UserHeader").querySelector(".userheader-appname").addEventListener('click', event => {
+            event.preventDefault();
+            this.router.go("/menu");
+        });
+
+        document.getElementById("userheader_logout").addEventListener('click', event => {
+            event.preventDefault();
+            this.session.logout()
+                .then(() => {
+                    this.router.go('/');
+                })
+                .catch(e => {
+                    alert(e);
+                });
+        });
         document.getElementById("menuGame_play").addEventListener('click', event => {
             event.preventDefault();
             this.router.go('/play');
@@ -41,18 +56,21 @@ class MenuGameController extends View {
     }
 
     show() {
-        this.page_parts.get("AppName").hidden = false;
+        this.page_parts.get("UserHeader").hidden = false;
         if (!this.session.isAuth) {
             this.router.go('/signin');
         }
         else {
             this.page_parts.get("MenuGame").hidden = false;
+
+            document.getElementById('userheader_login').innerHTML = this.session.user.login;
+            document.getElementById('userheader_score').innerHTML = this.session.user.score;
         }
         this.page_parts.get("Footer").hidden = false;
     }
 
     hide() {
-        this.page_parts.get("AppName").hidden = true;
+        this.page_parts.get("UserHeader").hidden = true;
         this.page_parts.get("MenuGame").hidden = true;
         this.page_parts.get("Footer").hidden = true;
     }

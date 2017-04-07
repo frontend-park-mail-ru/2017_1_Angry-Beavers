@@ -5,10 +5,7 @@
 'use strict';
 
 let isBrowser = typeof navigator !== "undefined";
-if (!isBrowser) {
-    var fetch = require('node-fetch');
-}
-
+let fetch = isBrowser ? window.fetch : require('node-fetch');
 
 const DEFAULT_HOST = 'jokinghazardserver.herokuapp.com';
 
@@ -17,6 +14,7 @@ class Session {
         options = options || {};
 
         this._host = options.host || DEFAULT_HOST;
+        this._user = null;
 
         this._cookies = '';
     }
@@ -95,7 +93,10 @@ class Session {
     };
 
     logout() {
-        return this._call('POST', 'user/logout');
+        return this._call('POST', 'user/logout')
+            .then(() => {
+                this._user = null;
+            });
     };
 
     deleteUser() {
