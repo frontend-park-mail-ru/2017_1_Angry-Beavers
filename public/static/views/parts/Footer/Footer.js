@@ -1,12 +1,21 @@
 /**
  * Created by pacman29 on 22.02.17.
  */
-(function () {
-    let footerTemplate = template;
-    window.Footer = function (opt) {
-        let footer = document.createElement('footer');
-        footer.setAttribute('class', 'text-center footer');
-        footer.innerHTML = footerTemplate({_css: opt.class, text: opt.text});
-        return footer;
-    };
-}());
+
+'use strict';
+
+import './Footer.css';
+import pugFooter from './Footer.pug';
+
+const TEXT = "Copyright © Angry Beavers. All rights reserved.";
+
+const Footer = function () {
+    let footer = document.createElement('footer');
+    footer.setAttribute('class', 'text-center footer');
+    footer.innerHTML = pugFooter({
+        text: TEXT
+    });
+    return footer;
+};
+
+export default Footer;

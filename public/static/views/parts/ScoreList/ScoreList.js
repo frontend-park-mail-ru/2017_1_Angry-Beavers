@@ -1,37 +1,50 @@
 /**
  * Created by pacman29 on 05.03.17.
  */
-(function () {
-    let scoreListTemplate = template;
-    function row(opt) {
-        let tr = document.createElement('tr');
-        if (opt.hasOwnProperty('class')) {
-            tr.setAttribute('class', opt.class);
-        }
-        let row = opt.row;
-        tr.innerHTML = scoreListTemplate({position: row.position, nickname: row.nickname, score: row.score});
-        return tr;
-    }
 
-    window.ScoreList = function (opt, players) {
-        let table = document.createElement('table');
-        table.setAttribute('class', 'score_list');
-        let header = row({
-            class: "header",
-            row: {
-                position: "#",
-                nickname: "nickname",
-                score: "score"
-            }
-        });
+'use strict';
 
-        table.appendChild(header);
+import './ScoreList.css';
+import pugScoreList from './ScoreList.pug';
 
-        players.forEach(item => {
-            let tmp = {row: item};
-            table.appendChild(row(tmp));
-        });
+import BorderConstruct from '../../constructs/BorderConstruct/BorderConstruct';
 
-        return table;
-    }
-}());
+const RIGHT_IMG = "images/Scorelist.png";
+const PLAYERS = [
+    {
+        position: "1",
+        nickname: "lol_1",
+        score: "999"
+    },
+    {
+        position: "2",
+        nickname: "lol_2",
+        score: "888"
+    },
+    {
+        position: "3",
+        nickname: "lol_3",
+        score: "777"
+    },
+];
+const YOU = {
+    position: "1337",
+    nickname: "Andrew",
+    score: "-7"
+};
+
+const ScoreList = function () {
+    let div = document.createElement('div');
+
+    div.innerHTML = pugScoreList({
+        topPlayers: PLAYERS,
+        player: YOU
+    });
+
+    return BorderConstruct({
+        el: div,
+        img: RIGHT_IMG
+    });
+};
+
+export default ScoreList;
