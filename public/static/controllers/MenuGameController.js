@@ -8,7 +8,7 @@ import View from '../modules/view';
 
 class MenuGameController extends View {
     constructor(opt = {}) {
-        if(MenuGameController.__instance){
+        if (MenuGameController.__instance) {
             return MenuGameController.__instance;
         }
         super(opt);
@@ -17,6 +17,16 @@ class MenuGameController extends View {
     }
 
     addListener() {
+        document.getElementById("userheader_logout").addEventListener('click', event => {
+            event.preventDefault();
+            this.session.logout()
+                .then(() => {
+                    this.router.go('/');
+                })
+                .catch(e => {
+                    alert(e);
+                });
+        });
         document.getElementById("menuGame_play").addEventListener('click', event => {
             event.preventDefault();
             this.router.go('/play');
