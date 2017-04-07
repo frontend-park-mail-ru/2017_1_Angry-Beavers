@@ -76,6 +76,7 @@ class Session {
         }).then(() => {
             _this._user = {}; // todo: in ES6 rewrite with new User
             _this._user.login = login;
+            _this._user.score = 0;
         });
     };
 
@@ -89,6 +90,7 @@ class Session {
             _this._user = {}; // todo: in ES6 rewrite with new User
             _this._user.login = login;
             _this._user.email = email;
+            _this._user.score = 0;
         });
     };
 
