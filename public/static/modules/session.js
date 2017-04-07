@@ -5,10 +5,7 @@
 'use strict';
 
 let isBrowser = typeof navigator !== "undefined";
-if (!isBrowser) {
-    var fetch = require('node-fetch');
-}
-
+let fetch = isBrowser ? window.fetch : require('node-fetch');
 
 const DEFAULT_HOST = 'jokinghazardserver.herokuapp.com';
 
