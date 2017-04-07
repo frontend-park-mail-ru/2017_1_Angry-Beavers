@@ -7,7 +7,7 @@ import View from '../modules/view';
 
 class RulesController extends View {
     constructor(opt = {}) {
-        if(RulesController.__instance){
+        if (RulesController.__instance) {
             return RulesController.__instance;
         }
         super(opt);
@@ -18,7 +18,7 @@ class RulesController extends View {
     addListener() {
         this.page_parts.get("AppName").querySelector(".appname").addEventListener('click', event => {
             event.preventDefault();
-            if(this.session.isAuth){
+            if (this.session.isAuth) {
                 this.router.go("/menu");
             } else {
                 this.router.go("/");
@@ -32,13 +32,21 @@ class RulesController extends View {
     }
 
     show() {
-        this.page_parts.get("AppName").hidden = false;
+        if (this.session.isAuth) {
+            this.page_parts.get("UserHeader").hidden = false;
+        } else {
+            this.page_parts.get("AppName").hidden = false;
+        }
         this.page_parts.get("Rules").hidden = false;
         this.page_parts.get("Footer").hidden = false;
     }
 
     hide() {
-        this.page_parts.get("AppName").hidden = true;
+        if (this.session.isAuth) {
+            this.page_parts.get("UserHeader").hidden = true;
+        } else {
+            this.page_parts.get("AppName").hidden = true;
+        }
         this.page_parts.get("Rules").hidden = true;
         this.page_parts.get("Footer").hidden = true;
     }
