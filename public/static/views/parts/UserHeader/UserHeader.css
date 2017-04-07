@@ -1,0 +1,35 @@
+.userheader-appname .userheader-appname-brand {
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+    font-size: 42px;
+    font-weight: bold;
+    color: #FFFFFF;
+    text-align: center;
+    text-shadow: -0 0 1px #000000, 0 -4px 1px #000000, -0 4px 1px #000000, 0 4px 1px #000000, -4px -0 1px #000000, 4px -0 1px #000000, -4px 0 1px #000000, 4px 0 1px #000000, -1px -4px 1px #000000, 1px -4px 1px #000000, -1px 4px 1px #000000, 1px 4px 1px #000000, -4px -1px 1px #000000, 4px -1px 1px #000000, -4px 1px 1px #000000, 4px 1px 1px #000000, -2px -4px 1px #000000, 2px -4px 1px #000000, -2px 4px 1px #000000, 2px 4px 1px #000000, -4px -2px 1px #000000, 4px -2px 1px #000000, -4px 2px 1px #000000, 4px 2px 1px #000000, -3px -4px 1px #000000, 3px -4px 1px #000000, -3px 4px 1px #000000, 3px 4px 1px #000000, -4px -3px 1px #000000, 4px -3px 1px #000000, -4px 3px 1px #000000, 4px 3px 1px #000000, -4px -4px 1px #000000, 4px -4px 1px #000000, -4px 4px 1px #000000, 4px 4px 1px #000000, -4px -4px 1px #000000, 4px -4px 1px #000000, -4px 4px 1px #000000, 4px 4px 1px #000000;
+}
+
+.userheader-appname .userheader-appname-brand.userheader-appname-brand-joking {
+    color: #88C1D8;
+}
+
+.userheader-appname .userheader-appname-brand.userheader-appname-brand-joking:hover {
+    color: #42A045;
+}
+
+.userheader-appname .userheader-appname-brand.userheader-appname-brand-hazard {
+    color: #42A045;
+}
+
+.userheader-appname .userheader-appname-brand.userheader-appname-brand-hazard:hover {
+    color: #88C1D8;
+}
+
+.userheader-login {
+    text-align: center;
+}
+
+.userheader-logout {
+    margin-top: 1%;
+    height: 50px;
+}
