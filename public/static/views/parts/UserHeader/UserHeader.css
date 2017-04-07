@@ -30,7 +30,9 @@
 }
 
 .userheader-logout {
-    margin-top: 1%;
+    margin-top: 5%;
+    height: 50px;
+    width: auto;
 }
 
 .userheader-login {
