@@ -28,11 +28,7 @@ class CreatePage {
         this.links.push();
 
         this.addParts(this.body, "AppName", AppName());
-        this.addParts(this.body, "UserHeader", UserHeader(new User({
-            login: "login",
-            email: "email",
-            score: "score"
-        })));
+        this.addParts(this.body, "UserHeader", UserHeader());
         this.addParts(this.body, "MenuStart", MenuStart());
         this.addParts(this.body, "MenuGame", MenuGame());
         this.addParts(this.body, "SignIn", FormSignIn());

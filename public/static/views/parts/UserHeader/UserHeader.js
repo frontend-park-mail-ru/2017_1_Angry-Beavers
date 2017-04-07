@@ -7,11 +7,9 @@
 import './UserHeader.css';
 import pugUserHeader from './UserHeader.pug';
 
-const UserHeader = function (user) {
+const UserHeader = function () {
     let div = document.createElement('div');
-    div.innerHTML = pugUserHeader({
-        user: user
-    });
+    div.innerHTML = pugUserHeader();
     return div;
 };
 
