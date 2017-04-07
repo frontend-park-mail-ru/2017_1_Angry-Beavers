@@ -13,6 +13,9 @@ import MenuStart from './parts/MenuStart/MenuStart';
 import MenuGame from './parts/MenuGame/MenuGame';
 import ScoreList from './parts/ScoreList/ScoreList';
 import Rules from './parts/Rules/Rules';
+import UserHeader from './parts/UserHeader/UserHeader';
+
+import User from '../models/user';
 
 class CreatePage {
     constructor() {
@@ -25,6 +28,11 @@ class CreatePage {
         this.links.push();
 
         this.addParts(this.body, "AppName", AppName());
+        this.addParts(this.body, "UserHeader", UserHeader(new User({
+            login: "login",
+            email: "email",
+            score: "score"
+        })));
         this.addParts(this.body, "MenuStart", MenuStart());
         this.addParts(this.body, "MenuGame", MenuGame());
         this.addParts(this.body, "SignIn", FormSignIn());
