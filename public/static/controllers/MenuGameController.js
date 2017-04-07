@@ -17,8 +17,6 @@ class MenuGameController extends View {
     }
 
     addListener() {
-        document.getElementById('userheader_login').innerHTML = this.session.user.login;
-        document.getElementById('userheader_score').innerHTML = this.session.user.score;
         this.page_parts.get("UserHeader").querySelector(".userheader-appname").addEventListener('click', event => {
             event.preventDefault();
             this.router.go("/menu");
@@ -64,6 +62,9 @@ class MenuGameController extends View {
         }
         else {
             this.page_parts.get("MenuGame").hidden = false;
+
+            document.getElementById('userheader_login').innerHTML = this.session.user.login;
+            document.getElementById('userheader_score').innerHTML = this.session.user.score;
         }
         this.page_parts.get("Footer").hidden = false;
     }
