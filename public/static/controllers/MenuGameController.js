@@ -58,8 +58,8 @@ class MenuGameController extends View {
     }
 
     show() {
-        if (!this.session.isAuth) {
         this.page_parts.get("UserHeader").hidden = false;
+        if (!this.session.isAuth) {
             this.router.go('/signin');
         }
         else {
