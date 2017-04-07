@@ -1,0 +1,42 @@
+.formconstruct-form {
+    align-self: center;
+    width: inherit;
+}
+
+.formconstruct-group {
+    align-self: center;
+}
+
+.formconstruct-title {
+    font-family: DigitalStrip;
+    display: block;
+    text-align: center;
+}
+
+.formconstruct-input-text {
+    margin: 2px;
+    min-height: 35px;
+    width: 80%;
+    text-align: center;
+    font-family: Arial;
+    font-size: large;
+}
+
+.formconstruct-buttons {
+    align-self: center;
+}
+
+.formconstruct-button {
+    font-family: DigitalStrip;
+    border-radius: 12px;
+    border: 4px solid black;
+    font-size: medium;
+    color: white;
+    background-color: #42A045;
+    margin: 2px;
+    width: 35%;
+}
+
+.formconstruct-button:hover {
+    background-color: #3f8b42;
+}
