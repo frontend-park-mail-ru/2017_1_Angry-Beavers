@@ -17,6 +17,17 @@ class SignInController extends View {
     }
 
     addListener() {
+        //
+        this.page_parts.get("AppName").querySelector(".appname").addEventListener('click', event => {
+            event.preventDefault();
+            if(this.session.isAuth){
+                this.router.go("/menu");
+            } else {
+                this.router.go("/");
+            }
+
+        });
+
         document.getElementById("formSignIn_signInBtn").addEventListener('click', event => {
             event.preventDefault();
 
