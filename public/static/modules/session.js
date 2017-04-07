@@ -17,6 +17,7 @@ class Session {
         options = options || {};
 
         this._host = options.host || DEFAULT_HOST;
+        this._user = null;
 
         this._cookies = '';
     }
@@ -95,7 +96,10 @@ class Session {
     };
 
     logout() {
-        return this._call('POST', 'user/logout');
+        return this._call('POST', 'user/logout')
+            .then(() => {
+                this._user = null;
+            });
     };
 
     deleteUser() {
