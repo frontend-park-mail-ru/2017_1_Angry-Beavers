@@ -19,6 +19,10 @@ class MenuGameController extends View {
     addListener() {
         document.getElementById('userheader_login').innerHTML = this.session.user.login;
         document.getElementById('userheader_score').innerHTML = this.session.user.score;
+        this.page_parts.get("UserHeader").querySelector(".userheader-appname").addEventListener('click', event => {
+            event.preventDefault();
+            this.router.go("/menu");
+        });
 
         document.getElementById("userheader_logout").addEventListener('click', event => {
             event.preventDefault();
