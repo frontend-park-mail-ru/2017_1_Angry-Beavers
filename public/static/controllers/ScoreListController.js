@@ -7,7 +7,7 @@ import View from '../modules/view';
 
 class ScoreListController extends View {
     constructor(opt = {}) {
-        if(ScoreListController.__instance){
+        if (ScoreListController.__instance) {
             return ScoreListController.__instance;
         }
         super(opt);
@@ -23,10 +23,10 @@ class ScoreListController extends View {
     }
 
     show() {
-        this.page_parts.get("AppName").hidden = false;
         if (!this.session.isAuth) {
             this.router.go('/signin');
         } else {
+            this.page_parts.get("UserHeader").hidden = false;
             this.page_parts.get("ScoreList").hidden = false;
         }
 
@@ -38,7 +38,7 @@ class ScoreListController extends View {
     }
 
     hide() {
-        this.page_parts.get("AppName").hidden = true;
+        this.page_parts.get("UserHeader").hidden = true;
         this.page_parts.get("ScoreList").hidden = true;
         this.page_parts.get("Footer").hidden = true;
     }
