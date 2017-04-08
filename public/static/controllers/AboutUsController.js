@@ -42,11 +42,7 @@ class AboutUsController extends View {
     }
 
     hide() {
-        if (this.session.isAuth) {
-            this.page_parts.get("UserHeader").hidden = true;
-        } else {
-            this.page_parts.get("AppName").hidden = true;
-        }
+        this.page_parts.get("UserHeader").hidden = true;
         this.page_parts.get("AppName").hidden = true;
         this.page_parts.get("AboutUs").hidden = true;
         this.page_parts.get("Footer").hidden = true;
