@@ -13,12 +13,23 @@ import RulesController from './controllers/RulesController';
 const page = new CreatePage();
 const session = new Session();
 
-(new Router())
-    .addRoute('/', MenuStartController, {session: session, page: page})
-    .addRoute('/signin', SignInController, {session: session, page: page})
-    .addRoute('/signup', SignUpController, {session: session, page: page})
-    .addRoute('/menu', MenuGameController, {session: session, page: page})
-    .addRoute('/scorelist', ScoreListController, {session: session, page: page})
-    .addRoute('/aboutus', AboutUsController, {session: session, page: page})
-    .addRoute('/rules', RulesController, {session: session, page: page})
-    .start();
+const createSession = function () {
+    const router = new Router();
+    router
+        .addRoute('/', MenuStartController, {session: session, page: page})
+        .addRoute('/signin', SignInController, {session: session, page: page})
+        .addRoute('/signup', SignUpController, {session: session, page: page})
+        .addRoute('/menu', MenuGameController, {session: session, page: page})
+        .addRoute('/scorelist', ScoreListController, {session: session, page: page})
+        .addRoute('/aboutus', AboutUsController, {session: session, page: page})
+        .addRoute('/rules', RulesController, {session: session, page: page})
+        .start();
+    return router;
+};
+
+// try to restore session
+session.userData()
+    .then(createSession)
+    .catch(createSession);
+
+
