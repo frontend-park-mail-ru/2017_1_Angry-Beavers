@@ -68,16 +68,16 @@ class Session {
             });
     }
 
-    userData(){
+    userData() {
         let _this = this;
-        return this._call('SET', 'user/data')
+        return this._call('GET', 'user/data')
             .then(response => {
-            _this._user = {}; // todo: in ES6 rewrite with new User
-            _this._user.login = response.userLogin;
-            _this._user.email = response.userMail;
-            _this._user.score = 0;
-            return response;
-        });
+                _this._user = {}; // todo: in ES6 rewrite with new User
+                _this._user.login = response.userLogin;
+                _this._user.email = response.userMail;
+                _this._user.score = 0;
+                return response;
+            });
     }
 
     login(login, password) {
