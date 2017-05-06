@@ -34,6 +34,8 @@ class AboutUsController extends View {
     show() {
         if (this.session.isAuth) {
             this.page_parts.get("UserHeader").hidden = false;
+            document.getElementById('userheader_login').innerHTML = this.session.user.login;
+            document.getElementById('userheader_score').innerHTML = this.session.user.score;
         } else {
             this.page_parts.get("AppName").hidden = false;
         }
