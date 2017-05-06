@@ -1,39 +1,56 @@
 /**
  * Created by pacman29 on 08.03.17.
  */
-(function () {
-    class RulesController extends window.View {
-        constructor(opt = {}) {
-            super(opt.user);
-            this.user = opt.user;
-            this.page_parts = opt.page.getParts();
-            this.addListener();
-        }
+'use strict';
 
-        addListener() {
-            this.page_parts.get("AppName").querySelector(".my_ref").addEventListener('click', event => {
-                event.preventDefault();
-                this.router.go("/");
-            });
-        }
+import View from '../modules/view';
 
-        resume() {
-            this.show();
+class RulesController extends View {
+    constructor(opt = {}) {
+        if (RulesController.__instance) {
+            return RulesController.__instance;
         }
-
-        show() {
-            this.page_parts.get("AppName").hidden = false;
-            this.page_parts.get("Rules").hidden = false;
-            this.page_parts.get("Footer").hidden = false;
-        }
-
-        hide() {
-            this.page_parts.get("AppName").hidden = true;
-            this.page_parts.get("Rules").hidden = true;
-            this.page_parts.get("Footer").hidden = true;
-        }
-
+        super(opt);
+        RulesController.__instance = this;
+        this.addListener();
     }
 
-    window.RulesController = RulesController;
-}());
+    addListener() {
+        this.page_parts.get("AppName").querySelector(".appname").addEventListener('click', event => {
+            event.preventDefault();
+            if (this.session.isAuth) {
+                this.router.go("/menu");
+            } else {
+                this.router.go("/");
+            }
+
+        });
+    }
+
+    resume() {
+        this.show();
+    }
+
+    show() {
+        if (this.session.isAuth) {
+            this.page_parts.get("UserHeader").hidden = false;
+        } else {
+            this.page_parts.get("AppName").hidden = false;
+        }
+        this.page_parts.get("Rules").hidden = false;
+        this.page_parts.get("Footer").hidden = false;
+    }
+
+    hide() {
+        if (this.session.isAuth) {
+            this.page_parts.get("UserHeader").hidden = true;
+        } else {
+            this.page_parts.get("AppName").hidden = true;
+        }
+        this.page_parts.get("Rules").hidden = true;
+        this.page_parts.get("Footer").hidden = true;
+    }
+
+}
+
+export default RulesController;
