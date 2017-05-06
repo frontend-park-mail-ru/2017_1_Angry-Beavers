@@ -48,7 +48,7 @@ class MenuStartController extends View {
     show() {
         this.page_parts.get("AppName").hidden = false;
         if (this.session.isAuth) {
-            this.router.go('/');
+            this.router.go('/menu');
         }
         else {
             this.page_parts.get("MenuStart").hidden = false;
