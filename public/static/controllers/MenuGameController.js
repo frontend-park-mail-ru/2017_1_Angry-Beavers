@@ -34,6 +34,7 @@ class MenuGameController extends View {
         });
         document.getElementById("menuGame_play").addEventListener('click', event => {
             event.preventDefault();
+            window.location.href = "https://lieroz.github.io/#6";
             this.router.go('/play');
         });
         document.getElementById("menuGame_score").addEventListener('click', event => {
