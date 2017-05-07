@@ -8,7 +8,7 @@ import View from '../modules/view';
 
 class MenuStartController extends View {
     constructor(opt = {}) {
-        if(MenuStartController.__instance){
+        if (MenuStartController.__instance) {
             return MenuStartController.__instance;
         }
         super(opt);
@@ -19,8 +19,10 @@ class MenuStartController extends View {
     addListener() {
         this.page_parts.get("AppName").querySelector(".appname").addEventListener('click', event => {
             event.preventDefault();
-            if(this.session.isAuth){
+            if (this.session.isAuth) {
                 this.router.go("/menu");
+            } else if (this.session._lobby || this.session.game) {
+
             } else {
                 this.router.go("/");
             }
