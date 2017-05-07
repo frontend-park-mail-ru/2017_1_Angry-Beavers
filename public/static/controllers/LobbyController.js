@@ -34,7 +34,15 @@ class LobbyController extends View {
             document.getElementById('userheader_login').innerHTML = this.session.user.login;
             document.getElementById('userheader_score').innerHTML = this.session.user.score;
 
-            this.session.startGame();
+            let lobby = this.session.createLobby();
+            lobby.onInfo = function (data) {
+                alert(JSON.stringify(data));
+            };
+            lobby.onClosed = (function () {
+                this.router.go('/');
+            }).bind(this);
+
+            lobby.start();
         }
     }
 

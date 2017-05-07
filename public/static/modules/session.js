@@ -75,11 +75,11 @@ class Session {
             });
     }
 
-    startGame() {
+    createLobby() {
         if (!this._lobby) {
             this._lobby = new Lobby(this);
         }
-        this._lobby.start();
+        return this._lobby;
     }
 
     userData() {
