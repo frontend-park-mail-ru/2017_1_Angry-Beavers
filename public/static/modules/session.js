@@ -4,6 +4,8 @@
 
 'use strict';
 
+import Lobby from '../models/lobby';
+
 let isBrowser = typeof navigator !== "undefined";
 let fetch = isBrowser ? window.fetch : require('node-fetch');
 
@@ -15,6 +17,7 @@ class Session {
 
         this._host = options.host || DEFAULT_HOST;
         this._user = null;
+        this._lobby = null;
 
         this._cookies = '';
     }
@@ -22,6 +25,10 @@ class Session {
     get user() {
         // todo: get user data from backend
         return this._user;
+    }
+
+    get game() {
+        return this._game;
     }
 
     get isAuth() {
@@ -66,6 +73,13 @@ class Session {
                     return response.data;
                 }
             });
+    }
+
+    startGame() {
+        if (!this._lobby) {
+            this._lobby = new Lobby(this);
+        }
+        this._lobby.start();
     }
 
     userData() {
