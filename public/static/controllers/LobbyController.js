@@ -35,8 +35,10 @@ class LobbyController extends View {
             document.getElementById('userheader_login').innerHTML = this.session.user.login;
             document.getElementById('userheader_score').innerHTML = this.session.user.score;
             document.getElementById('lobby_users').innerHTML = '';
+
             let lobby = this.session.createLobby();
-            lobby.onInfo = function (data) {
+
+            const onInfo = function (data) {
                 document.getElementById('lobby_title').innerHTML = `Ожидаем игроков (${data.maxNumber})`;
                 data.users.forEach(u => {
                     let user = document.createElement('label');
@@ -45,16 +47,22 @@ class LobbyController extends View {
                     document.getElementById('lobby_users').appendChild(document.createElement('hr'));
                 });
             };
-            lobby.onClosed = (function () {
-                this.router.go('/');
-            }).bind(this);
-            lobby.onUserAdd = function (data) {
+
+            const onUserAdd = function (data) {
                 let user = document.createElement('label');
                 user.innerHTML = data.user.userLogin;
                 document.getElementById('lobby_users').appendChild(user);
                 document.getElementById('lobby_users').appendChild(document.createElement('hr'));
             };
 
+            lobby.onInfo = onInfo;
+            lobby.onClosed = (function () {
+                lobby = this.session.createFakeLobby();
+                lobby.onInfo = onInfo;
+                lobby.onUserAdd = onUserAdd;
+                lobby.start();
+            }).bind(this);
+            lobby.onUserAdd = onUserAdd;
             lobby.start();
         }
     }

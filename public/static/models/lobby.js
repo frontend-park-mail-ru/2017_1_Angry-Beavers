@@ -12,11 +12,11 @@ class Lobby {
     }
 
     start() {
-        let ws = new WebSocket('wss://jokinghazardserver.herokuapp.com/lobby');
-        ws.onclose = (function () {
+        this._ws = new WebSocket('wss://jokinghazardserver.herokuapp.com/lobby');
+        this._ws.onclose = (function () {
             this._onClosed && this._onClosed();
         }).bind(this);
-        ws.onmessage = (function (evt) {
+        this._ws.onmessage = (function (evt) {
             let data = JSON.parse(evt.data);
             switch (data.type) {
                 case 'Lobby Info':
@@ -26,14 +26,24 @@ class Lobby {
                     this._onUserAdd && this._onUserAdd(data);
                     break;
                 case 'GameReadyMessage':
+                    this._onInfo = undefined;
+                    this._onClosed = undefined;
+                    this._onError = undefined;
+                    this._onUserAdd = undefined;
                     this._onGameStart && this._onGameStart(new Game(this._session));
                     break;
 
             }
         }).bind(this);
-        ws.onerror = (function () {
+        this._ws.onerror = (function () {
             this._onError && this._onError();
         }).bind(this);
+    }
+
+    stop() {
+        if (this.ws) {
+            this._ws.close();
+        }
     }
 
     get onInfo() {
