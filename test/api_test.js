@@ -4,7 +4,7 @@
 
 'use strict';
 
-import Session from "../public/static/modules/session";
+import Session from "../public/static/models/session";
 
 const session = new Session();
 
