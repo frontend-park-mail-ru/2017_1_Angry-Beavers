@@ -30,6 +30,10 @@ class Session {
         return this.user;
     }
 
+    get lobby() {
+        return this._lobby;
+    }
+
     _call(httpMethod, method, data) {
         const url = `https://${DEFAULT_HOST}/api/${method}`;
         const initPomise = {

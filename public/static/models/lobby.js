@@ -4,14 +4,14 @@
 
 'use strict';
 
-import Game from './game';
-
 class Lobby {
     constructor(session) {
         this._session = session;
     }
 
     start() {
+        this._users = [];
+
         this._ws = new WebSocket('wss://jokinghazardserver.herokuapp.com/lobby');
         this._ws.onclose = (function () {
             this._onClosed && this._onClosed();
@@ -20,17 +20,25 @@ class Lobby {
             let data = JSON.parse(evt.data);
             switch (data.type) {
                 case 'Lobby Info':
+                    this._users = data.users;
+                    this._maxNumber = data.maxNumber;
                     this._onInfo && this._onInfo(data);
                     break;
                 case 'UserAddedMessage':
+                    this._users.push(data.user);
                     this._onUserAdd && this._onUserAdd(data);
+                    break;
+                case 'UserExitedMessage':
+                    this._users = this._users.filter(a => a.userMail !== data.user.userMail && a.userLogin !== data.user.userLogin);
+                    this._onUserRemove && this._onUserRemove(data);
                     break;
                 case 'GameReadyMessage':
                     this._onInfo = undefined;
                     this._onClosed = undefined;
                     this._onError = undefined;
                     this._onUserAdd = undefined;
-                    this._onGameStart && this._onGameStart(new Game(this._session));
+                    this._onGameStart && this._onGameStart(data);
+                    this._ws.close();
                     break;
 
             }
@@ -41,9 +49,17 @@ class Lobby {
     }
 
     stop() {
-        if (this.ws) {
+        if (this._ws) {
             this._ws.close();
         }
+    }
+
+    get users() {
+        return this._users;
+    }
+
+    get maxUsersCount() {
+        return this._maxNumber;
     }
 
     get onInfo() {
@@ -60,6 +76,14 @@ class Lobby {
 
     set onUserAdd(value) {
         this._onUserAdd = value;
+    }
+
+    get onUserRemove() {
+        return this._onUserRemove;
+    }
+
+    set onUserRemove(value) {
+        this._onUserRemove = value;
     }
 
     get onGameStart() {
