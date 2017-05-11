@@ -4,31 +4,39 @@
 
 'use strict';
 
-import GameFake from './gameFake';
-
 class LobbyFake {
     constructor(session) {
         this._session = session;
     }
 
     start(userCount = 4) {
-        let users = [];
+        this._users = [];
+        this._maxNumber = userCount;
+
         for (let i = 0; i < 4; ++i) {
-            users.push({
+            this._users.push({
                 'userLogin': Math.random().toString(36).substring(Math.random() % 4 + 4),
                 'userMail': `${Math.random().toString(36).substring(Math.random() % 4 + 4)}@jk.com`
             });
         }
         this._onInfo && this._onInfo({
-            users: users,
+            users: this._users,
             maxNumber: userCount
         });
 
-        this._onGameStart && this._onGameStart(new GameFake(this._session));
+        this._onGameStart && this._onGameStart({});
     }
 
     stop() {
 
+    }
+
+    get users() {
+        return this._users;
+    }
+
+    get maxUsersCount() {
+        return this._maxNumber;
     }
 
     get onInfo() {
