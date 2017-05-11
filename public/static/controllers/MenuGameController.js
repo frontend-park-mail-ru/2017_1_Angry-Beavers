@@ -17,7 +17,7 @@ class MenuGameController extends View {
     }
 
     addListener() {
-        this.page_parts.get("UserHeader").querySelector(".userheader-appname").addEventListener('click', event => {
+        this.page_parts.get("UserHeader").querySelector(".userheader__appname").addEventListener('click', event => {
             event.preventDefault();
             this.router.go("/menu");
         });
