@@ -2,17 +2,17 @@
    Created by ed on 28.03.17.
 
 mixin row(player)
-    tr.scorelist-row
+    tr.scorelist__row
         if player
-                th.col-lg-2.scorelist-cell= player.position
-                th.col-lg-8.scorelist-cell= player.nickname
-                th.col-lg-2.scorelist-cell= player.score
+                th.col-lg-2.scorelist__cell= player.position
+                th.col-lg-8.scorelist__cell= player.nickname
+                th.col-lg-2.scorelist__cell= player.score
         else if player === 0
-                th.scorelist-separator(colspan=3)= "..."
+                th.scorelist__separator(colspan=3)= "..."
         else
-                th.col-lg-2.scorelist-head= "#"
-                th.col-lg-8.scorelist-head= "Nickname"
-                th.col-lg-2.scorelist-head= "Score"
+                th.col-lg-2.scorelist__head= "#"
+                th.col-lg-8.scorelist__head= "Nickname"
+                th.col-lg-2.scorelist__head= "Score"
 
 table.scorelist
     +row()
