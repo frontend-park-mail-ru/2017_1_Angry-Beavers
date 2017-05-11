@@ -1,4 +1,4 @@
-.userheader-appname .userheader-appname-brand {
+.userheader__appname .userheader__appname__brand {
     cursor: pointer;
     text-decoration: none;
     display: block;
@@ -9,36 +9,36 @@
     text-shadow: -0 0 1px #000000, 0 -4px 1px #000000, -0 4px 1px #000000, 0 4px 1px #000000, -4px -0 1px #000000, 4px -0 1px #000000, -4px 0 1px #000000, 4px 0 1px #000000, -1px -4px 1px #000000, 1px -4px 1px #000000, -1px 4px 1px #000000, 1px 4px 1px #000000, -4px -1px 1px #000000, 4px -1px 1px #000000, -4px 1px 1px #000000, 4px 1px 1px #000000, -2px -4px 1px #000000, 2px -4px 1px #000000, -2px 4px 1px #000000, 2px 4px 1px #000000, -4px -2px 1px #000000, 4px -2px 1px #000000, -4px 2px 1px #000000, 4px 2px 1px #000000, -3px -4px 1px #000000, 3px -4px 1px #000000, -3px 4px 1px #000000, 3px 4px 1px #000000, -4px -3px 1px #000000, 4px -3px 1px #000000, -4px 3px 1px #000000, 4px 3px 1px #000000, -4px -4px 1px #000000, 4px -4px 1px #000000, -4px 4px 1px #000000, 4px 4px 1px #000000, -4px -4px 1px #000000, 4px -4px 1px #000000, -4px 4px 1px #000000, 4px 4px 1px #000000;
 }
 
-.userheader-appname .userheader-appname-brand.userheader-appname-brand-joking {
+.userheader__appname .userheader__appname__brand.userheader__appname__brand__joking {
     color: #88C1D8;
 }
 
-.userheader-appname .userheader-appname-brand.userheader-appname-brand-joking:hover {
+.userheader__appname .userheader__appname__brand.userheader__appname__brand__joking:hover {
     color: #42A045;
 }
 
-.userheader-appname .userheader-appname-brand.userheader-appname-brand-hazard {
+.userheader__appname .userheader__appname__brand.userheader__appname__brand__hazard {
     color: #42A045;
 }
 
-.userheader-appname .userheader-appname-brand.userheader-appname-brand-hazard:hover {
+.userheader__appname .userheader__appname__brand.userheader__appname__brand__hazard:hover {
     color: #88C1D8;
 }
 
-.userheader-login {
+.userheader__login {
     text-align: center;
 }
 
-.userheader-logout {
+.userheader__logout {
     margin-top: 5%;
     height: 50px;
     width: auto;
 }
 
-.userheader-login {
+.userheader__login {
     font-family: DigitalStrip;
 }
 
-.userheader-score {
+.userheader__score {
     font-family: DigitalStrip;
 }
