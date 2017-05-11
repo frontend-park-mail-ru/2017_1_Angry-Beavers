@@ -4,6 +4,7 @@
 
 'use strict';
 
+import './Lobby.css';
 import pugLobby from './Lobby.pug';
 
 const Lobby = function () {
