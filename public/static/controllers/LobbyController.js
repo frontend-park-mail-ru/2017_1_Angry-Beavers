@@ -34,42 +34,53 @@ class LobbyController extends View {
             this.page_parts.get("Lobby").hidden = false;
             document.getElementById('userheader_login').innerHTML = this.session.user.login;
             document.getElementById('userheader_score').innerHTML = this.session.user.score;
-            document.getElementById('lobby_users').innerHTML = '';
 
-            let lobby = this.session.createLobby();
-
-            const onInfo = function (data) {
-                document.getElementById('lobby_title').innerHTML = `Ожидаем игроков (${data.maxNumber})`;
-                data.users.forEach(u => {
-                    let user = document.createElement('label');
-                    user.innerHTML = u.userLogin;
-                    document.getElementById('lobby_users').appendChild(user);
-                    document.getElementById('lobby_users').appendChild(document.createElement('hr'));
-                });
-            };
-
-            const onUserAdd = function (data) {
-                let user = document.createElement('label');
-                user.innerHTML = data.user.userLogin;
-                document.getElementById('lobby_users').appendChild(user);
-                document.getElementById('lobby_users').appendChild(document.createElement('hr'));
-            };
-
-            lobby.onInfo = onInfo;
-            lobby.onClosed = (function () {
-                lobby = this.session.createFakeLobby();
-                lobby.onInfo = onInfo;
-                lobby.onUserAdd = onUserAdd;
-                lobby.start();
-            }).bind(this);
-            lobby.onUserAdd = onUserAdd;
-            lobby.start();
+            this._startLobby();
         }
     }
 
     hide() {
+        this._stopLobby();
         this.page_parts.get("UserHeader").hidden = true;
         this.page_parts.get("Lobby").hidden = true;
+    }
+
+    _startLobby() {
+        if (this._lobby) {
+            this._lobby.stop();
+        }
+
+        let handler = this._updateInfo.bind(this);
+        this._lobby = this.session.createLobby();
+
+        this._lobby.onInfo = handler;
+        this._lobby.onClosed = (function () {
+            this._lobby = this.session.createFakeLobby();
+            this._lobby.onInfo = handler;
+            this._lobby.onUserAdd = handler;
+            this._lobby.onUserRemove = handler;
+            this._lobby.start();
+        }).bind(this);
+        this._lobby.onUserAdd = handler;
+        this._lobby.onUserRemove = handler;
+        this._lobby.start();
+    }
+
+    _stopLobby() {
+        this._lobby && this._lobby.stop();
+    }
+
+    _updateInfo() {
+        if (this._lobby) {
+            document.getElementById('lobby_users').innerHTML = '';
+            document.getElementById('lobby_title').innerHTML = `Ожидаем игроков (${this._lobby.maxUsersCount})`;
+            this._lobby.users.forEach(u => {
+                let user = document.createElement('label');
+                user.innerHTML = u.userLogin;
+                document.getElementById('lobby_users').appendChild(user);
+                document.getElementById('lobby_users').appendChild(document.createElement('hr'));
+            });
+        }
     }
 }
 

@@ -47,6 +47,14 @@ class LobbyFake {
         this._onUserAdd = value;
     }
 
+    get onUserRemove() {
+        return this._onUserRemove;
+    }
+
+    set onUserRemove(value) {
+        this._onUserRemove = value;
+    }
+
     get onGameStart() {
         return this._onGameStart;
     }
