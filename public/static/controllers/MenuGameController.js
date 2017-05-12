@@ -17,12 +17,14 @@ class MenuGameController extends View {
     }
 
     addListener() {
-        this.page_parts.get("UserHeader").querySelector(".userheader__appname").addEventListener('click', event => {
-            event.preventDefault();
-            this.router.go("/menu");
-        });
+        [...document.querySelectorAll(".userheader__appname")]
+            .concat([...document.querySelectorAll('.appname')])
+            .forEach(a => a.addEventListener('click', event => {
+                event.preventDefault();
+                this.router.go("/");
+            }));
 
-        document.getElementById("userheader_logout").addEventListener('click', event => {
+        document.querySelectorAll(".userheader__logout").forEach(a => a.addEventListener('click', event => {
             event.preventDefault();
             this.session.logout()
                 .then(() => {
@@ -31,7 +33,7 @@ class MenuGameController extends View {
                 .catch(e => {
                     alert(e);
                 });
-        });
+        }));
         document.getElementById("menuGame_play").addEventListener('click', event => {
             event.preventDefault();
             this.router.go('/game');
@@ -63,8 +65,8 @@ class MenuGameController extends View {
         else {
             this.page_parts.get("MenuGame").hidden = false;
 
-            document.getElementById('userheader_login').innerHTML = this.session.user.login;
-            document.getElementById('userheader_score').innerHTML = this.session.user.score;
+            document.querySelectorAll('.userheader__login').forEach(a => a.innerHTML = this.session.user.login);
+            document.querySelectorAll('.userheader__score').forEach(a => a.innerHTML = this.session.user.login);
         }
         this.page_parts.get("Footer").hidden = false;
     }

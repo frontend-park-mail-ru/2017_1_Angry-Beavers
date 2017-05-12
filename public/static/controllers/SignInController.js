@@ -8,7 +8,7 @@ import View from '../modules/view';
 
 class SignInController extends View {
     constructor(opt = {}) {
-        if(SignInController.__instance){
+        if (SignInController.__instance) {
             return SignInController.__instance;
         }
         super(opt);
@@ -17,16 +17,12 @@ class SignInController extends View {
     }
 
     addListener() {
-        //
-        this.page_parts.get("AppName").querySelector(".appname").addEventListener('click', event => {
-            event.preventDefault();
-            if(this.session.isAuth){
-                this.router.go("/menu");
-            } else {
+        [...document.querySelectorAll(".userheader__appname")]
+            .concat([...document.querySelectorAll('.appname')])
+            .forEach(a => a.addEventListener('click', event => {
+                event.preventDefault();
                 this.router.go("/");
-            }
-
-        });
+            }));
 
         document.getElementById("formSignIn_signInBtn").addEventListener('click', event => {
             event.preventDefault();

@@ -16,6 +16,12 @@ class ScoreListController extends View {
     }
 
     addListener() {
+        [...document.querySelectorAll(".userheader__appname")]
+            .concat([...document.querySelectorAll('.appname')])
+            .forEach(a => a.addEventListener('click', event => {
+                event.preventDefault();
+                this.router.go("/");
+            }));
     }
 
     resume() {
@@ -27,8 +33,8 @@ class ScoreListController extends View {
             this.router.go('/signin');
         } else {
             this.page_parts.get("UserHeader").hidden = false;
-            document.getElementById('userheader_login').innerHTML = this.session.user.login;
-            document.getElementById('userheader_score').innerHTML = this.session.user.score;
+            document.querySelectorAll('.userheader__login').forEach(a => a.innerHTML = this.session.user.login);
+            document.querySelectorAll('.userheader__score').forEach(a => a.innerHTML = this.session.user.login);
             this.page_parts.get("ScoreList").hidden = false;
         }
 

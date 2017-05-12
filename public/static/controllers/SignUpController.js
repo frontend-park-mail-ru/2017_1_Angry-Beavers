@@ -8,7 +8,7 @@ import View from '../modules/view';
 
 class SignUpController extends View {
     constructor(opt = {}) {
-        if(SignUpController.__instance){
+        if (SignUpController.__instance) {
             return SignUpController.__instance;
         }
         super(opt);
@@ -17,16 +17,12 @@ class SignUpController extends View {
     }
 
     addListener() {
-
-        this.page_parts.get("AppName").querySelector(".appname").addEventListener('click', event => {
-            event.preventDefault();
-            if(this.session.isAuth){
-                this.router.go("/menu");
-            } else {
+        [...document.querySelectorAll(".userheader__appname")]
+            .concat([...document.querySelectorAll('.appname')])
+            .forEach(a => a.addEventListener('click', event => {
+                event.preventDefault();
                 this.router.go("/");
-            }
-
-        });
+            }));
 
         document.getElementById('formSignUp_signUpBtn').addEventListener('click', event => {
             event.preventDefault();
