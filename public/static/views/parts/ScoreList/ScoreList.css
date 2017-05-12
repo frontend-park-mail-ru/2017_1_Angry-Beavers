@@ -5,16 +5,16 @@
     border-collapse: collapse;
 }
 
-.scorelist-head, .scorelist-cell, .scorelist-row {
+.scorelist__head, .scorelist__cell, .scorelist__row {
     padding: 3px;
     border: 2px solid #A8A8A8;
 }
 
-.scorelist-head {
+.scorelist__head {
     font-weight: bold;
 }
 
-.scorelist-separator {
+.scorelist__separator {
     text-align: center;
     font-weight: bolder;
 }

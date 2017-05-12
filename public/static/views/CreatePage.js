@@ -9,6 +9,7 @@ import AboutUs from './parts/AboutUs/AboutUs';
 import Footer from './parts/Footer/Footer';
 import FormSignIn from './parts/FormSignIn/FormSignIn';
 import FormSignUp from './parts/FormSignUp/FormSignUp';
+import Lobby from './parts/Lobby/Lobby';
 import MenuStart from './parts/MenuStart/MenuStart';
 import MenuGame from './parts/MenuGame/MenuGame';
 import ScoreList from './parts/ScoreList/ScoreList';
@@ -37,6 +38,7 @@ class CreatePage {
         this.addParts(this.body, "AboutUs", AboutUs());
         this.addParts(this.body, "Rules", Rules());
         this.addParts(this.body, "Footer", Footer());
+        this.addParts(this.body, "Lobby", Lobby());
     }
 
     addParts(parent, name, elem) {

@@ -2,22 +2,22 @@
    Created by ed on 28.03.17.
 
 mixin formConstruct(form)
-    form.formconstruct-form
-        h1(align="middle").formconstruct-title= form.title
+    form.formconstruct__form
+        h1(align="middle").formconstruct__title= form.title
         div.formconstruct-fields
             each field in form.fields
-                div.formconstruct-group(align="middle")
+                div.formconstruct__group(align="middle")
                     if field.name !== undefined
                         label.input-form-label(for=field.id)= field.name
-                    input.formconstruct-input-text(
+                    input.formconstruct__inputs__text(
                     id=field.id
                     placeholder=field.placeholder
                     type=field.type,
                     required=field.required
                     )
-        div.formconstruct-buttons(align="middle")
+        div.formconstruct__buttons(align="middle")
             each button in form.buttons
-                button.formconstruct-button(
+                button.formconstruct__buttons__button(
                 type=button.type
                 id=button.id
                 )= button.text

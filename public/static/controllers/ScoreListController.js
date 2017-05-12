@@ -27,6 +27,8 @@ class ScoreListController extends View {
             this.router.go('/signin');
         } else {
             this.page_parts.get("UserHeader").hidden = false;
+            document.getElementById('userheader_login').innerHTML = this.session.user.login;
+            document.getElementById('userheader_score').innerHTML = this.session.user.score;
             this.page_parts.get("ScoreList").hidden = false;
         }
 

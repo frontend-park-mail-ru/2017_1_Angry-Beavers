@@ -17,7 +17,7 @@ class MenuGameController extends View {
     }
 
     addListener() {
-        this.page_parts.get("UserHeader").querySelector(".userheader-appname").addEventListener('click', event => {
+        this.page_parts.get("UserHeader").querySelector(".userheader__appname").addEventListener('click', event => {
             event.preventDefault();
             this.router.go("/menu");
         });
@@ -34,8 +34,7 @@ class MenuGameController extends View {
         });
         document.getElementById("menuGame_play").addEventListener('click', event => {
             event.preventDefault();
-            window.location.href = "https://lieroz.github.io/#6";
-            this.router.go('/play');
+            this.router.go('/game');
         });
         document.getElementById("menuGame_score").addEventListener('click', event => {
             event.preventDefault();
