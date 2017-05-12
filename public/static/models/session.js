@@ -4,17 +4,19 @@
 
 'use strict';
 
+import Lobby from './lobby';
+import LobbyFake from './lobbyFake';
+
 let isBrowser = typeof navigator !== "undefined";
 let fetch = isBrowser ? window.fetch : require('node-fetch');
 
 const DEFAULT_HOST = 'jokinghazardserver.herokuapp.com';
 
 class Session {
-    constructor(options) {
-        options = options || {};
-
+    constructor(options = {}) {
         this._host = options.host || DEFAULT_HOST;
         this._user = null;
+        this._lobby = null;
 
         this._cookies = '';
     }
@@ -26,6 +28,10 @@ class Session {
 
     get isAuth() {
         return this.user;
+    }
+
+    get lobby() {
+        return this._lobby;
     }
 
     _call(httpMethod, method, data) {
@@ -66,6 +72,18 @@ class Session {
                     return response.data;
                 }
             });
+    }
+
+    createLobby() {
+        this._lobby && this._lobby.stop();
+        this._lobby = new Lobby(this);
+        return this._lobby;
+    }
+
+    createFakeLobby() {
+        this._lobby && this._lobby.stop();
+        this._lobby = new LobbyFake(this);
+        return this._lobby;
     }
 
     userData() {
