@@ -8,7 +8,7 @@ const webpack = require('webpack');
 const path = require('path');
 
 module.exports = {
-    entry: './public/static/main.js',
+    entry: './app/main.js',
     output: {
         path: __dirname,
         filename: './public/static/bundle.js'
