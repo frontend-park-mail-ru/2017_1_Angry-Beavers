@@ -17,17 +17,12 @@ class MenuStartController extends View {
     }
 
     addListener() {
-        this.page_parts.get("AppName").querySelector(".appname").addEventListener('click', event => {
-            event.preventDefault();
-            if (this.session.isAuth) {
-                this.router.go("/menu");
-            } else if (this.session._lobby || this.session.game) {
-
-            } else {
+        [...document.querySelectorAll(".userheader__appname")]
+            .concat([...document.querySelectorAll('.appname')])
+            .forEach(a => a.addEventListener('click', event => {
+                event.preventDefault();
                 this.router.go("/");
-            }
-
-        });
+            }));
 
         document.getElementById('menuStart_signIn').addEventListener('click', event => {
             event.preventDefault();

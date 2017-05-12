@@ -16,15 +16,12 @@ class RulesController extends View {
     }
 
     addListener() {
-        this.page_parts.get("AppName").querySelector(".appname").addEventListener('click', event => {
-            event.preventDefault();
-            if (this.session.isAuth) {
-                this.router.go("/menu");
-            } else {
+        [...document.querySelectorAll(".userheader__appname")]
+            .concat([...document.querySelectorAll('.appname')])
+            .forEach(a => a.addEventListener('click', event => {
+                event.preventDefault();
                 this.router.go("/");
-            }
-
-        });
+            }));
     }
 
     resume() {
@@ -34,8 +31,8 @@ class RulesController extends View {
     show() {
         if (this.session.isAuth) {
             this.page_parts.get("UserHeader").hidden = false;
-            document.getElementById('userheader_login').innerHTML = this.session.user.login;
-            document.getElementById('userheader_score').innerHTML = this.session.user.score;
+            document.querySelectorAll('.userheader__login').forEach(a => a.innerHTML = this.session.user.login);
+            document.querySelectorAll('.userheader__score').forEach(a => a.innerHTML = this.session.user.login);
         } else {
             this.page_parts.get("AppName").hidden = false;
         }
