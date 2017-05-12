@@ -39,7 +39,6 @@ const FormSignIn = function () {
     let div = document.createElement('div');
     div.innerHTML = pugFormSignIn({
         form: {
-            title: TITLE,
             fields: [
                 LOGIN_FIELD,
                 PASSRORD_FIELD,
@@ -51,6 +50,7 @@ const FormSignIn = function () {
         }
     });
     return BorderConstruct({
+        title: TITLE,
         img: RIGHT_IMG,
         el: div
     });

@@ -6,6 +6,5 @@ mixin member_view(member)
         a(href=member.link)= member.name
 
 div.aboutus
-    h3= headText
     each member in members
         +member_view(member)

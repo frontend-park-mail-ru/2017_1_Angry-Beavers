@@ -10,6 +10,7 @@ import pugBorderConstruct from './BorderConstruct.pug';
 const BorderConstruct = function Border(opt = {}) {
     let container = document.createElement('div');
     container.innerHTML = pugBorderConstruct({
+        title: opt.title,
         img: opt.img,
         element: opt.el
     });

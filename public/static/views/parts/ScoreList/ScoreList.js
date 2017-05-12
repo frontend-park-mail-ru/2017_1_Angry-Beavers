@@ -10,6 +10,7 @@ import pugScoreList from './ScoreList.pug';
 import BorderConstruct from '../../constructs/BorderConstruct/BorderConstruct';
 
 const RIGHT_IMG = "images/Scorelist.png";
+const TITLE = "типа скорлист";
 const PLAYERS = [
     {
         position: "1",
@@ -42,6 +43,7 @@ const ScoreList = function () {
     });
 
     return BorderConstruct({
+        title: TITLE,
         el: div,
         img: RIGHT_IMG
     });
