@@ -9,7 +9,7 @@ import BorderConstruct from '../../constructs/BorderConstruct/BorderConstruct';
 import pugAboutUs from './AboutUs.pug';
 
 const RIGHT_IMG = "images/Dance.png";
-const HEAD_TEXT = "Ага, вот эти ребята: ";
+const TITLE = "Ага, вот эти ребята: ";
 const MEMBERS = [
     {
         link: "https://github.com/ed-asriyan",
@@ -34,10 +34,10 @@ const AboutUs = function () {
 
     div.innerHTML = pugAboutUs({
         members: MEMBERS,
-        headText: HEAD_TEXT
     });
 
     return BorderConstruct({
+        title: TITLE,
         el: div,
         img: RIGHT_IMG
     });

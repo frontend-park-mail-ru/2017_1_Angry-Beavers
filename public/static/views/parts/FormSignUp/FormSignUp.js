@@ -51,7 +51,6 @@ const FormSignUp = function () {
     let div = document.createElement('div');
     div.innerHTML = pugFormSignUp({
         form: {
-            title: TITLE,
             fields: [
                 EMAIL_FIELD,
                 LOGIN_FIELD,
@@ -65,6 +64,7 @@ const FormSignUp = function () {
         }
     });
     return BorderConstruct({
+        title: TITLE,
         img: RIGHT_IMG,
         el: div
     });

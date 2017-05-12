@@ -3,7 +3,6 @@
 
 mixin formConstruct(form)
     form.formconstruct__form
-        h1(align="middle").formconstruct__title= form.title
         div.formconstruct-fields
             each field in form.fields
                 div.formconstruct__group(align="middle")
