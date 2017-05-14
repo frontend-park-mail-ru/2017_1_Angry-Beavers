@@ -14,7 +14,7 @@ class Lobby {
 
         this._ws = new WebSocket('wss://jokinghazardserver.herokuapp.com/lobby');
         this._ws.onclose = (function () {
-            this._onClosed && this._onClosed();
+            this._onError && this._onError();
         }).bind(this);
         this._ws.onmessage = (function (evt) {
             let data = JSON.parse(evt.data);
