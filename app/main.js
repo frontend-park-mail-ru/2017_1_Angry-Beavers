@@ -1,3 +1,5 @@
+import 'bootstrap-loader';
+
 import Router from './modules/router';
 import CreatePage from './views/CreatePage';
 import Session from './models/session';
