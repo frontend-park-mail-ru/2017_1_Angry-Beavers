@@ -34,7 +34,7 @@ class ScoreListController extends View {
         } else {
             this.page_parts.get("UserHeader").hidden = false;
             document.querySelectorAll('.userheader__login').forEach(a => a.innerHTML = this.session.user.login);
-            document.querySelectorAll('.userheader__score').forEach(a => a.innerHTML = this.session.user.login);
+            document.querySelectorAll('.userheader__score').forEach(a => a.innerHTML = this.session.user.score);
             this.page_parts.get("ScoreList").hidden = false;
         }
 
