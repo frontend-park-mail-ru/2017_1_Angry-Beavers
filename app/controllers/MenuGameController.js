@@ -66,7 +66,7 @@ class MenuGameController extends View {
             this.page_parts.get("MenuGame").hidden = false;
 
             document.querySelectorAll('.userheader__login').forEach(a => a.innerHTML = this.session.user.login);
-            document.querySelectorAll('.userheader__score').forEach(a => a.innerHTML = this.session.user.login);
+            document.querySelectorAll('.userheader__score').forEach(a => a.innerHTML = this.session.user.score);
         }
         this.page_parts.get("Footer").hidden = false;
     }
