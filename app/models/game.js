@@ -19,23 +19,21 @@ class Game {
 
         this._ws = new WebSocket('wss://jokinghazardserver.herokuapp.com/game');
         this._ws.onclose = (function () {
-            alert('close');
             this._onClosed && this._onClosed();
+            alert('close');
         }).bind(this);
         this._ws.onmessage = (function (evt) {
             let data = JSON.parse(evt.data);
             switch (data.type) {
-                // case 'RoundInfo':
-                //     this._users = data.users;
-                //     this._roundNum = data.roundNum;
-                //     this._onRoundInfo && this._onRoundInfo(data);
-                //     break;
-                // case 'HandInfo':
-                //     this._hand = data.hand;
-                //     this._onHandInfo && this._onHandInfo(data);
-                //     break;
-                default:
-                    alert(JSON.stringify(data));
+                case 'RoundInfo':
+                    this._users = data.users;
+                    this._roundNum = data.roundNum;
+                    this._onRoundInfo && this._onRoundInfo(data);
+                    break;
+                case 'HandInfo':
+                    this._hand = data.hand;
+                    this._onHandInfo && this._onHandInfo(data);
+                    break;
             }
         }).bind(this);
         this._ws.onerror = (function (e) {
@@ -56,6 +54,10 @@ class Game {
 
     get roundNum() {
         return this._roundNum;
+    }
+
+    get hand() {
+        return this._hand;
     }
 
     get onHandInfo() {
