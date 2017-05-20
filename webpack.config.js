@@ -8,7 +8,7 @@ const webpack = require('webpack');
 const path = require('path');
 
 module.exports = {
-    entry: './public/static/main.js',
+    entry: './app/main.js',
     output: {
         path: __dirname,
         filename: './public/static/bundle.js'
@@ -22,7 +22,15 @@ module.exports = {
             {
                 test: /\.pug$/,
                 loaders: ['pug-loader']
-            }
+            },
+            {test: /\.(png|woff|woff2|eot|ttf|svg)$/, loader: 'url-loader?limit=100000'}
         ]
-    }
+    },
+    plugins: [
+        new webpack.ProvidePlugin({
+            $: "jquery",
+            jQuery: "jquery",
+            "window.jQuery": "jquery",
+        })
+    ]
 };
