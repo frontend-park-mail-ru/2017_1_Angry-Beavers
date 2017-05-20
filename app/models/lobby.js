@@ -50,6 +50,10 @@ class Lobby {
 
     stop() {
         if (this._ws) {
+            this._onInfo = undefined;
+            this._onClosed = undefined;
+            this._onError = undefined;
+            this._onUserAdd = undefined;
             this._ws.close();
         }
     }

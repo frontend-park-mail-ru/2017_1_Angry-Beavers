@@ -36,7 +36,7 @@ class MenuGameController extends View {
         }));
         document.getElementById("menuGame_play").addEventListener('click', event => {
             event.preventDefault();
-            this.router.go('/game');
+            this.router.go('/lobby');
         });
         document.getElementById("menuGame_score").addEventListener('click', event => {
             event.preventDefault();
