@@ -5,6 +5,8 @@
 'use strict';
 
 import Lobby from './lobby';
+import Game from './game';
+import GameFake from './gameFake';
 
 let isBrowser = typeof navigator !== "undefined";
 let fetch = isBrowser ? window.fetch : require('node-fetch');
@@ -77,6 +79,18 @@ class Session {
         this._lobby && this._lobby.stop();
         this._lobby = new Lobby(this);
         return this._lobby;
+    }
+
+    createGame() {
+        this._game && this._game.stop();
+        this._game = new Game(this);
+        return this._game;
+    }
+
+    createFakeGame() {
+        this._game && this._game.stop();
+        this._game = new GameFake(this);
+        return this._game;
     }
 
     userData() {
