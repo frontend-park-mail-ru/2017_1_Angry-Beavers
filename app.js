@@ -17,6 +17,7 @@ const routes = [
     '/aboutus',
     '/rules',
     '/scorelist',
+    '/lobby',
     '/game',
 ];
 

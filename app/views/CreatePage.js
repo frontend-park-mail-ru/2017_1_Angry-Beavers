@@ -6,6 +6,7 @@
 
 import AppName from './parts/AppName/AppName';
 import AboutUs from './parts/AboutUs/AboutUs';
+import Game from './parts/Game/Game';
 import Footer from './parts/Footer/Footer';
 import FormSignIn from './parts/FormSignIn/FormSignIn';
 import FormSignUp from './parts/FormSignUp/FormSignUp';
@@ -15,8 +16,6 @@ import MenuGame from './parts/MenuGame/MenuGame';
 import ScoreList from './parts/ScoreList/ScoreList';
 import Rules from './parts/Rules/Rules';
 import UserHeader from './parts/UserHeader/UserHeader';
-
-import User from '../models/user';
 
 class CreatePage {
     constructor() {
@@ -39,6 +38,7 @@ class CreatePage {
         this.addParts(this.body, "Rules", Rules());
         this.addParts(this.body, "Footer", Footer());
         this.addParts(this.body, "Lobby", Lobby());
+        this.addParts(this.body, "Game", Game());
     }
 
     addParts(parent, name, elem) {

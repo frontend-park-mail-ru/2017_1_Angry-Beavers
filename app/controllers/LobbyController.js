@@ -61,17 +61,12 @@ class LobbyController extends View {
         handler();
         this._lobby.onInfo = handler;
         this._lobby.onError = (function () {
-            this._lobby = this.session.createFakeLobby();
-            this._lobby.onInfo = handler;
-            this._lobby.onUserAdd = handler;
-            this._lobby.onUserRemove = handler;
-            this._lobby.start();
+            this.router.go('/gameFake');
         }).bind(this);
         this._lobby.onUserAdd = handler;
         this._lobby.onUserRemove = handler;
         this._lobby.onGameStart = function () {
-            alert('Game should be started...');
-            this.router.go('/');
+            this.router.go('/game');
         }.bind(this);
         this._lobby.start();
     }

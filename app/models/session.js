@@ -5,7 +5,6 @@
 'use strict';
 
 import Lobby from './lobby';
-import LobbyFake from './lobbyFake';
 
 let isBrowser = typeof navigator !== "undefined";
 let fetch = isBrowser ? window.fetch : require('node-fetch');
@@ -77,12 +76,6 @@ class Session {
     createLobby() {
         this._lobby && this._lobby.stop();
         this._lobby = new Lobby(this);
-        return this._lobby;
-    }
-
-    createFakeLobby() {
-        this._lobby && this._lobby.stop();
-        this._lobby = new LobbyFake(this);
         return this._lobby;
     }
 
