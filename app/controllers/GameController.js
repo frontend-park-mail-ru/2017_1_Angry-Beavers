@@ -30,11 +30,26 @@ class GameController extends View {
         }
         else {
             this.page_parts.get("Game").hidden = false;
+            if (window.location.pathname === '/gameFake') {
+                this._game = this.session.createFakeGame();
+            } else {
+                this._game = this.session.createGame();
+            }
+            this._game.onHandInfo = x => alert(JSON.stringify(x));
+            this._game.onError = x => alert(`Error ${JSON.stringify(x)}`);
+            this._game.onClosed = x => alert(`Closed ${JSON.stringify(x)}`);
+            this._game.onRoundInfo = x => alert(JSON.stringify(x));
+            this._game.start();
+            this._reDraw();
         }
     }
 
     hide() {
         this.page_parts.get("Game").hidden = true;
+    }
+
+    _reDraw() {
+
     }
 }
 
