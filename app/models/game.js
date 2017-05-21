@@ -19,13 +19,14 @@ class Game {
         this._table = [];
 
         this._ws = new WebSocket('wss://jokinghazardserver.herokuapp.com/game');
+        console.log('GameConnected: ', this._ws);
         this._ws.onclose = (function (e) {
             console.log('GameClose: ', e);
             this._onClosed && this._onClosed();
         }).bind(this);
         this._ws.onmessage = (function (evt) {
             let data = JSON.parse(evt.data);
-            console.log('GameError: ', data);
+            console.log('GameMessage: ', data);
             switch (data.type) {
                 case 'RoundInfo':
                     this._users = data.users;
