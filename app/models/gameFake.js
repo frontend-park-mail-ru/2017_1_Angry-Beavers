@@ -16,37 +16,64 @@ class GameFake {
     start() {
         this._hand = [
             {
-                "red": "False",
+                "red": false,
                 "id": 12
             },
             {
-                "red": "True",
+                "red": true,
                 "id": 21
             },
             {
-                "red": "False",
+                "red": false,
                 "id": 33
             },
             {
-                "red": "False",
+                "red": false,
                 "id": 3
             },
             {
-                "red": "False",
+                "red": false,
                 "id": 29
             },
             {
-                "red": "True",
+                "red": true,
                 "id": 42
             },
             {
-                "red": "False",
+                "red": false,
                 "id": 18
             }
         ];
-        this._users = [];
+        this._users = [
+            {
+                "userLogin": "ubrown",
+                "isMaster": true,
+                "score": 0,
+                "type": "GameUserInfo"
+            },
+            {
+                "userLogin": "rogerschristina",
+                "isMaster": false,
+                "score": 0,
+                "type": "GameUserInfo"
+            },
+            {
+                "userLogin": "lieric",
+                "isMaster": false,
+                "score": 0,
+                "type": "GameUserInfo"
+            },
+            {
+                "userLogin": "mevans",
+                "isMaster": false,
+                "score": 0,
+                "type": "GameUserInfo"
+            }
+        ];
 
         this._onHandInfo && this._onHandInfo();
+        this._roundNum = 1;
+        this._onRoundInfo && this._onRoundInfo();
     }
 
     stop() {
@@ -65,6 +92,10 @@ class GameFake {
 
     get hand() {
         return this._hand;
+    }
+
+    get users() {
+        return this._users;
     }
 
     get onHandInfo() {
