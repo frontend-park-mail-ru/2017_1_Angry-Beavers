@@ -7,6 +7,8 @@
 import Konva from 'konva/src/Core';
 import 'konva/src/shapes/Rect';
 import 'konva/src/shapes/Text';
+import 'konva/src/shapes/Line';
+import 'konva/src/shapes/Image';
 import 'konva/src/Animation';
 
 import View from '../modules/view';
@@ -19,6 +21,27 @@ const CARD_HEIGHT = CARD_WIDTH * 1.4786324786324787;
 const CARD_OFFSET = 20;
 const CARD_BORDER_THICKNESS = 4;
 const CARD_BORDER_RADIUS = 4;
+
+const USERS_TOP = 50;
+const USERS_RIGHT = 20;
+const USERS_WIDTH = 300;
+const USERS_BORDER_RADIUS = 5;
+
+const USER_HEIGHT = 50;
+const USER_AVATAR_WIDTH = 50;
+
+const USER_AVATARS = [
+    '/images/avatars/1.jpg',
+    '/images/avatars/2.jpg',
+    '/images/avatars/3.jpg',
+    '/images/avatars/4.jpg',
+    '/images/avatars/5.jpg',
+    '/images/avatars/6.jpg',
+    '/images/avatars/7.jpg',
+    '/images/avatars/8.jpg',
+    '/images/avatars/9.jpg',
+    '/images/avatars/10.jpg',
+];
 
 class GameController extends View {
     constructor(opt = {}) {
@@ -44,7 +67,7 @@ class GameController extends View {
         }
         else {
             this.page_parts.get("Game").hidden = false;
-            if (this.router.activeRoute.pathname === /\/gameFake((\?[a-z0-9\-?\[\]=&;#]+)|$)/) {
+            if (window.location.pathname === '/gameFake/' || window.location.pathname === '/gameFake') { // ну это "или" это полный пиздос, но чё поделать времени мало...
                 this._game = this.session.createFakeGame();
             } else {
                 this._game = this.session.createGame();
@@ -52,7 +75,7 @@ class GameController extends View {
             this._game.onHandInfo = this._updateHand.bind(this);
             this._game.onError = x => alert(`Error ${JSON.stringify(x)}`);
             this._game.onClosed = x => alert(`Closed ${JSON.stringify(x)}`);
-            this._game.onRoundInfo = x => alert(JSON.stringify(x));
+            this._game.onRoundInfo = this._updateRound.bind(this);
             this._createCanvas();
             this._game.start();
         }
@@ -113,6 +136,120 @@ class GameController extends View {
             this._layerHand.add(group);
         }.bind(this));
         this._layerHand.drawScene();
+    }
+
+    _updateRound() {
+        this._layerUsers && this._layerUsers.remove();
+        this._layerUsers = new Konva.Layer({
+            x: STAGE_WIDTH - USERS_RIGHT - USERS_WIDTH,
+            y: USERS_TOP,
+        });
+        this._stage.add(this._layerUsers);
+
+        const shuffled = USER_AVATARS.sort(() => .5 - Math.random());// shuffle
+        const avatars = shuffled.slice(0, this._game.users.length); //get sub-array of first n elements AFTER shuffle
+
+        // the outer box
+        let border = new Konva.Rect({
+            x: 0,
+            y: 0,
+            width: USERS_WIDTH,
+            height: USER_HEIGHT * (1 + this._game.users.length),
+            stroke: 'black',
+            strokeWidth: 1,
+            cornerRadius: USERS_BORDER_RADIUS,
+        });
+        this._layerUsers.add(border);
+
+        // title text
+        let title = new Konva.Text({
+            x: 0,
+            y: 16,
+            width: USERS_WIDTH,
+            text: "Игроки",
+            align: 'center',
+            fontSize: 20,
+            fontFamily: 'DigitalStrip',
+        });
+        this._layerUsers.add(title);
+
+        // head separator
+        let titleSeparator = new Konva.Line({
+            points: [0, USER_HEIGHT, USERS_WIDTH, USER_HEIGHT],
+            stroke: 'black',
+            strokeWidth: 1,
+        });
+        this._layerUsers.add(titleSeparator);
+
+        // list of users
+        let usersGroup = new Konva.Group({
+            x: 0,
+            y: 50,
+        });
+        this._game.users.forEach(function (user, i) {
+            // current user line
+            let userGroup = new Konva.Group({
+                x: 0,
+                y: i * USER_HEIGHT,
+            });
+
+            if (i !== this._game.users.length - 1) {
+                // users separator
+                let userSeparator = new Konva.Line({
+                    points: [0, USER_HEIGHT, USERS_WIDTH, USER_HEIGHT],
+                    stroke: 'black',
+                    strokeWidth: 1,
+                });
+                userGroup.add(userSeparator);
+            }
+
+            // user avatar
+            let userAvatarImage = new Image();
+            userAvatarImage.src = avatars[i];
+            userAvatarImage.onload = function () {
+                let userAvatar = new Konva.Image({
+                    x: 1,
+                    y: 1,
+                    cornerRadius: USER_AVATAR_WIDTH / 2,
+                    width: USER_AVATAR_WIDTH - 2,
+                    height: USER_AVATAR_WIDTH - 2,
+                    image: userAvatarImage,
+                });
+                userGroup.add(userAvatar);
+                userAvatar.draw();
+            }.bind(this);
+
+            // user's nick
+            let userNick = new Konva.Text({
+                x: USER_AVATAR_WIDTH + 5,
+                y: 12,
+                width: USERS_WIDTH,
+                text: user['userLogin'],
+                align: 'left',
+                fontSize: 16,
+                fontFamily: 'DigitalStrip',
+            });
+            userGroup.add(userNick);
+
+            // master indicator
+            let userDescription = new Konva.Text({
+                x: USER_AVATAR_WIDTH + 5,
+                y: 30,
+                width: USERS_WIDTH,
+                text: `${user['isMaster'] ? 'Ведущий, ' : ''}Очки: ${user['score']}`,
+                align: 'left',
+                fill: 'gray',
+                fontSize: 12,
+                fontFamily: 'DigitalStrip',
+            });
+            userGroup.add(userDescription);
+
+
+            usersGroup.add(userGroup);
+        }.bind(this));
+        this._layerUsers.add(usersGroup);
+
+        this._layerUsers.drawScene();
     }
 }
 
