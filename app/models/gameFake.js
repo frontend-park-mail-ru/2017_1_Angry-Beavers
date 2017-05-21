@@ -14,85 +14,61 @@ class GameFake {
     }
 
     start() {
-        this._hand = [
-            {
+        this._hand = [];
+        for (let i = 0; i < 7; ++i) {
+            this._hand.push({
                 "red": false,
-                "id": 12
-            },
-            {
-                "red": true,
-                "id": 21
-            },
-            {
-                "red": false,
-                "id": 33
-            },
-            {
-                "red": false,
-                "id": 3
-            },
-            {
-                "red": false,
-                "id": 29
-            },
-            {
-                "red": true,
-                "id": 42
-            },
-            {
-                "red": false,
-                "id": 18
-            }
-        ];
+                "id": Math.round(Math.random() * 400)
+            });
+        }
         this._users = [
             {
-                "userLogin": "ubrown",
+                "userLogin": this._session.user.login,
                 "isMaster": true,
-                "score": 0,
+                "score": Infinity,
                 "type": "GameUserInfo"
             },
-            {
-                "userLogin": "rogerschristina",
-                "isMaster": false,
-                "score": 0,
-                "type": "GameUserInfo"
-            },
-            {
-                "userLogin": "lieric",
-                "isMaster": false,
-                "score": 0,
-                "type": "GameUserInfo"
-            },
-            {
-                "userLogin": "mevans",
-                "isMaster": false,
-                "score": 0,
-                "type": "GameUserInfo"
-            }
         ];
         this._table = [
-            null,
             {
-                "red": "False",
-                "id": 34
-            },
-            null
+                "red": false,
+                "id": Math.round(Math.random() * 400)
+            }
         ];
 
         this._onHandInfo && this._onHandInfo();
         this._roundNum = 1;
         this._onRoundInfo && this._onRoundInfo();
         this._onTableInfo && this._onTableInfo();
+        this._onGetCardFromHand && this._onGetCardFromHand();
     }
 
     stop() {
-        if (this._ws) {
-            this._onRoundInfo = undefined;
-            this._onHandInfo = undefined;
-            this._onClosed = undefined;
-            this._onError = undefined;
-            this._ws.close();
+
+    }
+
+    selectCard(cardId) {
+        let card = this._hand.find(x => x.id == cardId);
+        this._table.push(card);
+
+        this._hand = [];
+        for (let i = 0; i < 7; ++i) {
+            this._hand.push({
+                "red": false,
+                "id": Math.round(Math.random() * 400)
+            });
         }
+
+        this._onHandInfo && this._onHandInfo();
+        this._onRoundInfo && this._onRoundInfo();
+        this._onTableInfo && this._onTableInfo();
+        if (++this._roundNum >= 4) {
+            setTimeout(function () {
+                this.stop();
+                this.start();
+            }.bind(this), 3000);
+        }
+        this._onGetCardFromHand && this._onGetCardFromHand();
     }
 
     get roundNum() {
@@ -133,6 +109,14 @@ class GameFake {
 
     set onTableInfo(value) {
         this._onTableInfo = value;
+    }
+
+    get onGetCardFromHand() {
+        return this._onGetCardFromHand;
+    }
+
+    set onGetCardFromHand(value) {
+        this._onGetCardFromHand = value;
     }
 
     get onError() {
