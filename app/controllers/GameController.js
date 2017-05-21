@@ -16,6 +16,14 @@ import View from '../modules/view';
 const STAGE_WIDTH = 1280;
 const STAGE_HEIGHT = 720;
 
+const TABLE_TOP = 100;
+const TABLE_LEFT = 10;
+const TABLE_CARD_WIDTH = 150;
+const TABLE_CARD_HEIGHT = TABLE_CARD_WIDTH * 1.4786324786324787;
+const TABLE_CARD_OFFSET = 30;
+const TABLE_CARD_BORDER_THICKNESS = 4;
+const TABLE_CARD_BORDER_RADIUS = 4;
+
 const CARD_WIDTH = 110;
 const CARD_HEIGHT = CARD_WIDTH * 1.4786324786324787;
 const CARD_OFFSET = 20;
@@ -76,6 +84,7 @@ class GameController extends View {
             this._game.onError = x => alert(`Error ${JSON.stringify(x)}`);
             this._game.onClosed = x => alert(`Closed ${JSON.stringify(x)}`);
             this._game.onRoundInfo = this._updateRound.bind(this);
+            this._game.onTableInfo = this._updateTable.bind(this);
             this._createCanvas();
             this._game.start();
         }
@@ -250,6 +259,41 @@ class GameController extends View {
         this._layerUsers.add(usersGroup);
 
         this._layerUsers.drawScene();
+    }
+
+    _updateTable() {
+        this._layerTable && this._layerTable.remove();
+        this._layerTable = new Konva.Layer({
+            x: TABLE_LEFT,
+            y: TABLE_TOP,
+        });
+        this._stage.add(this._layerTable);
+
+        this._game.table.forEach(function (card, i) {
+            if (!card || typeof card === "string") return;
+            let group = new Konva.Group({
+                x: (TABLE_CARD_WIDTH + TABLE_CARD_OFFSET) * (i + 1),
+                y: 0,
+            });
+            let rect = new Konva.Rect({
+                stroke: card.red ? 'red' : 'black',
+                strokeWidth: TABLE_CARD_BORDER_THICKNESS,
+                cornerRadius: TABLE_CARD_BORDER_RADIUS,
+                width: TABLE_CARD_WIDTH,
+                height: TABLE_CARD_HEIGHT
+            });
+            let simpleText = new Konva.Text({
+                x: 0,
+                y: 0,
+                text: JSON.stringify(card, null, ' '),
+                fontSize: 10,
+                fontFamily: 'DigitalStrip',
+            });
+            group.add(simpleText);
+            group.add(rect);
+            this._layerTable.add(group);
+        }.bind(this));
+        this._layerTable.drawScene();
     }
 }
 
