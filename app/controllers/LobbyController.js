@@ -63,6 +63,9 @@ class LobbyController extends View {
         this._lobby.onError = (function () {
             this.router.go('/gameFake');
         }).bind(this);
+        this._lobby.onClosed = (function () {
+            this.router.go('/game');
+        }).bind(this);
         this._lobby.onUserAdd = handler;
         this._lobby.onUserRemove = handler;
         this._lobby.onGameStart = function () {
@@ -79,7 +82,7 @@ class LobbyController extends View {
         document.getElementById('lobby_users').innerHTML = '';
         document.getElementById('lobby_title').innerHTML = 'Ожидаем игроков...';
         if (this._lobby && this._lobby.users) {
-            document.getElementById('lobby_title').innerHTML = `Ожидаем игроков${this._lobby.maxUsersCount ? `(${this._lobby.maxUsersCount}` : ''})`;
+            document.getElementById('lobby_title').innerHTML = `Ожидаем игроков${this._lobby.maxUsersCount ? ` (${this._lobby.maxUsersCount - this._lobby.users.length}` : ''})`;
             this._lobby.users.forEach(u => {
                 let user = document.createElement('label');
                 user.innerHTML = u.userLogin;

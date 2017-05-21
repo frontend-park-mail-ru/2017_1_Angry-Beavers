@@ -13,13 +13,18 @@ class Lobby {
         this._users = [];
 
         this._ws = new WebSocket('wss://jokinghazardserver.herokuapp.com/lobby');
+        console.log('LobbyConnected: ', this._ws);
         this._ws.onclose = (function (e) {
             console.log('LobbyClose: ', e);
-            this._onError && this._onError();
+            this._onInfo = undefined;
+            this._onGameStart = undefined;
+            this._onError = undefined;
+            this._onUserAdd = undefined;
+            this._onClosed && this._onClosed();
         }).bind(this);
         this._ws.onmessage = (function (evt) {
             let data = JSON.parse(evt.data);
-            console.log('LobbyError: ', data);
+            console.log('LobbyMessage: ', data);
             switch (data.type) {
                 case 'Lobby Info':
                     this._users = data.users;
