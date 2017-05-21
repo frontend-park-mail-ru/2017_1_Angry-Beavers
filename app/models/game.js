@@ -16,6 +16,7 @@ class Game {
     start() {
         this._hand = [];
         this._users = [];
+        this._table = [];
 
         this._ws = new WebSocket('wss://jokinghazardserver.herokuapp.com/game');
         this._ws.onclose = (function (e) {
@@ -34,6 +35,10 @@ class Game {
                 case 'HandInfo':
                     this._hand = data.hand;
                     this._onHandInfo && this._onHandInfo(data);
+                    break;
+                case 'TableInfo':
+                    this._table = data.hand;
+                    this._onTableInfo && this._onTableInfo(data);
                     break;
             }
         }).bind(this);
@@ -65,6 +70,10 @@ class Game {
         return this._users;
     }
 
+    get table() {
+        return this._table;
+    }
+
     get onHandInfo() {
         return this._onHandInfo;
     }
@@ -79,6 +88,14 @@ class Game {
 
     set onRoundInfo(value) {
         this._onRoundInfo = value;
+    }
+
+    get onTableInfo() {
+        return this._onTableInfo;
+    }
+
+    set onTableInfo(value) {
+        this._onTableInfo = value;
     }
 
     get onError() {

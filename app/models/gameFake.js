@@ -70,10 +70,19 @@ class GameFake {
                 "type": "GameUserInfo"
             }
         ];
+        this._table = [
+            null,
+            {
+                "red": "False",
+                "id": 34
+            },
+            null
+        ];
 
         this._onHandInfo && this._onHandInfo();
         this._roundNum = 1;
         this._onRoundInfo && this._onRoundInfo();
+        this._onTableInfo && this._onTableInfo();
     }
 
     stop() {
@@ -98,6 +107,10 @@ class GameFake {
         return this._users;
     }
 
+    get table() {
+        return this._table;
+    }
+
     get onHandInfo() {
         return this._onHandInfo;
     }
@@ -112,6 +125,14 @@ class GameFake {
 
     set onRoundInfo(value) {
         this._onRoundInfo = value;
+    }
+
+    get onTableInfo() {
+        return this._onTableInfo;
+    }
+
+    set onTableInfo(value) {
+        this._onTableInfo = value;
     }
 
     get onError() {
