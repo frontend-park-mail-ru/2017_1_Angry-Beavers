@@ -4,12 +4,13 @@
 
 'use strict';
 
+const isBrowser = typeof navigator !== "undefined";
+
+import 'whatwg-fetch';
+
 import Lobby from './lobby';
 import Game from './game';
 import GameFake from './gameFake';
-
-let isBrowser = typeof navigator !== "undefined";
-let fetch = isBrowser ? window.fetch : require('node-fetch');
 
 const DEFAULT_HOST = 'jokinghazardserver.herokuapp.com';
 
