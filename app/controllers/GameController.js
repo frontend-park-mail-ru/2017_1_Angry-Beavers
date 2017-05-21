@@ -10,6 +10,7 @@ import 'konva/src/shapes/Text';
 import 'konva/src/shapes/Line';
 import 'konva/src/shapes/Image';
 import 'konva/src/Animation';
+import 'konva/src/Tween';
 
 import View from '../modules/view';
 
@@ -50,6 +51,88 @@ const USER_AVATARS = [
     '/images/avatars/9.jpg',
     '/images/avatars/10.jpg',
 ];
+
+const generateHandCard = function (card) {
+    let group = new Konva.Group();
+    let cardImg = new Image();
+    cardImg.src = `/images/avatars/${card.id % 10 + 1}.jpg`;
+    cardImg.onload = function () {
+        let img = new Konva.Image({
+            width: CARD_WIDTH,
+            height: CARD_HEIGHT,
+            image: cardImg,
+        });
+        group.add(img);
+        group.draw();
+    };
+
+    return group;
+};
+
+const generateTableCard = function (card) {
+    let group = new Konva.Group();
+    let cardImg = new Image();
+    cardImg.src = `/images/avatars/${card.id % 10 + 1}.jpg`;
+    cardImg.onload = function () {
+        let img = new Konva.Image({
+            width: TABLE_CARD_WIDTH,
+            height: TABLE_CARD_HEIGHT,
+            image: cardImg,
+        });
+        group.add(img);
+        group.draw();
+    };
+
+    return group;
+};
+
+const generateUser = function (user) {
+    let userGroup = new Konva.Group();
+
+    // user avatar
+    let userAvatarImage = new Image();
+    userAvatarImage.src = user.avatar;
+    userAvatarImage.onload = function () {
+        let userAvatar = new Konva.Image({
+            x: 1,
+            y: 1,
+            cornerRadius: USER_AVATAR_WIDTH / 2,
+            width: USER_AVATAR_WIDTH - 2,
+            height: USER_AVATAR_WIDTH - 2,
+            image: userAvatarImage,
+        });
+        userGroup.add(userAvatar);
+        userAvatar.draw();
+    }.bind(this);
+
+    // user's nick
+    let userNick = new Konva.Text({
+        x: USER_AVATAR_WIDTH + 5,
+        y: 12,
+        width: USERS_WIDTH,
+        text: user['userLogin'],
+        align: 'left',
+        fontSize: 16,
+        fontFamily: 'DigitalStrip',
+    });
+    userGroup.add(userNick);
+
+    // master indicator
+    let userDescription = new Konva.Text({
+        x: USER_AVATAR_WIDTH + 5,
+        y: 30,
+        width: USERS_WIDTH,
+        text: `${user['isMaster'] ? 'Ведущий, ' : ''}Очки: ${user['score']}`,
+        align: 'left',
+        fill: 'gray',
+        fontSize: 12,
+        fontFamily: 'DigitalStrip',
+    });
+    userGroup.add(userDescription);
+
+    return userGroup;
+
+};
 
 class GameController extends View {
     constructor(opt = {}) {
@@ -123,28 +206,16 @@ class GameController extends View {
         });
         this._stage.add(this._layerHand);
         this._game.hand.forEach(function (card, i) {
-            let group = new Konva.Group({
-                x: (CARD_WIDTH + CARD_OFFSET) * (i + 1),
-                y: 0,
-            });
-            let rect = new Konva.Rect({
-                stroke: card.red ? 'red' : 'black',
-                strokeWidth: CARD_BORDER_THICKNESS,
-                cornerRadius: CARD_BORDER_RADIUS,
-                width: CARD_WIDTH,
-                height: CARD_HEIGHT
-            });
-            let simpleText = new Konva.Text({
-                x: 0,
-                y: 0,
-                text: JSON.stringify(card, null, ' '),
-                fontSize: 10,
-                fontFamily: 'DigitalStrip',
-            });
-            group.add(simpleText);
-            group.add(rect);
+            let group = generateHandCard.bind(this)(card);
+            group.setX((CARD_WIDTH + CARD_OFFSET) * (i + 1));
+            group.setY(0);
+
+            group.on('mousedown touchstart', function () {
+                this._game.selectCard(card.id);
+            }.bind(this));
             this._layerHand.add(group);
         }.bind(this));
+
         this._layerHand.drawScene();
     }
 
@@ -198,10 +269,10 @@ class GameController extends View {
         });
         this._game.users.forEach(function (user, i) {
             // current user line
-            let userGroup = new Konva.Group({
-                x: 0,
-                y: i * USER_HEIGHT,
-            });
+            user.avatar = avatars[i];
+            let userGroup = generateUser(user);
+            userGroup.setX(0);
+            userGroup.setY(i * USER_HEIGHT);
 
             if (i !== this._game.users.length - 1) {
                 // users separator
@@ -212,49 +283,6 @@ class GameController extends View {
                 });
                 userGroup.add(userSeparator);
             }
-
-            // user avatar
-            let userAvatarImage = new Image();
-            userAvatarImage.src = avatars[i];
-            userAvatarImage.onload = function () {
-                let userAvatar = new Konva.Image({
-                    x: 1,
-                    y: 1,
-                    cornerRadius: USER_AVATAR_WIDTH / 2,
-                    width: USER_AVATAR_WIDTH - 2,
-                    height: USER_AVATAR_WIDTH - 2,
-                    image: userAvatarImage,
-                });
-                userGroup.add(userAvatar);
-                userAvatar.draw();
-            }.bind(this);
-
-            // user's nick
-            let userNick = new Konva.Text({
-                x: USER_AVATAR_WIDTH + 5,
-                y: 12,
-                width: USERS_WIDTH,
-                text: user['userLogin'],
-                align: 'left',
-                fontSize: 16,
-                fontFamily: 'DigitalStrip',
-            });
-            userGroup.add(userNick);
-
-            // master indicator
-            let userDescription = new Konva.Text({
-                x: USER_AVATAR_WIDTH + 5,
-                y: 30,
-                width: USERS_WIDTH,
-                text: `${user['isMaster'] ? 'Ведущий, ' : ''}Очки: ${user['score']}`,
-                align: 'left',
-                fill: 'gray',
-                fontSize: 12,
-                fontFamily: 'DigitalStrip',
-            });
-            userGroup.add(userDescription);
-
-
             usersGroup.add(userGroup);
         }.bind(this));
         this._layerUsers.add(usersGroup);
@@ -272,26 +300,9 @@ class GameController extends View {
 
         this._game.table.forEach(function (card, i) {
             if (!card || typeof card === "string") return;
-            let group = new Konva.Group({
-                x: (TABLE_CARD_WIDTH + TABLE_CARD_OFFSET) * (i + 1),
-                y: 0,
-            });
-            let rect = new Konva.Rect({
-                stroke: card.red ? 'red' : 'black',
-                strokeWidth: TABLE_CARD_BORDER_THICKNESS,
-                cornerRadius: TABLE_CARD_BORDER_RADIUS,
-                width: TABLE_CARD_WIDTH,
-                height: TABLE_CARD_HEIGHT
-            });
-            let simpleText = new Konva.Text({
-                x: 0,
-                y: 0,
-                text: JSON.stringify(card, null, ' '),
-                fontSize: 10,
-                fontFamily: 'DigitalStrip',
-            });
-            group.add(simpleText);
-            group.add(rect);
+            let group = generateTableCard(card);
+            group.setX((TABLE_CARD_WIDTH + TABLE_CARD_OFFSET) * (i + 1));
+            group.setY(0);
             this._layerTable.add(group);
         }.bind(this));
         this._layerTable.drawScene();
