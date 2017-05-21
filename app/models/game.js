@@ -50,8 +50,6 @@ class Game {
 
     stop() {
         if (this._ws) {
-            this._onRoundInfo = undefined;
-            this._onHandInfo = undefined;
             this._onClosed = undefined;
             this._onError = undefined;
             this._ws.close();

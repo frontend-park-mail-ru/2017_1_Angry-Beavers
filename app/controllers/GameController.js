@@ -92,6 +92,7 @@ class GameController extends View {
 
     hide() {
         this.page_parts.get("Game").hidden = true;
+        this._game.close();
     }
 
     _createCanvas() {
