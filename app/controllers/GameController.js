@@ -61,6 +61,8 @@ const generateHandCard = function (card) {
             width: CARD_WIDTH,
             height: CARD_HEIGHT,
             image: cardImg,
+            strokeWidth: 2,
+            stroke: 'black',
         });
         group.add(img);
         group.draw();
@@ -78,6 +80,8 @@ const generateTableCard = function (card) {
             width: TABLE_CARD_WIDTH,
             height: TABLE_CARD_HEIGHT,
             image: cardImg,
+            strokeWidth: 2,
+            strokeEnabled: true,
         });
         group.add(img);
         group.draw();
@@ -163,11 +167,13 @@ class GameController extends View {
             } else {
                 this._game = this.session.createGame();
             }
+
             this._game.onHandInfo = this._updateHand.bind(this);
             this._game.onError = x => alert(`Error ${JSON.stringify(x)}`);
             this._game.onClosed = x => alert(`Closed ${JSON.stringify(x)}`);
             this._game.onRoundInfo = this._updateRound.bind(this);
             this._game.onTableInfo = this._updateTable.bind(this);
+            this._game.onGetCardFromHand = this._updateHandToSelect.bind(this);
             this._createCanvas();
             this._game.start();
         }
@@ -175,7 +181,7 @@ class GameController extends View {
 
     hide() {
         this.page_parts.get("Game").hidden = true;
-        this._game.stop();
+        this._game && this._game.stop();
     }
 
     _createCanvas() {
@@ -198,25 +204,65 @@ class GameController extends View {
         window.addEventListener('orientationchange', fitStageIntoParentContainer);
     }
 
-    _updateHand() {
-        this._layerHand && this._layerHand.remove();
+    _updateHand(permanently) {
+        if (this._layerHand && !permanently) {
+            let fade = new Konva.Tween({
+                node: this._layerHand,
+                opacity: 0,
+                duration: 0.3,
+            });
+
+            fade.play();
+        }
+
+        let oldLayer = this._layerHand;
+
+        this._hand = [];
+
         this._layerHand = new Konva.Layer({
             x: 0,
             y: STAGE_HEIGHT - CARD_HEIGHT - CARD_BORDER_THICKNESS,
         });
-        this._stage.add(this._layerHand);
         this._game.hand.forEach(function (card, i) {
             let group = generateHandCard.bind(this)(card);
             group.setX((CARD_WIDTH + CARD_OFFSET) * (i + 1));
             group.setY(0);
+            group.opacity(0.6);
 
-            group.on('mousedown touchstart', function () {
-                this._game.selectCard(card.id);
-            }.bind(this));
             this._layerHand.add(group);
+
+            let highLight = new Konva.Tween({
+                node: group,
+                opacity: 1,
+                duration: 0.2
+            });
+
+            group.on('mouseover', function () {
+                highLight.play();
+            });
+            group.on('mouseout', function () {
+                highLight.reverse();
+            });
+
+            this._hand.push({
+                card: card,
+                group: group
+            });
         }.bind(this));
 
-        this._layerHand.drawScene();
+        this._layerHand.opacity(0);
+        this._stage.add(this._layerHand);
+        setTimeout(function () {
+            oldLayer && oldLayer.remove();
+            this._layerHand.drawScene();
+            let rise = new Konva.Tween({
+                node: this._layerHand,
+                opacity: 1,
+                duration: 0.3,
+            });
+            rise.play();
+        }.bind(this), 300);
+
     }
 
     _updateRound() {
@@ -284,6 +330,7 @@ class GameController extends View {
                 userGroup.add(userSeparator);
             }
             usersGroup.add(userGroup);
+
         }.bind(this));
         this._layerUsers.add(usersGroup);
 
@@ -306,6 +353,48 @@ class GameController extends View {
             this._layerTable.add(group);
         }.bind(this));
         this._layerTable.drawScene();
+    }
+
+    _updateHandToSelect() {
+        if (!this._hand) this._updateHand();
+
+        let isClicked = false;
+        let tweens = [];
+        this._hand.forEach(function (c, i) {
+            let highLight = new Konva.Tween({
+                node: c.group,
+                opacity: 1,
+                duration: 0.2
+            });
+
+            let up = new Konva.Tween({
+                node: c.group,
+                y: c.group.getY() - 20,
+                duration: 0.2,
+                easing: Konva.Easings['StrongEaseOut'],
+            });
+
+            highLight.play();
+            tweens.push(highLight);
+            c.group.on('mousedown touchstart', function () {
+                if (isClicked) return;
+                isClicked = true;
+                this._stage.container().style.cursor = 'default';
+                this._game.selectCard(i);
+                tweens.forEach(x => x !== highLight && x.reverse());
+                up.reverse();
+            }.bind(this));
+            c.group.on('mouseover', function () {
+                if (isClicked) return;
+                this._stage.container().style.cursor = 'pointer';
+                up.play();
+            }.bind(this));
+            c.group.on('mouseout', function () {
+                if (isClicked) return;
+                this._stage.container().style.cursor = 'default';
+                up.reverse();
+            }.bind(this));
+        }.bind(this));
     }
 }
 

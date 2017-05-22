@@ -47,28 +47,34 @@ class GameFake {
 
     }
 
-    selectCard(cardId) {
-        let card = this._hand.find(x => x.id == cardId);
-        this._table.push(card);
+    selectCard(index) {
+        setTimeout(function () {
+            if (this._table.length === 4) return;
 
-        this._hand = [];
-        for (let i = 0; i < 7; ++i) {
-            this._hand.push({
-                "red": false,
-                "id": Math.round(Math.random() * 400)
-            });
-        }
+            let card = this._hand[index];
+            this._table.push(card);
 
-        this._onHandInfo && this._onHandInfo();
-        this._onRoundInfo && this._onRoundInfo();
-        this._onTableInfo && this._onTableInfo();
-        if (++this._roundNum >= 4) {
+            this._hand = [];
+            for (let i = 0; i < 7; ++i) {
+                this._hand.push({
+                    "red": false,
+                    "id": Math.round(Math.random() * 400)
+                });
+            }
+
+            this._onHandInfo && this._onHandInfo();
+            this._onRoundInfo && this._onRoundInfo();
+            this._onTableInfo && this._onTableInfo();
+            if (++this._roundNum === 4) {
+                setTimeout(function () {
+                    this.stop();
+                    this.start();
+                }.bind(this), 3000);
+            }
             setTimeout(function () {
-                this.stop();
-                this.start();
-            }.bind(this), 3000);
-        }
-        this._onGetCardFromHand && this._onGetCardFromHand();
+                this._onGetCardFromHand && this._onGetCardFromHand();
+            }.bind(this), 500);
+        }.bind(this), 1000);
     }
 
     get roundNum() {
