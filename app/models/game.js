@@ -41,6 +41,9 @@ class Game {
                     this._table = data.hand;
                     this._onTableInfo && this._onTableInfo(data);
                     break;
+                case 'GetCardFromHand':
+                    this._onGetCardFromHand && this._onGetCardFromHand(data);
+                    break;
             }
         }).bind(this);
         this._ws.onerror = (function (e) {
@@ -55,6 +58,13 @@ class Game {
             this._onError = undefined;
             this._ws.close();
         }
+    }
+
+    selectCard(index) {
+        this._ws.send(JSON.stringify({
+            "type": "ChooseCardFromHand",
+            "chosenCard": index
+        }));
     }
 
     get roundNum() {
@@ -96,6 +106,15 @@ class Game {
     set onTableInfo(value) {
         this._onTableInfo = value;
     }
+
+    get onGetCardFromHand() {
+        return this._onGetCardFromHand;
+    }
+
+    set onGetCardFromHand(value) {
+        this._onGetCardFromHand = value;
+    }
+
 
     get onError() {
         return this._onError;
