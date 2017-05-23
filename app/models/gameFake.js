@@ -21,14 +21,14 @@ class GameFake {
                 "id": Math.round(Math.random() * 400)
             });
         }
-        this._users = [
+        !this._users && (this._users = [
             {
                 "userLogin": this._session.user.login,
                 "isMaster": true,
-                "score": Infinity,
+                "score": 0,
                 "type": "GameUserInfo"
             },
-        ];
+        ]);
         this._table = [
             {
                 "red": false,
@@ -54,13 +54,10 @@ class GameFake {
             let card = this._hand[index];
             this._table.push(card);
 
-            this._hand = [];
-            for (let i = 0; i < 7; ++i) {
-                this._hand.push({
-                    "red": false,
-                    "id": Math.round(Math.random() * 400)
-                });
-            }
+            this._hand[index] = {
+                "red": false,
+                "id": Math.round(Math.random() * 400)
+            };
 
             this._onTableInfo && this._onTableInfo();
             if (++this._roundNum === 4) {
@@ -68,6 +65,7 @@ class GameFake {
                 this._onHandInfo && this._onHandInfo();
                 setTimeout(function () {
                     this.stop();
+                    ++this._users[0].score;
                     this.start();
                 }.bind(this), 3000);
             } else {

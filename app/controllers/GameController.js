@@ -39,7 +39,7 @@ const USERS_BORDER_RADIUS = 5;
 const USER_HEIGHT = 50;
 const USER_AVATAR_WIDTH = 50;
 
-const USER_AVATARS = [
+let USER_AVATARS = [
     '/images/avatars/1.jpg',
     '/images/avatars/2.jpg',
     '/images/avatars/3.jpg',
@@ -52,6 +52,7 @@ const USER_AVATARS = [
     '/images/avatars/10.jpg',
 ];
 
+// меня задолбала копипаста, поэтому я всё таки написал функции, но это по-прежнему индусский гавнокод
 const generateCard = function (card) {
     let group = new Konva.Group({
         width: TABLE_CARD_WIDTH,
@@ -79,7 +80,6 @@ const generateCard = function (card) {
         } else {
             img.opacity(1);
         }
-        group.draw();
     };
     return group;
 };
@@ -111,7 +111,6 @@ const generateUser = function (user) {
         } else {
             userAvatar.opacity(1);
         }
-        userGroup.draw();
     }.bind(this);
 
     // user's nick
@@ -143,6 +142,58 @@ const generateUser = function (user) {
 
 };
 
+const insertItem = function (parent, item) {
+    parent.add(item);
+    const tween = new Konva.Tween({
+        node: item,
+        duration: 0.3,
+        opacity: 1,
+    });
+    tween.play();
+    return new Promise(r => setTimeout(r, 300));
+};
+
+const removeItem = function (item) {
+    const tween = new Konva.Tween({
+        node: item,
+        duration: 0.3,
+        opacity: 0,
+    });
+    tween.play();
+    return new Promise(r => setTimeout(r, 300))
+        .then(() => item.remove());
+};
+
+const updateList = function (parent, oldItems, newItems) {
+    for (let i = 0; i < newItems.length; ++i) {
+        if (oldItems[i] && oldItems[i].id === newItems[i].id) {
+            newItems[i].item = oldItems[i].item;
+            continue;
+        }
+
+        newItems[i].item = newItems[i].itemGenerator();
+        // если уже на экране уже есть итем
+        if (oldItems[i]) {
+            let parent = oldItems[i].item.getParent();
+            removeItem(oldItems[i].item)
+                .then(() => {
+                    insertItem(parent, newItems[i].item);
+                    newItems[i].onAdd && newItems[i].onAdd(newItems[i].item);
+                });
+        }
+        // если её нет
+        else {
+            insertItem(parent, newItems[i].item);
+        }
+    }
+    // удаляем все последующие итемы с экрана
+    for (let i = newItems.length; i < oldItems.length; ++i) {
+        removeItem(oldItems[i].item);
+    }
+
+    return newItems;
+};
+
 class GameController extends View {
     constructor(opt = {}) {
         if (GameController.__instance) {
@@ -166,6 +217,8 @@ class GameController extends View {
             this.router.go('/signin');
         }
         else {
+            USER_AVATARS = USER_AVATARS.sort(() => .5 - Math.random()); // shuffle
+
             this.page_parts.get("Game").hidden = false;
             if (window.location.pathname === '/gameFake/' || window.location.pathname === '/gameFake') { // ну это "или" это полный пиздос, но чё поделать времени мало...
                 this._game = this.session.createFakeGame();
@@ -209,163 +262,168 @@ class GameController extends View {
         window.addEventListener('orientationchange', fitStageIntoParentContainer);
     }
 
-    _updateHand(permanently) {
-        if (this._layerHand && !permanently) {
-            let fade = new Konva.Tween({
-                node: this._layerHand,
-                opacity: 0,
-                duration: 0.3,
+    _updateHand() {
+        if (!this._layerHand) {
+            this._layerHand = new Konva.Layer({
+                x: 0,
+                y: STAGE_HEIGHT - CARD_HEIGHT - CARD_BORDER_THICKNESS,
             });
-
-            fade.play();
+            this._stage.add(this._layerHand);
         }
 
-        let oldLayer = this._layerHand;
+        if (!this._hand) this._hand = [];
 
-        this._hand = [];
-
-        this._layerHand = new Konva.Layer({
-            x: 0,
-            y: STAGE_HEIGHT - CARD_HEIGHT - CARD_BORDER_THICKNESS,
-        });
+        let newHand = [];
         this._game.hand.forEach(function (card, i) {
-            let group = generateCard.bind(this)(card);
+            if (!card || typeof card === "string") return;
+            newHand.push({
+                id: card.id % 10 + 1,
+                itemGenerator: () => {
+                    let group = generateCard.bind(this)(card);
 
-            group.setX((CARD_WIDTH + CARD_OFFSET) * (i + 1));
-            group.setY(0);
-            group.scale({
-                x: CARD_WIDTH / group.getWidth(),
-                y: CARD_HEIGHT / group.getHeight()
-            });
-            group.opacity(0.6);
+                    group.setX((CARD_WIDTH + CARD_OFFSET) * (i + 1));
+                    group.setY(0);
+                    group.scale({
+                        x: CARD_WIDTH / group.getWidth(),
+                        y: CARD_HEIGHT / group.getHeight()
+                    });
+                    group.opacity(0.6);
 
-            this._layerHand.add(group);
+                    return group;
+                },
+                onAdd: group => {
+                    let highLight = new Konva.Tween({
+                        node: group,
+                        opacity: 1,
+                        duration: 0.2
+                    });
 
-            let highLight = new Konva.Tween({
-                node: group,
-                opacity: 1,
-                duration: 0.2
-            });
+                    group.on('mouseover', function () {
+                        highLight.play();
+                    });
+                    group.on('mouseout', function () {
+                        highLight.reverse();
+                    });
 
-            group.on('mouseover', function () {
-                highLight.play();
-            });
-            group.on('mouseout', function () {
-                highLight.reverse();
-            });
-
-            this._hand.push({
-                card: card,
-                group: group
+                }
             });
         }.bind(this));
-
-        this._layerHand.opacity(0);
-        this._stage.add(this._layerHand);
-        setTimeout(function () {
-            oldLayer && oldLayer.remove();
-            this._layerHand.drawScene();
-            let rise = new Konva.Tween({
-                node: this._layerHand,
-                opacity: 1,
-                duration: 0.3,
-            });
-            rise.play();
-        }.bind(this), 300);
+        let u = updateList(this._layerHand, this._hand, newHand);
+        this._hand = u;
+        this._layerHand.drawScene();
 
     }
 
     _updateRound() {
-        this._layerUsers && this._layerUsers.remove();
-        this._layerUsers = new Konva.Layer({
-            x: STAGE_WIDTH - USERS_RIGHT - USERS_WIDTH,
-            y: USERS_TOP,
-        });
-        this._stage.add(this._layerUsers);
+        if (!this._layerUsers) {
+            let layerUserBox = new Konva.Layer({
+                x: STAGE_WIDTH - USERS_RIGHT - USERS_WIDTH,
+                y: USERS_TOP,
+            });
+            this._stage.add(layerUserBox);
 
-        const shuffled = USER_AVATARS.sort(() => .5 - Math.random());// shuffle
-        const avatars = shuffled.slice(0, this._game.users.length); //get sub-array of first n elements AFTER shuffle
+            // the outer box
+            let border = new Konva.Rect({
+                x: 0,
+                y: 0,
+                width: USERS_WIDTH,
+                height: USER_HEIGHT * (1 + this._game.users.length),
+                stroke: 'black',
+                strokeWidth: 1,
+                cornerRadius: USERS_BORDER_RADIUS,
+            });
+            layerUserBox.add(border);
 
-        // the outer box
-        let border = new Konva.Rect({
-            x: 0,
-            y: 0,
-            width: USERS_WIDTH,
-            height: USER_HEIGHT * (1 + this._game.users.length),
-            stroke: 'black',
-            strokeWidth: 1,
-            cornerRadius: USERS_BORDER_RADIUS,
-        });
-        this._layerUsers.add(border);
+            // title text
+            let title = new Konva.Text({
+                x: 0,
+                y: 16,
+                width: USERS_WIDTH,
+                text: "Игроки",
+                align: 'center',
+                fontSize: 20,
+                fontFamily: 'DigitalStrip',
+            });
+            layerUserBox.add(title);
 
-        // title text
-        let title = new Konva.Text({
-            x: 0,
-            y: 16,
-            width: USERS_WIDTH,
-            text: "Игроки",
-            align: 'center',
-            fontSize: 20,
-            fontFamily: 'DigitalStrip',
-        });
-        this._layerUsers.add(title);
+            // head separator
+            let titleSeparator = new Konva.Line({
+                points: [0, USER_HEIGHT, USERS_WIDTH, USER_HEIGHT],
+                stroke: 'black',
+                strokeWidth: 1,
+            });
+            layerUserBox.add(titleSeparator);
 
-        // head separator
-        let titleSeparator = new Konva.Line({
-            points: [0, USER_HEIGHT, USERS_WIDTH, USER_HEIGHT],
-            stroke: 'black',
-            strokeWidth: 1,
-        });
-        this._layerUsers.add(titleSeparator);
+            // список игроков
+            this._layerUsers = new Konva.Group({
+                x: 0,
+                y: 50,
+            });
+            layerUserBox.add(this._layerUsers);
+        }
 
-        // list of users
-        let usersGroup = new Konva.Group({
-            x: 0,
-            y: 50,
-        });
+        if (!this._users) this._users = [];
+
+        let newUsers = [];
         this._game.users.forEach(function (user, i) {
-            // current user line
-            user.avatar = avatars[i];
-            let userGroup = generateUser(user);
-            userGroup.setX(0);
-            userGroup.setY(i * USER_HEIGHT);
+            newUsers.push({
+                id: `${user.nickname}${user.score}`,
+                itemGenerator: () => {
+                    // current user line
+                    user.avatar = USER_AVATARS[i];
+                    let userGroup = generateUser(user);
+                    userGroup.setX(0);
+                    userGroup.setY(i * USER_HEIGHT);
 
-            if (i !== this._game.users.length - 1) {
-                // users separator
-                let userSeparator = new Konva.Line({
-                    points: [0, USER_HEIGHT, USERS_WIDTH, USER_HEIGHT],
-                    stroke: 'black',
-                    strokeWidth: 1,
-                });
-                userGroup.add(userSeparator);
-            }
-            usersGroup.add(userGroup);
+                    if (i !== this._game.users.length - 1) {
+                        // users separator
+                        let userSeparator = new Konva.Line({
+                            points: [0, USER_HEIGHT, USERS_WIDTH, USER_HEIGHT],
+                            stroke: 'black',
+                            strokeWidth: 1,
+                        });
+                        userGroup.add(userSeparator);
+                    }
 
+                    return userGroup;
+                }
+            });
         }.bind(this));
-        this._layerUsers.add(usersGroup);
-
+        let u = updateList(this._layerUsers, this._users, newUsers);
+        this._users = u;
         this._layerUsers.drawScene();
     }
 
     _updateTable() {
-        this._layerTable && this._layerTable.remove();
-        this._layerTable = new Konva.Layer({
-            x: TABLE_LEFT,
-            y: TABLE_TOP,
-        });
-        this._stage.add(this._layerTable);
+        if (!this._layerTable) {
+            this._layerTable = new Konva.Layer({
+                x: TABLE_LEFT,
+                y: TABLE_TOP,
+            });
+            this._stage.add(this._layerTable);
+        }
 
+        if (!this._table) this._table = [];
+
+        let newTable = [];
         this._game.table.forEach(function (card, i) {
             if (!card || typeof card === "string") return;
-            let group = generateCard.bind(this)(card);
-            group.scale({
-                x: TABLE_CARD_WIDTH / group.getWidth(),
-                y: TABLE_CARD_HEIGHT / group.getHeight()
+            newTable.push({
+                id: card.id,
+                itemGenerator: () => {
+                    let group = generateCard.bind(this)(card);
+                    group.scale({
+                        x: TABLE_CARD_WIDTH / group.getWidth(),
+                        y: TABLE_CARD_HEIGHT / group.getHeight()
+                    });
+                    group.setX((TABLE_CARD_WIDTH + TABLE_CARD_OFFSET) * (i + 1));
+                    group.setY(0);
+                    return group;
+                }
             });
-            group.setX((TABLE_CARD_WIDTH + TABLE_CARD_OFFSET) * (i + 1));
-            group.setY(0);
-            this._layerTable.add(group);
         }.bind(this));
+        let u = updateList(this._layerTable, this._table, newTable);
+        this._table = u;
         this._layerTable.drawScene();
     }
 
@@ -376,21 +434,21 @@ class GameController extends View {
         let tweens = [];
         this._hand.forEach(function (c, i) {
             let highLight = new Konva.Tween({
-                node: c.group,
+                node: c.item,
                 opacity: 1,
                 duration: 0.2
             });
 
             let up = new Konva.Tween({
-                node: c.group,
-                y: c.group.getY() - 20,
+                node: c.item,
+                y: c.item.getY() - 20,
                 duration: 0.2,
                 easing: Konva.Easings['StrongEaseOut'],
             });
 
             highLight.play();
             tweens.push(highLight);
-            c.group.on('mousedown touchstart', function () {
+            c.item.on('mousedown touchstart', function () {
                 if (isClicked) return;
                 isClicked = true;
                 this._stage.container().style.cursor = 'default';
@@ -398,12 +456,12 @@ class GameController extends View {
                 tweens.forEach(x => x !== highLight && x.reverse());
                 up.reverse();
             }.bind(this));
-            c.group.on('mouseover', function () {
+            c.item.on('mouseover', function () {
                 if (isClicked) return;
                 this._stage.container().style.cursor = 'pointer';
                 up.play();
             }.bind(this));
-            c.group.on('mouseout', function () {
+            c.item.on('mouseout', function () {
                 if (isClicked) return;
                 this._stage.container().style.cursor = 'default';
                 up.reverse();
