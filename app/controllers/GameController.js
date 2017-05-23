@@ -60,7 +60,7 @@ const generateCard = function (card) {
         fill: 'white',
     });
     let cardImg = new Image();
-    cardImg.src = `/images/avatars/${card.id % 10 + 1}.jpg`;
+    cardImg.src = `https://raw.githubusercontent.com/ed-asriyan/joking-hazard-cards/master/pure-cropped/${Math.trunc((card.id - 1) / 9) + 1}_${card.id % 9}.jpg`;
     cardImg.onload = function () {
         let img = new Konva.Image({
             image: cardImg,
