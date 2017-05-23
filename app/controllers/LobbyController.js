@@ -23,8 +23,10 @@ class LobbyController extends View {
                 event.preventDefault();
                 this.router.go("/");
             }));
+        document.getElementById('lobby_single').addEventListener('click', function () {
+            this.router.go('/gameFake');
+        }.bind(this));
     }
-
 
     resume() {
         this.show();
@@ -61,14 +63,23 @@ class LobbyController extends View {
         handler();
         this._lobby.onInfo = handler;
         this._lobby.onError = (function () {
-            this.router.go('/gameFake');
+            if (confirm('Произошла ошибка. Поиграешь один?')) {
+                this.router.go('/gameFake');
+            } else {
+                this.router.go('/');
+            }
         }).bind(this);
         this._lobby.onClosed = (function () {
-            this.router.go('/game');
+            if (confirm('Сервер разорвал соединение. Поиграешь один?')) {
+                this.router.go('/gameFake');
+            } else {
+                this.router.go('/');
+            }
         }).bind(this);
         this._lobby.onUserAdd = handler;
         this._lobby.onUserRemove = handler;
         this._lobby.onGameStart = function () {
+            this._lobby.onClosed = undefined;
             this.router.go('/game');
         }.bind(this);
         this._lobby.start();
