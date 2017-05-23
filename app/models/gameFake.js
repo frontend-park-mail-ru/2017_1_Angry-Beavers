@@ -62,18 +62,21 @@ class GameFake {
                 });
             }
 
-            this._onHandInfo && this._onHandInfo();
-            this._onRoundInfo && this._onRoundInfo();
             this._onTableInfo && this._onTableInfo();
             if (++this._roundNum === 4) {
+                this._hand = [];
+                this._onHandInfo && this._onHandInfo();
                 setTimeout(function () {
                     this.stop();
                     this.start();
                 }.bind(this), 3000);
+            } else {
+                this._onHandInfo && this._onHandInfo();
+                this._onRoundInfo && this._onRoundInfo();
+                setTimeout(function () {
+                    this._onGetCardFromHand && this._onGetCardFromHand();
+                }.bind(this), 500);
             }
-            setTimeout(function () {
-                this._onGetCardFromHand && this._onGetCardFromHand();
-            }.bind(this), 500);
         }.bind(this), 1000);
     }
 
