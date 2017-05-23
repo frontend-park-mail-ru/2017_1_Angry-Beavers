@@ -342,17 +342,20 @@ class GameController extends View {
         }.bind(this);
         fitStageIntoParentContainer();
 
+        this._layerGame = new Konva.Layer();
+        this._stage.add(this._layerGame);
+
         window.addEventListener('resize', fitStageIntoParentContainer);
         window.addEventListener('orientationchange', fitStageIntoParentContainer);
     }
 
     _updateHand() {
-        if (!this._layerHand) {
-            this._layerHand = new Konva.Layer({
+        if (!this._groupHand) {
+            this._groupHand = new Konva.Group({
                 x: 0,
                 y: STAGE_HEIGHT - CARD_HEIGHT - CARD_BORDER_THICKNESS,
             });
-            this._stage.add(this._layerHand);
+            this._layerGame.add(this._groupHand);
         }
 
         if (!this._hand) this._hand = [];
@@ -393,13 +396,12 @@ class GameController extends View {
                 }
             });
         }.bind(this));
-        let u = updateList(this._layerHand, this._hand, newHand);
-        this._hand = u;
-        this._layerHand.drawScene();
+        this._hand = updateList(this._groupHand, this._hand, newHand);
+        this._groupHand.drawScene();
 
         const cardsWidth = this._hand.length * (CARD_OFFSET + CARD_WIDTH) - CARD_OFFSET;
         const tween = new Konva.Tween({
-            node: this._layerHand,
+            node: this._groupHand,
             x: (STAGE_WIDTH - cardsWidth) / 2,
             y: STAGE_HEIGHT - CARD_HEIGHT - CARD_BORDER_THICKNESS,
             duration: 0.45,
@@ -409,12 +411,12 @@ class GameController extends View {
     }
 
     _updateUsers() {
-        if (!this._layerUsers) {
-            let layerUserBox = new Konva.Layer({
+        if (!this._groupUsers) {
+            let layerUserBox = new Konva.Group({
                 x: STAGE_WIDTH - USERS_RIGHT - USERS_WIDTH,
                 y: USERS_TOP,
             });
-            this._stage.add(layerUserBox);
+            this._layerGame.add(layerUserBox);
 
             // the outer box
             let border = new Konva.Rect({
@@ -450,11 +452,11 @@ class GameController extends View {
             layerUserBox.add(titleSeparator);
 
             // список игроков
-            this._layerUsers = new Konva.Group({
+            this._groupUsers = new Konva.Group({
                 x: 0,
                 y: 50,
             });
-            layerUserBox.add(this._layerUsers);
+            layerUserBox.add(this._groupUsers);
         }
 
         if (!this._users) this._users = [];
@@ -484,17 +486,17 @@ class GameController extends View {
                 }
             });
         }.bind(this));
-        let u = updateList(this._layerUsers, this._users, newUsers);
+        let u = updateList(this._groupUsers, this._users, newUsers);
         this._users = u;
-        this._layerUsers.drawScene();
+        this._groupUsers.drawScene();
     }
 
     _updateTable() {
-        if (!this._layerTable) {
-            this._layerTable = new Konva.Layer({
+        if (!this._groupTable) {
+            this._groupTable = new Konva.Group({
                 y: TABLE_TOP,
             });
-            this._stage.add(this._layerTable);
+            this._layerGame.add(this._groupTable);
         }
 
         if (!this._table) this._table = [];
@@ -517,14 +519,13 @@ class GameController extends View {
                 }
             });
         }.bind(this));
-        let u = updateList(this._layerTable, this._table, newTable);
-        this._table = u;
-        this._layerTable.drawScene();
+        this._table = updateList(this._groupTable, this._table, newTable);
+        this._groupTable.drawScene();
 
         const cardsWidth = this._table.length * (TABLE_CARD_OFFSET + TABLE_CARD_WIDTH) - TABLE_CARD_OFFSET;
         const tableWidth = STAGE_WIDTH - 2 * USERS_WIDTH - 2 * USERS_RIGHT;
         const tween = new Konva.Tween({
-            node: this._layerTable,
+            node: this._groupTable,
             x: (tableWidth - cardsWidth) / 2,
             y: TABLE_TOP,
             duration: 0.45,
@@ -577,13 +578,13 @@ class GameController extends View {
     }
 
     _updateTooltip(state) {
-        if (!this._layerTooltip) {
-            this._layerTooltip = new Konva.Layer({
+        if (!this._groupHint) {
+            this._groupHint = new Konva.Group({
                 x: TOOLTIP_LEFT,
                 y: TOOLTIP_TOP,
             });
 
-            this._stage.add(this._layerTooltip);
+            this._layerGame.add(this._groupHint);
         }
 
         switch (state) {
@@ -600,7 +601,7 @@ class GameController extends View {
                 this._stopTimer();
         }
 
-        this._layerTooltip.drawScene();
+        this._groupHint.drawScene();
     }
 
     _updateTooltipText(text) {
@@ -611,10 +612,10 @@ class GameController extends View {
         if (this._tooltipText) {
             replaceItem(this._tooltipText, newText);
         } else {
-            insertItem(this._layerTooltip, newText);
+            insertItem(this._groupHint, newText);
         }
         this._tooltipText = newText;
-        this._layerTooltip.add(this._tooltipText);
+        this._groupHint.add(this._tooltipText);
     }
 
     _startTimer() {
@@ -622,9 +623,9 @@ class GameController extends View {
         this._tooltipTimer = generateTimer();
         this._tooltipTimer.setX(TOOLTIP_TIMER_SIZE / 2);
         this._tooltipTimer.setY(TOOLTIP_TIMER_SIZE / 2);
-        this._layerTooltip.add(this._tooltipTimer);
-        insertItem(this._layerTooltip, this._tooltipTimer);
-        this._layerTooltip.drawScene();
+        this._groupHint.add(this._tooltipTimer);
+        insertItem(this._groupHint, this._tooltipTimer);
+        this._groupHint.drawScene();
     }
 
     _stopTimer() {
