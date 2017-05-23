@@ -18,14 +18,13 @@ const STAGE_WIDTH = 1280;
 const STAGE_HEIGHT = 720;
 
 const TABLE_TOP = 100;
-const TABLE_LEFT = 10;
 const TABLE_CARD_WIDTH = 150;
 const TABLE_CARD_HEIGHT = TABLE_CARD_WIDTH * 1.4786324786324787;
 const TABLE_CARD_OFFSET = 30;
 const TABLE_CARD_BORDER_THICKNESS = 4;
 const TABLE_CARD_BORDER_RADIUS = 4;
 
-const CARD_WIDTH = 110;
+const CARD_WIDTH = 145;
 const CARD_HEIGHT = CARD_WIDTH * 1.4786324786324787;
 const CARD_OFFSET = 20;
 const CARD_BORDER_THICKNESS = 4;
@@ -283,7 +282,7 @@ class GameController extends View {
                 itemGenerator: () => {
                     let group = generateCard.bind(this)(card);
 
-                    group.setX((CARD_WIDTH + CARD_OFFSET) * (i + 1));
+                    group.setX((CARD_WIDTH + CARD_OFFSET) * i + 5);
                     group.setY(0);
                     group.scale({
                         x: CARD_WIDTH / group.getWidth(),
@@ -400,7 +399,6 @@ class GameController extends View {
     _updateTable() {
         if (!this._layerTable) {
             this._layerTable = new Konva.Layer({
-                x: TABLE_LEFT,
                 y: TABLE_TOP,
             });
             this._stage.add(this._layerTable);
@@ -429,6 +427,17 @@ class GameController extends View {
         let u = updateList(this._layerTable, this._table, newTable);
         this._table = u;
         this._layerTable.drawScene();
+
+        const cardsWidth = this._table.length * (TABLE_CARD_OFFSET + TABLE_CARD_WIDTH) - TABLE_CARD_OFFSET;
+        const tableWidth = STAGE_WIDTH - 2 * USERS_WIDTH - 2 * USERS_RIGHT;
+        const tween = new Konva.Tween({
+            node: this._layerTable,
+            x: (tableWidth - cardsWidth) / 2,
+            y: TABLE_TOP,
+            duration: 0.45,
+            easing: Konva.Easings['StrongEaseOut'],
+        });
+        tween.play();
     }
 
     _updateHandToSelect() {
