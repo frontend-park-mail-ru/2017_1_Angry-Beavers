@@ -71,6 +71,10 @@ class Game {
         return this._roundNum;
     }
 
+    get roundCount() {
+        return 3;
+    }
+
     get hand() {
         return this._hand;
     }
