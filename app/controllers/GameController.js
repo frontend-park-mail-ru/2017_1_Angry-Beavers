@@ -313,6 +313,15 @@ class GameController extends View {
         this._hand = u;
         this._layerHand.drawScene();
 
+        const cardsWidth = this._hand.length * (CARD_OFFSET + CARD_WIDTH) - CARD_OFFSET;
+        const tween = new Konva.Tween({
+            node: this._layerHand,
+            x: (STAGE_WIDTH - cardsWidth) / 2,
+            y: STAGE_HEIGHT - CARD_HEIGHT - CARD_BORDER_THICKNESS,
+            duration: 0.45,
+            easing: Konva.Easings['StrongEaseOut'],
+        });
+        tween.play();
     }
 
     _updateRound() {
