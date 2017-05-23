@@ -57,6 +57,7 @@ const generateCard = function (card) {
     let group = new Konva.Group({
         width: TABLE_CARD_WIDTH,
         height: TABLE_CARD_HEIGHT,
+        fill: 'white',
     });
     let cardImg = new Image();
     cardImg.src = `/images/avatars/${card.id % 10 + 1}.jpg`;
@@ -327,6 +328,7 @@ class GameController extends View {
             let border = new Konva.Rect({
                 x: 0,
                 y: 0,
+                fill: 'white',
                 width: USERS_WIDTH,
                 height: USER_HEIGHT * (1 + this._game.users.length),
                 stroke: 'black',
