@@ -6,6 +6,8 @@
 
 import Konva from 'konva/src/Core';
 import 'konva/src/shapes/Rect';
+import 'konva/src/shapes/Circle';
+import 'konva/src/shapes/Arc';
 import 'konva/src/shapes/Text';
 import 'konva/src/shapes/Line';
 import 'konva/src/shapes/Image';
@@ -37,6 +39,11 @@ const USERS_BORDER_RADIUS = 5;
 
 const USER_HEIGHT = 50;
 const USER_AVATAR_WIDTH = 50;
+
+const TOOLTIP_LEFT = 10;
+const TOOLTIP_TOP = 10;
+const TOOLTIP_TIMER_SIZE = 50;
+const TOOLTIP_TEXT_TOP = TOOLTIP_TIMER_SIZE / 2 - 8;
 
 let USER_AVATARS = [
     '/images/avatars/1.jpg',
@@ -142,6 +149,74 @@ const generateUser = function (user) {
 
 };
 
+const generateTimer = function (time = 60) {
+    let timer = new Konva.Group({});
+
+    let circleBack = new Konva.Circle({
+        x: 0,
+        y: 0,
+        radius: TOOLTIP_TIMER_SIZE / 2,
+        stroke: 'gray',
+        strokeWidth: 2,
+    });
+    timer.add(circleBack);
+
+    let circleFront = new Konva.Arc({
+        x: 0,
+        y: 0,
+        innerRadius: TOOLTIP_TIMER_SIZE / 2 - 0.5,
+        outerRadius: TOOLTIP_TIMER_SIZE / 2 + 0.5,
+        angle: 360,
+        stroke: 'black',
+        fill: 'black',
+        scaleY: -1,
+        rotation: -90,
+    });
+    timer.add(circleFront);
+
+    let text = new Konva.Text({
+        x: -TOOLTIP_TIMER_SIZE / 2,
+        y: -TOOLTIP_TIMER_SIZE / 2 + TOOLTIP_TEXT_TOP,
+        width: TOOLTIP_TIMER_SIZE,
+        align: 'center',
+        fontSize: 20,
+        fontFamily: 'DigitalStrip',
+        text: time,
+    });
+    timer.add(text);
+
+    let tween = new Konva.Tween({
+        node: circleFront,
+        angle: 0,
+        duration: 60,
+    });
+    tween.play();
+
+    let _;
+    _ = () => {
+        if (time) {
+            text.text(--time);
+            text.getLayer() && text.getLayer().drawScene();
+            setTimeout(_, 1000);
+        }
+    };
+    _();
+
+    return timer;
+};
+
+const generateTooltipText = function (text) {
+    let group = new Konva.Group({});
+    let _text = new Konva.Text({
+        align: 'left',
+        text: text,
+        fontSize: 20,
+        fontFamily: 'DigitalStrip',
+    });
+    group.add(_text);
+    return group;
+};
+
 const insertItem = function (parent, item) {
     parent.add(item);
     const tween = new Konva.Tween({
@@ -162,6 +237,12 @@ const removeItem = function (item) {
     tween.play();
     return new Promise(r => setTimeout(r, 300))
         .then(() => item.remove());
+};
+
+const replaceItem = function (oldItem, newItem) {
+    let parent = oldItem.getParent();
+    return removeItem(oldItem)
+        .then(() => insertItem(parent, newItem));
 };
 
 const updateList = function (parent, oldItems, newItems) {
@@ -229,9 +310,12 @@ class GameController extends View {
             this._game.onHandInfo = this._updateHand.bind(this);
             this._game.onError = x => alert(`Error ${JSON.stringify(x)}`);
             this._game.onClosed = x => alert(`Closed ${JSON.stringify(x)}`);
-            this._game.onRoundInfo = this._updateRound.bind(this);
+            this._game.onRoundInfo = this._updateUsers.bind(this);
             this._game.onTableInfo = this._updateTable.bind(this);
-            this._game.onGetCardFromHand = this._updateHandToSelect.bind(this);
+            this._game.onGetCardFromHand = function () {
+                this._updateTooltip('chooseCard');
+                this._updateHandToSelect();
+            }.bind(this);
             this._createCanvas();
             this._game.start();
         }
@@ -324,7 +408,7 @@ class GameController extends View {
         tween.play();
     }
 
-    _updateRound() {
+    _updateUsers() {
         if (!this._layerUsers) {
             let layerUserBox = new Konva.Layer({
                 x: STAGE_WIDTH - USERS_RIGHT - USERS_WIDTH,
@@ -477,6 +561,7 @@ class GameController extends View {
                 this._game.selectCard(i);
                 tweens.forEach(x => x !== highLight && x.reverse());
                 up.reverse();
+                this._updateTooltip('waitForPlayers');
             }.bind(this));
             c.item.on('mouseover', function () {
                 if (isClicked || (c.card.red && this._game.roundCount - 1 !== this._game.roundNum)) return;
@@ -489,6 +574,64 @@ class GameController extends View {
                 up.reverse();
             }.bind(this));
         }.bind(this));
+    }
+
+    _updateTooltip(state) {
+        if (!this._layerTooltip) {
+            this._layerTooltip = new Konva.Layer({
+                x: TOOLTIP_LEFT,
+                y: TOOLTIP_TOP,
+            });
+
+            this._stage.add(this._layerTooltip);
+        }
+
+        switch (state) {
+            case 'chooseCard':
+                this._updateTooltipText('Выбери карту');
+                this._startTimer();
+                break;
+            case 'waitForPlayers':
+                this._updateTooltipText('Подожди остальных игроков...');
+                this._stopTimer();
+                break;
+            default:
+                this._tooltipText.text('');
+                this._stopTimer();
+        }
+
+        this._layerTooltip.drawScene();
+    }
+
+    _updateTooltipText(text) {
+        let newText = generateTooltipText(text);
+        newText.setX(TOOLTIP_TIMER_SIZE + 10);
+        newText.setY(TOOLTIP_TEXT_TOP);
+        newText.opacity(0);
+        if (this._tooltipText) {
+            replaceItem(this._tooltipText, newText);
+        } else {
+            insertItem(this._layerTooltip, newText);
+        }
+        this._tooltipText = newText;
+        this._layerTooltip.add(this._tooltipText);
+    }
+
+    _startTimer() {
+        this._stopTimer();
+        this._tooltipTimer = generateTimer();
+        this._tooltipTimer.setX(TOOLTIP_TIMER_SIZE / 2);
+        this._tooltipTimer.setY(TOOLTIP_TIMER_SIZE / 2);
+        this._layerTooltip.add(this._tooltipTimer);
+        insertItem(this._layerTooltip, this._tooltipTimer);
+        this._layerTooltip.drawScene();
+    }
+
+    _stopTimer() {
+        if (this._tooltipTimer) {
+            return removeItem(this._tooltipTimer);
+        }
+        return new Promise(r => r());
     }
 }
 
