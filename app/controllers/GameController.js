@@ -52,41 +52,35 @@ const USER_AVATARS = [
     '/images/avatars/10.jpg',
 ];
 
-const generateHandCard = function (card) {
-    let group = new Konva.Group();
+const generateCard = function (card) {
+    let group = new Konva.Group({
+        width: TABLE_CARD_WIDTH,
+        height: TABLE_CARD_HEIGHT,
+    });
     let cardImg = new Image();
     cardImg.src = `/images/avatars/${card.id % 10 + 1}.jpg`;
     cardImg.onload = function () {
         let img = new Konva.Image({
-            width: CARD_WIDTH,
-            height: CARD_HEIGHT,
             image: cardImg,
             strokeWidth: 2,
-            stroke: 'black',
-        });
-        group.add(img);
-        group.draw();
-    };
-
-    return group;
-};
-
-const generateTableCard = function (card) {
-    let group = new Konva.Group();
-    let cardImg = new Image();
-    cardImg.src = `/images/avatars/${card.id % 10 + 1}.jpg`;
-    cardImg.onload = function () {
-        let img = new Konva.Image({
             width: TABLE_CARD_WIDTH,
             height: TABLE_CARD_HEIGHT,
-            image: cardImg,
-            strokeWidth: 2,
-            strokeEnabled: true,
+            stroke: 'black',
+            opacity: 0,
         });
         group.add(img);
+        if (img.getLayer()) {
+            let tween = new Konva.Tween({
+                node: img,
+                opacity: 1,
+                duration: 0.3
+            });
+            tween.play();
+        } else {
+            img.opacity(1);
+        }
         group.draw();
     };
-
     return group;
 };
 
@@ -104,9 +98,20 @@ const generateUser = function (user) {
             width: USER_AVATAR_WIDTH - 2,
             height: USER_AVATAR_WIDTH - 2,
             image: userAvatarImage,
+            opacity: 0
         });
         userGroup.add(userAvatar);
-        userAvatar.draw();
+        if (userAvatar.getLayer()) {
+            let tween = new Konva.Tween({
+                node: userAvatar,
+                opacity: 1,
+                duration: 0.3
+            });
+            tween.play();
+        } else {
+            userAvatar.opacity(1);
+        }
+        userGroup.draw();
     }.bind(this);
 
     // user's nick
@@ -224,9 +229,14 @@ class GameController extends View {
             y: STAGE_HEIGHT - CARD_HEIGHT - CARD_BORDER_THICKNESS,
         });
         this._game.hand.forEach(function (card, i) {
-            let group = generateHandCard.bind(this)(card);
+            let group = generateCard.bind(this)(card);
+
             group.setX((CARD_WIDTH + CARD_OFFSET) * (i + 1));
             group.setY(0);
+            group.scale({
+                x: CARD_WIDTH / group.getWidth(),
+                y: CARD_HEIGHT / group.getHeight()
+            });
             group.opacity(0.6);
 
             this._layerHand.add(group);
@@ -347,7 +357,11 @@ class GameController extends View {
 
         this._game.table.forEach(function (card, i) {
             if (!card || typeof card === "string") return;
-            let group = generateTableCard(card);
+            let group = generateCard.bind(this)(card);
+            group.scale({
+                x: TABLE_CARD_WIDTH / group.getWidth(),
+                y: TABLE_CARD_HEIGHT / group.getHeight()
+            });
             group.setX((TABLE_CARD_WIDTH + TABLE_CARD_OFFSET) * (i + 1));
             group.setY(0);
             this._layerTable.add(group);
