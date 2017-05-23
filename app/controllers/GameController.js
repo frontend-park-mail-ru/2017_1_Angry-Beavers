@@ -66,7 +66,7 @@ const generateCard = function (card) {
             strokeWidth: 2,
             width: TABLE_CARD_WIDTH,
             height: TABLE_CARD_HEIGHT,
-            stroke: 'black',
+            stroke: card.red ? 'red' : 'black',
             opacity: 0,
         });
         group.add(img);
@@ -278,6 +278,7 @@ class GameController extends View {
             if (!card || typeof card === "string") return;
             newHand.push({
                 id: card.id % 10 + 1,
+                card: card,
                 itemGenerator: () => {
                     let group = generateCard.bind(this)(card);
 
@@ -410,6 +411,7 @@ class GameController extends View {
             if (!card || typeof card === "string") return;
             newTable.push({
                 id: card.id,
+                card: card,
                 itemGenerator: () => {
                     let group = generateCard.bind(this)(card);
                     group.scale({
@@ -449,7 +451,7 @@ class GameController extends View {
             highLight.play();
             tweens.push(highLight);
             c.item.on('mousedown touchstart', function () {
-                if (isClicked) return;
+                if (isClicked || (c.card.red && this._game.roundCount - 1 !== this._game.roundNum)) return;
                 isClicked = true;
                 this._stage.container().style.cursor = 'default';
                 this._game.selectCard(i);
@@ -457,12 +459,12 @@ class GameController extends View {
                 up.reverse();
             }.bind(this));
             c.item.on('mouseover', function () {
-                if (isClicked) return;
+                if (isClicked || (c.card.red && this._game.roundCount - 1 !== this._game.roundNum)) return;
                 this._stage.container().style.cursor = 'pointer';
                 up.play();
             }.bind(this));
             c.item.on('mouseout', function () {
-                if (isClicked) return;
+                if (isClicked || (c.card.red && this._game.roundCount - 1 !== this._game.roundNum)) return;
                 this._stage.container().style.cursor = 'default';
                 up.reverse();
             }.bind(this));

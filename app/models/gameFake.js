@@ -14,13 +14,16 @@ class GameFake {
     }
 
     start() {
+        this._rountCount = 4;
+
         this._hand = [];
         for (let i = 0; i < 7; ++i) {
             this._hand.push({
-                "red": false,
+                "red": Math.random() < 0.1,
                 "id": Math.round(Math.random() * 400)
             });
         }
+
         !this._users && (this._users = [
             {
                 "userLogin": this._session.user.login,
@@ -31,7 +34,7 @@ class GameFake {
         ]);
         this._table = [
             {
-                "red": false,
+                "red": Math.random() < 0.1,
                 "id": Math.round(Math.random() * 400)
             }
         ];
@@ -76,6 +79,10 @@ class GameFake {
                 }.bind(this), 500);
             }
         }.bind(this), 1000);
+    }
+
+    get roundCount() {
+        return this._rountCount
     }
 
     get roundNum() {
