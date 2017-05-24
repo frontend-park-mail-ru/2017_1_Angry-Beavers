@@ -308,8 +308,13 @@ class GameController extends View {
             }
 
             this._game.onHandInfo = this._updateHand.bind(this);
-            this._game.onError = x => alert(`Error ${JSON.stringify(x)}`);
-            this._game.onClosed = x => alert(`Closed ${JSON.stringify(x)}`);
+            this._game.onError = x => function () {
+                alert("Error occurred");
+                this._game.start();
+            }.bind(this);
+            this._game.onClosed = function () {
+                this._showOver();
+            }.bind(this);
             this._game.onRoundInfo = this._updateUsers.bind(this);
             this._game.onTableInfo = this._updateTable.bind(this);
             this._game.onGetCardFromHand = function () {
@@ -348,7 +353,10 @@ class GameController extends View {
 
         this._layerGame = new Konva.Layer();
         this._stage.add(this._layerGame);
-        
+
+        this._layerEnd = new Konva.Layer();
+        this._stage.add(this._layerEnd);
+
         this._updateTooltip('waitForPlayers');
 
         window.addEventListener('resize', fitStageIntoParentContainer);
@@ -689,6 +697,22 @@ class GameController extends View {
         }
         return new Promise(r => r());
     }
+
+    _showOver(state) {
+        const gameTween = new Konva.Tween({
+            node: this._layerGame,
+            opacity: 0,
+            duration: 0.5,
+        });
+        const overTween = new Konva.Tween({
+            node: this._layerGame,
+            opacity: 1,
+            duration: 0.5,
+        });
+
+        gameTween.play();
+        overTween.play();
+    };
 }
 
 export default GameController;

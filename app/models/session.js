@@ -106,6 +106,10 @@ class Session {
             });
     }
 
+    getScoreList() {
+        return this._call('GET', '/score');
+    }
+
     login(login, password) {
         let _this = this;
         return this._call('POST', 'user/login', {
