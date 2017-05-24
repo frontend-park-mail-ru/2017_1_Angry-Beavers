@@ -36,6 +36,65 @@ class ScoreListController extends View {
             document.querySelectorAll('.userheader__login').forEach(a => a.innerHTML = this.session.user.login);
             document.querySelectorAll('.userheader__score').forEach(a => a.innerHTML = this.session.user.score);
             this.page_parts.get("ScoreList").hidden = false;
+
+            this.session.getScoreList()
+                .then(score => {
+                    const scoreList = document.getElementById('score_list');
+                    scoreList.innerHTML = ``;
+
+                    const head = document.createElement('tr');
+                    head.className = 'scorelist__row';
+
+                    const headPosition = document.createElement('th');
+                    headPosition.className = 'col-lg-2 scorelist__head';
+                    headPosition.innerHTML = '#';
+                    const headNickname = document.createElement('th');
+                    headNickname.className = 'col-lg-2 scorelist__head';
+                    headNickname.innerHTML = 'Ник';
+                    const headScore = document.createElement('th');
+                    headScore.className = 'col-lg-2 scorelist__head';
+                    headScore.innerHTML = 'Очки';
+
+                    head.appendChild(headPosition);
+                    head.appendChild(headNickname);
+                    head.appendChild(headScore);
+                    scoreList.appendChild(head);
+
+
+                    score.forEach((user, i) => {
+                        if (i === 10 && score.length === 13 && score[12].position !== 13) {
+                            const row = document.createElement('tr');
+                            row.className = 'scorelist__row';
+
+                            const userPosition = document.createElement('th');
+                            userPosition.className = 'scorelist__separator';
+                            userPosition.innerHTML = `...`;
+                            userPosition.setAttribute('colspan', '3');
+
+                            row.appendChild(userPosition);
+                            scoreList.appendChild(row);
+                        }
+
+                        const row = document.createElement('tr');
+                        row.className = 'scorelist__row';
+
+                        const userPosition = document.createElement('th');
+                        userPosition.className = 'col-lg-2 scorelist__cell';
+                        userPosition.innerHTML = user.rank;
+                        const userNickname = document.createElement('th');
+                        userNickname.className = 'col-lg-2 scorelist__cell';
+                        userNickname.innerHTML = user.login;
+                        const userScore = document.createElement('th');
+                        userScore.className = 'col-lg-2 scorelist__cell';
+                        userScore.innerHTML = user.score;
+
+                        row.appendChild(userPosition);
+                        row.appendChild(userNickname);
+                        row.appendChild(userScore);
+
+                        scoreList.appendChild(row);
+                    });
+                });
         }
 
         /*
