@@ -70,11 +70,7 @@ class LobbyController extends View {
             }
         }).bind(this);
         this._lobby.onClosed = (function () {
-            if (confirm('Сервер разорвал соединение. Поиграешь один?')) {
-                this.router.go('/gameFake');
-            } else {
-                this.router.go('/');
-            }
+            this.router.go('/game');
         }).bind(this);
         this._lobby.onUserAdd = handler;
         this._lobby.onUserRemove = handler;

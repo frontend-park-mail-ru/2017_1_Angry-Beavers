@@ -348,6 +348,8 @@ class GameController extends View {
 
         this._layerGame = new Konva.Layer();
         this._stage.add(this._layerGame);
+        
+        this._updateTooltip('waitForPlayers');
 
         window.addEventListener('resize', fitStageIntoParentContainer);
         window.addEventListener('orientationchange', fitStageIntoParentContainer);
@@ -647,7 +649,7 @@ class GameController extends View {
                 break;
             case 'waitForPlayers':
                 this._updateTooltipText('Подожди остальных игроков...');
-                this._stopTimer();
+                this._startTimer();
                 break;
             default:
                 this._tooltipText.text('');
