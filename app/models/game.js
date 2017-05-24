@@ -44,6 +44,9 @@ class Game {
                 case 'GetCardFromHand':
                     this._onGetCardFromHand && this._onGetCardFromHand(data);
                     break;
+                case 'GetCardFromTable':
+                    this._onGetCardFromTable && this._onGetCardFromTable(data);
+                    break;
             }
         }).bind(this);
         this._ws.onerror = (function (e) {
@@ -60,9 +63,16 @@ class Game {
         }
     }
 
-    selectCard(index) {
+    selectCardFromHand(index) {
         this._ws.send(JSON.stringify({
             "type": "ChooseCardFromHand",
+            "chosenCard": index
+        }));
+    }
+
+    selectCardFromTable(index) {
+        this._ws.send(JSON.stringify({
+            "type": "ChooseCardFromTable",
             "chosenCard": index
         }));
     }
@@ -119,6 +129,13 @@ class Game {
         this._onGetCardFromHand = value;
     }
 
+    get onGetCardFromTable() {
+        return this._onGetCardFromTable;
+    }
+
+    set onGetCardFromTable(value) {
+        this._onGetCardFromTable = value;
+    }
 
     get onError() {
         return this._onError;

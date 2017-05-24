@@ -313,8 +313,12 @@ class GameController extends View {
             this._game.onRoundInfo = this._updateUsers.bind(this);
             this._game.onTableInfo = this._updateTable.bind(this);
             this._game.onGetCardFromHand = function () {
-                this._updateTooltip('chooseCard');
+                this._updateTooltip('chooseCardFromHand');
                 this._updateHandToSelect();
+            }.bind(this);
+            this._game.onGetCardFromTable = function () {
+                this._updateTooltip('chooseCardFromTable');
+                this._updateTableToSelect();
             }.bind(this);
             this._createCanvas();
             this._game.start();
@@ -507,6 +511,7 @@ class GameController extends View {
             newTable.push({
                 id: card.id,
                 card: card,
+                index: i,
                 itemGenerator: () => {
                     let group = generateCard.bind(this)(card);
                     group.scale({
@@ -559,7 +564,7 @@ class GameController extends View {
                 if (isClicked || (c.card.red && this._game.roundCount - 1 !== this._game.roundNum)) return;
                 isClicked = true;
                 this._stage.container().style.cursor = 'default';
-                this._game.selectCard(i);
+                this._game.selectCardFromHand(i);
                 tweens.forEach(x => x !== highLight && x.reverse());
                 up.reverse();
                 this._updateTooltip('waitForPlayers');
@@ -577,6 +582,50 @@ class GameController extends View {
         }.bind(this));
     }
 
+    _updateTableToSelect() {
+        if (!this._table) this._updateTable();
+
+        let isClicked = false;
+        let tweens = [];
+        this._table.forEach(function (c, i) {
+            let highLight = new Konva.Tween({
+                node: c.item,
+                opacity: 1,
+                duration: 0.2
+            });
+
+            let up = new Konva.Tween({
+                node: c.item,
+                scaleX: 1.1,
+                scaleY: 1.1,
+                duration: 0.2,
+                easing: Konva.Easings['StrongEaseOut'],
+            });
+
+            highLight.play();
+            tweens.push(highLight);
+            c.item.on('mousedown touchstart', function () {
+                if (isClicked) return;
+                isClicked = true;
+                this._stage.container().style.cursor = 'default';
+                this._game.selectCardFromTable(c.index);
+                tweens.forEach(x => x !== highLight && x.reverse());
+                up.reverse();
+                this._updateTooltip('waitForPlayers');
+            }.bind(this));
+            c.item.on('mouseover', function () {
+                if (isClicked) return;
+                this._stage.container().style.cursor = 'pointer';
+                up.play();
+            }.bind(this));
+            c.item.on('mouseout', function () {
+                if (isClicked) return;
+                this._stage.container().style.cursor = 'default';
+                up.reverse();
+            }.bind(this));
+        }.bind(this));
+    }
+
     _updateTooltip(state) {
         if (!this._groupHint) {
             this._groupHint = new Konva.Group({
@@ -588,8 +637,12 @@ class GameController extends View {
         }
 
         switch (state) {
-            case 'chooseCard':
+            case 'chooseCardFromHand':
                 this._updateTooltipText('Выбери карту');
+                this._startTimer();
+                break;
+            case 'chooseCardFromTable':
+                this._updateTooltipText('Выбери карту на столе');
                 this._startTimer();
                 break;
             case 'waitForPlayers':

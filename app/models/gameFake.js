@@ -50,7 +50,7 @@ class GameFake {
 
     }
 
-    selectCard(index) {
+    selectCardFromHand(index) {
         setTimeout(function () {
             if (this._table.length === 4) return;
 
@@ -64,13 +64,7 @@ class GameFake {
 
             this._onTableInfo && this._onTableInfo();
             if (++this._roundNum === 4) {
-                this._hand = [];
-                this._onHandInfo && this._onHandInfo();
-                setTimeout(function () {
-                    this.stop();
-                    ++this._users[0].score;
-                    this.start();
-                }.bind(this), 3000);
+                this._onGetCardFromTable && this._onGetCardFromTable();
             } else {
                 this._onHandInfo && this._onHandInfo();
                 this._onRoundInfo && this._onRoundInfo();
@@ -79,6 +73,16 @@ class GameFake {
                 }.bind(this), 500);
             }
         }.bind(this), 1000);
+    }
+
+    selectCardFromTable(index) {
+        this._hand = [];
+        this._onHandInfo && this._onHandInfo();
+        setTimeout(function () {
+            this.stop();
+            ++this._users[0].score;
+            this.start();
+        }.bind(this), 3000);
     }
 
     get roundCount() {
@@ -131,6 +135,14 @@ class GameFake {
 
     set onGetCardFromHand(value) {
         this._onGetCardFromHand = value;
+    }
+
+    get onGetCardFromTable() {
+        return this._onGetCardFromTable;
+    }
+
+    set onGetCardFromTable(value) {
+        this._onGetCardFromTable = value;
     }
 
     get onError() {
