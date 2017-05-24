@@ -45,6 +45,8 @@ const TOOLTIP_TOP = 10;
 const TOOLTIP_TIMER_SIZE = 50;
 const TOOLTIP_TEXT_TOP = TOOLTIP_TIMER_SIZE / 2 - 8;
 
+const ERROR_LOGO_SIZE = 140;
+
 let USER_AVATARS = [
     '/images/avatars/1.jpg',
     '/images/avatars/2.jpg',
@@ -309,23 +311,34 @@ class GameController extends View {
 
             this._game.onHandInfo = this._updateHand.bind(this);
             this._game.onError = x => function () {
-                alert("Error occurred");
+                this._showError('произошла ошибка. пытаюсь соединиться с сервером...');
+                this._game.stop();
                 this._game.start();
             }.bind(this);
             this._game.onClosed = function () {
-                this._showOver();
+                this._showError('что-то с интернетом. пытаюсь соединиться с сервером...');
+                this._game.start();
             }.bind(this);
-            this._game.onRoundInfo = this._updateUsers.bind(this);
-            this._game.onTableInfo = this._updateTable.bind(this);
+            this._game.onRoundInfo = function () {
+                this._showGame();
+                this._updateUsers();
+            }.bind(this);
+            this._game.onTableInfo = function () {
+                this._showGame();
+                this._updateTable();
+            }.bind(this);
             this._game.onGetCardFromHand = function () {
+                this._showGame();
                 this._updateTooltip('chooseCardFromHand');
                 this._updateHandToSelect();
             }.bind(this);
             this._game.onGetCardFromTable = function () {
+                this._showGame();
                 this._updateTooltip('chooseCardFromTable');
                 this._updateTableToSelect();
             }.bind(this);
             this._createCanvas();
+            this._showGame();
             this._game.start();
         }
     }
@@ -354,13 +367,45 @@ class GameController extends View {
         this._layerGame = new Konva.Layer();
         this._stage.add(this._layerGame);
 
-        this._layerEnd = new Konva.Layer();
-        this._stage.add(this._layerEnd);
+        this._layerError = new Konva.Layer();
+        this._stage.add(this._layerError);
 
         this._updateTooltip('waitForPlayers');
 
         window.addEventListener('resize', fitStageIntoParentContainer);
         window.addEventListener('orientationchange', fitStageIntoParentContainer);
+
+        const exitButton = new Konva.Text({
+            x: STAGE_WIDTH - USERS_RIGHT - 85,
+            y: 15,
+            align: 'center',
+            fontSize: 20,
+            fontFamily: 'DigitalStrip',
+            text: 'Выйти',
+        });
+
+        exitButton.on('mousedown touchstart', function () {
+            this.router.go('/');
+        }.bind(this));
+        exitButton.on('mouseover', function () {
+            this._stage.container().style.cursor = 'pointer';
+            let tween = new Konva.Tween({
+                node: exitButton,
+                fontSize: 23,
+                duration: 0.2
+            });
+            tween.play();
+        }.bind(this));
+        exitButton.on('mouseout', function () {
+            this._stage.container().style.cursor = 'default';
+            let tween = new Konva.Tween({
+                node: exitButton,
+                fontSize: 20,
+                duration: 0.2
+            });
+            tween.play();
+        }.bind(this));
+        this._layerGame.add(exitButton);
     }
 
     _updateHand() {
@@ -698,20 +743,119 @@ class GameController extends View {
         return new Promise(r => r());
     }
 
-    _showOver(state) {
-        const gameTween = new Konva.Tween({
-            node: this._layerGame,
-            opacity: 0,
-            duration: 0.5,
-        });
-        const overTween = new Konva.Tween({
-            node: this._layerGame,
+    _showGame() {
+        if (this._groupError) {
+            const errorTween = new Konva.Tween({
+                node: this._layerError,
+                opacity: 0,
+                duration: 0.5,
+            });
+
+            this._groupError && this._groupError.remove();
+            delete this._groupError;
+
+            errorTween.play();
+        }
+    };
+
+    _showError(text) {
+        if (this._groupError) {
+            this._groupErrorDescription.text(text);
+            return;
+        }
+
+        const errorTween = new Konva.Tween({
+            node: this._layerError,
             opacity: 1,
             duration: 0.5,
         });
 
-        gameTween.play();
-        overTween.play();
+        this._groupError && this._groupError.remove();
+        this._groupError = new Konva.Group();
+        this._layerError.add(this._groupError);
+
+        const layerErrorLoader = new Konva.Arc({
+            x: STAGE_WIDTH / 2,
+            y: STAGE_HEIGHT / 2,
+            innerRadius: 40,
+            outerRadius: 70,
+            angle: 1,
+            fill: '#88C1D8',
+            stroke: 'black',
+            strokeWidth: 4
+        });
+
+        const layerErrorDescription = new Konva.Text({
+            x: 0,
+            y: (STAGE_HEIGHT + ERROR_LOGO_SIZE) / 2 + 50,
+            width: STAGE_WIDTH,
+            align: 'center',
+            fontSize: 20,
+            fontFamily: 'DigitalStrip',
+            text: text,
+        });
+        this._groupErrorDescription = layerErrorDescription;
+
+        const layerErrorButton = new Konva.Text({
+            x: 0,
+            y: STAGE_HEIGHT - 50,
+            width: STAGE_WIDTH,
+            align: 'center',
+            fontSize: 20,
+            fontFamily: 'DigitalStrip',
+            text: 'Выйти',
+        });
+
+        layerErrorButton.on('mousedown touchstart', function () {
+            this.router.go('/');
+        }.bind(this));
+        layerErrorButton.on('mouseover', function () {
+            this._stage.container().style.cursor = 'pointer';
+            let tween = new Konva.Tween({
+                node: layerErrorButton,
+                fontSize: 23,
+                duration: 0.2
+            });
+            tween.play();
+        }.bind(this));
+        layerErrorButton.on('mouseout', function () {
+            // layerErrorDescription.fontStyle('')
+            this._stage.container().style.cursor = 'default';
+            let tween = new Konva.Tween({
+                node: layerErrorButton,
+                fontSize: 20,
+                duration: 0.2
+            });
+            tween.play();
+        }.bind(this));
+
+        this._groupError.add(layerErrorDescription);
+        this._groupError.add(layerErrorLoader);
+        this._groupError.add(layerErrorButton);
+
+        let period = 2000;
+        let tween1 = new Konva.Tween({
+            node: layerErrorLoader,
+            duration: period / 1000 / 2,
+            easing: Konva.Easings.EaseInOut,
+            fill: '#42A045',
+            angle: 360,
+        });
+        let tween2 = new Konva.Tween({
+            node: layerErrorLoader,
+            duration: period / 829,
+            easing: Konva.Easings.Linear,
+            fill: '#42A045',
+        });
+
+        tween1.onFinish = () => tween1.reverse();
+        tween1.onReset = () => tween1.play();
+        tween1.play();
+        tween2.onFinish = () => tween2.reverse();
+        tween2.onReset = () => tween2.play();
+        tween2.play();
+
+        errorTween.play();
     };
 }
 
