@@ -47,6 +47,9 @@ class Game {
                 case 'GetCardFromTable':
                     this._onGetCardFromTable && this._onGetCardFromTable(data);
                     break;
+                case 'Game Finished Message':
+                    this._onGameFinishedMessage && this._onGameFinishedMessage(data);
+                    break;
             }
         }).bind(this);
         this._ws.onerror = (function (e) {
@@ -135,6 +138,14 @@ class Game {
 
     set onGetCardFromTable(value) {
         this._onGetCardFromTable = value;
+    }
+
+    get onGameFinishedMessage() {
+        return this._onGameFinishedMessage;
+    }
+
+    set onGameFinishedMessage(value) {
+        this._onGameFinishedMessage = value;
     }
 
     get onError() {
