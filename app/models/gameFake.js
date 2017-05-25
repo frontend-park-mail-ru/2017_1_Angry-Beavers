@@ -38,6 +38,7 @@ class GameFake {
                 "id": Math.round(Math.random() * 400)
             }
         ];
+        this._userCards = [];
 
         this._onHandInfo && this._onHandInfo();
         this._roundNum = 1;
@@ -64,6 +65,10 @@ class GameFake {
 
             this._onTableInfo && this._onTableInfo();
             if (++this._roundNum === 4) {
+                this._userCards = this._table;
+
+                this._onUserCardsInfo && this._onUserCardsInfo();
+
                 this._onGetCardFromTable && this._onGetCardFromTable();
             } else {
                 this._onHandInfo && this._onHandInfo();
@@ -105,6 +110,10 @@ class GameFake {
         return this._table;
     }
 
+    get userCards() {
+        return this._userCards;
+    }
+
     get onHandInfo() {
         return this._onHandInfo;
     }
@@ -127,6 +136,14 @@ class GameFake {
 
     set onTableInfo(value) {
         this._onTableInfo = value;
+    }
+
+    get onUserCardsInfo() {
+        return this._onUserCardsInfo;
+    }
+
+    set onUserCardsInfo(value) {
+        this._onUserCardsInfo = value;
     }
 
     get onGetCardFromHand() {

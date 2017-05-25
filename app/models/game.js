@@ -17,6 +17,7 @@ class Game {
         this._hand = [];
         this._users = [];
         this._table = [];
+        this._userCards = [];
 
         this._ws = new WebSocket('wss://jokinghazardserver.herokuapp.com/game');
         console.log('GameConnected: ', this._ws);
@@ -40,6 +41,10 @@ class Game {
                 case 'TableInfo':
                     this._table = data.hand;
                     this._onTableInfo && this._onTableInfo(data);
+                    break;
+                case 'UserCardsInfo':
+                    this._userCards = data.hand;
+                    this._onUserCardsInfo && this._onUserCardsInfo(data);
                     break;
                 case 'GetCardFromHand':
                     this._onGetCardFromHand && this._onGetCardFromHand(data);
@@ -100,6 +105,10 @@ class Game {
         return this._table;
     }
 
+    get userCards() {
+        return this._userCards;
+    }
+
     get onHandInfo() {
         return this._onHandInfo;
     }
@@ -122,6 +131,14 @@ class Game {
 
     set onTableInfo(value) {
         this._onTableInfo = value;
+    }
+
+    get onUserCardsInfo() {
+        return this._onUserCardsInfo;
+    }
+
+    set onUserCardsInfo(value) {
+        this._onUserCardsInfo = value;
     }
 
     get onGetCardFromHand() {
