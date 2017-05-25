@@ -337,6 +337,10 @@ class GameController extends View {
                 this._updateTooltip('chooseCardFromTable');
                 this._updateTableToSelect();
             }.bind(this);
+            this._game.onGameFinishedMessage = function () {
+                alert('Game over');
+                this.router.go('/');
+            }.bind(this);
             this._createCanvas();
             this._showGame();
             this._game.start();
