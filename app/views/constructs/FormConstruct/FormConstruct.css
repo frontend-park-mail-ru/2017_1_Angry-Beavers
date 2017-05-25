@@ -7,7 +7,7 @@
     align-self: center;
 }
 
-.formconstruct__inputs__text {
+.formconstruct__inputstext {
     margin: 2px;
     min-height: 35px;
     width: 80%;
@@ -16,11 +16,11 @@
     font-size: large;
 }
 
-.formconstruct__buttons {
+.formconstruct-buttons {
     align-self: center;
 }
 
-.formconstruct__buttons__button {
+.formconstruct-buttons__button {
     font-family: DigitalStrip;
     border-radius: 12px;
     border: 4px solid black;
@@ -31,6 +31,6 @@
     width: 35%;
 }
 
-.formconstruct__buttons__button:hover {
+.formconstruct-buttons__button:hover {
     background-color: #3f8b42;
 }

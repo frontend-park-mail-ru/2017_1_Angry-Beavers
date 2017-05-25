@@ -16,8 +16,8 @@ module.exports = {
     module: {
         loaders: [
             {
-                test: /\.css$/,
-                loaders: ['style-loader', 'css-loader']
+                test: /\.(s)?css$/,
+                loaders: ['style-loader', 'css-loader', "sass-loader",]
             },
             {
                 test: /\.pug$/,
