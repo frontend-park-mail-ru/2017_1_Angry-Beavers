@@ -660,7 +660,7 @@ class GameController extends View {
                 moveCard(c.item, true);
 
                 const l = this._game.table;
-                if (l[l.length - 1].red) {
+                if (l[l.length - 1] && l[l.length - 1].red) {
                     const a = l[l.length - 1];
                     l[l.length - 1] = c.card;
                     l.push(a);
@@ -698,7 +698,7 @@ class GameController extends View {
             }.bind(this),
             onMouseOver: function (c) {
                 const l = this._game.table;
-                if (l[l.length - 1].red) {
+                if (l[l.length - 1] && l[l.length - 1].red) {
                     const a = l[l.length - 1];
                     l[l.length - 1] = c.card;
                     l.push(a);
@@ -792,18 +792,21 @@ class GameController extends View {
         }
 
         this._timerCircle.angle(360);
+        this._timerCircle.stroke('black');
+
+        let time = 40;
 
         let tween = new Konva.Tween({
             node: this._timerCircle,
             angle: 0,
-            duration: 60,
+            stroke: 'red',
+            duration: time,
         });
         tween.play();
 
         this._timerText.opacity(1);
         this._timerCircle.opacity(1);
 
-        let time = 60;
         let _;
         _ = () => {
             if (time && this._timerText.getAbsoluteOpacity() === 1) {
