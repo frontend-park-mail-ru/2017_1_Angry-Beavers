@@ -38,7 +38,6 @@ class GameFake {
                 "id": Math.round(Math.random() * 400)
             }
         ];
-        this._userCards = [];
 
         this._onHandInfo && this._onHandInfo();
         this._roundNum = 1;
@@ -56,7 +55,13 @@ class GameFake {
             if (this._table.length === 4) return;
 
             let card = this._hand[index];
-            this._table.push(card);
+            if (this._table[this._table.length - 1].red) {
+                const a = this._table[this._table.length - 1];
+                this._table[this._table.length - 1] = card;
+                this._table.push(a);
+            } else {
+                this._table.push(card);
+            }
 
             this._hand[index] = {
                 "red": false,
@@ -65,7 +70,13 @@ class GameFake {
 
             this._onTableInfo && this._onTableInfo();
             if (++this._roundNum === 4) {
-                this._userCards = this._table;
+                this._userCards = [];
+                for (let i = 0; i < 3; ++i) {
+                    this._userCards.push({
+                        "red": false,
+                        "id": Math.round(Math.random() * 400)
+                    });
+                }
 
                 this._onUserCardsInfo && this._onUserCardsInfo();
 
