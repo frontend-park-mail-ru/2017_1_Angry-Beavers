@@ -367,10 +367,16 @@ class GameController extends View {
             this._game.onRoundInfo = function () {
                 this._showGame();
                 this._updateUsers();
+                this._game._userCards = []; // todo: исправить
+                this._updateUserCards();
             }.bind(this);
             this._game.onTableInfo = function () {
                 this._showGame();
                 this._updateTable();
+            }.bind(this);
+            this._game.onUserCardsInfo = function () {
+                this._showGame();
+                this._updateUserCards();
             }.bind(this);
             this._game.onGetCardFromHand = function () {
                 this._showGame();
@@ -398,6 +404,8 @@ class GameController extends View {
     }
 
     _createCanvas() {
+        if (this._stage) return;
+
         this._stage = new Konva.Stage({
             container: 'container',
             width: STAGE_WIDTH,
@@ -646,6 +654,52 @@ class GameController extends View {
         tween.play();
     }
 
+    _updateUserCards() {
+        if (!this._groupUserCards) {
+            this._groupUserCards = new Konva.Group({
+                y: TABLE_TOP + 100,
+            });
+            this._layerGame.add(this._groupUserCards);
+        }
+
+        if (!this._userCards) this._userCards = [];
+
+        let newUserCards = [];
+        let _i = 0;
+        this._game.userCards.forEach(function (card, i) {
+            if (!card || typeof card === "string") return;
+            let __i = _i;
+            ++_i;
+            newUserCards.push({
+                id: card.id,
+                card: card,
+                index: i,
+                itemGenerator: () => {
+                    let group = generateCard.bind(this)(card);
+                    group.scale({
+                        x: TABLE_CARD_WIDTH / group.getWidth(),
+                        y: TABLE_CARD_HEIGHT / group.getHeight()
+                    });
+                    group.setX((TABLE_CARD_WIDTH + TABLE_CARD_OFFSET) * (__i + 1));
+                    group.setY(0);
+                    return group;
+                }
+            });
+        }.bind(this));
+        this._userCards = listUpdate(this._groupUserCards, this._userCards, newUserCards);
+        this._layerGame.drawScene();
+
+        const cardsWidth = this._userCards.length * (TABLE_CARD_OFFSET + TABLE_CARD_WIDTH) - TABLE_CARD_OFFSET;
+        const tableWidth = STAGE_WIDTH - 2 * USERS_WIDTH - 2 * USERS_RIGHT;
+        const tween = new Konva.Tween({
+            node: this._groupUserCards,
+            x: (tableWidth - cardsWidth) / 2,
+            y: TABLE_TOP + 100,
+            duration: 0.45,
+            easing: Konva.Easings.StrongEaseOut,
+        });
+        tween.play();
+    }
 
     _onSelectFromHand() {
         this._updateHand();
@@ -694,7 +748,7 @@ class GameController extends View {
     }
 
     _onSelectFromTable() {
-        this._updateTable();
+        this._updateUserCards();
 
         const moveCard = function (item, isUp) {
             const tween = new Konva.Tween({
@@ -708,13 +762,13 @@ class GameController extends View {
         };
 
         listSubscribe({
-            list: this._table,
+            list: this._userCards,
             onClick: function (c) {
                 this._stage.container().style.cursor = 'default';
 
                 this._game.selectCardFromTable(c.index);
 
-                listUnsubscribe(this._table);
+                listUnsubscribe(this._userCards);
                 moveCard(c.item, false);
 
                 this._updateTooltip('waitForPlayers');
