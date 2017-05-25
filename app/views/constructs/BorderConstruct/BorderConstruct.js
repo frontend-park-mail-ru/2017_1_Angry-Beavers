@@ -4,7 +4,7 @@
 
 'use strict';
 
-import './BorderConstruct.css';
+import './BorderConstruct.scss';
 import pugBorderConstruct from './BorderConstruct.pug';
 
 const BorderConstruct = function Border(opt = {}) {

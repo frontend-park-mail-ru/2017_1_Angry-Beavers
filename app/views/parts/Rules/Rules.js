@@ -4,7 +4,7 @@
 
 'use strict';
 
-import './Rules.css';
+import './Rules.scss';
 import pugRules from './Rules.pug';
 
 import BorderConstruct from '../../constructs/BorderConstruct/BorderConstruct';

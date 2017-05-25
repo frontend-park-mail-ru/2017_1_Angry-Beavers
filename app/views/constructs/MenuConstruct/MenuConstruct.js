@@ -2,4 +2,4 @@
  * Created by ed on 06.04.17.
  */
 
-import './MenuConstruct.css';
+import './MenuConstruct.scss';
