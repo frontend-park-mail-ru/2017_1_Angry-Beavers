@@ -247,7 +247,7 @@ const replaceItem = function (oldItem, newItem) {
         .then(() => insertItem(parent, newItem));
 };
 
-const updateList = function (parent, oldItems, newItems) {
+const listUpdate = function (parent, oldItems, newItems) {
     for (let i = 0; i < newItems.length; ++i) {
         if (oldItems[i] && oldItems[i].id === newItems[i].id) {
             newItems[i].item = oldItems[i].item;
@@ -275,6 +275,51 @@ const updateList = function (parent, oldItems, newItems) {
     }
 
     return newItems;
+};
+
+const listHighlight = function (list) {
+    list.forEach(c => {
+        const tween = new Konva.Tween({
+            node: c.item,
+            opacity: 1,
+            duration: 0.2,
+        });
+        tween.play();
+    });
+};
+
+const listFade = function (list) {
+    list.forEach(c => {
+        const tween = new Konva.Tween({
+            node: c.item,
+            opacity: 0.6,
+            duration: 0.2,
+        });
+        tween.play();
+    });
+};
+
+const listSubscribe = function (options) {
+    options.list.forEach(c => {
+        c.item.on('mousedown touchstart', function () {
+            options.onClick(c);
+        });
+        c.item.on('mouseover', function () {
+            options.onMouseOver(c);
+        });
+        c.item.on('mouseout', function () {
+            options.onMouseOut(c);
+        });
+    });
+};
+
+const listUnsubscribe = function (list) {
+    list.forEach(c => {
+        c.item.off('mousedown');
+        c.item.off('touchstart');
+        c.item.off('mouseover');
+        c.item.off('mouseout');
+    });
 };
 
 class GameController extends View {
@@ -330,12 +375,12 @@ class GameController extends View {
             this._game.onGetCardFromHand = function () {
                 this._showGame();
                 this._updateTooltip('chooseCardFromHand');
-                this._updateHandToSelect();
+                this._onSelectFromHand();
             }.bind(this);
             this._game.onGetCardFromTable = function () {
                 this._showGame();
                 this._updateTooltip('chooseCardFromTable');
-                this._updateTableToSelect();
+                this._onSelectFromTable();
             }.bind(this);
             this._game.onGameFinishedMessage = function () {
                 alert('Game over');
@@ -423,11 +468,14 @@ class GameController extends View {
 
         if (!this._hand) this._hand = [];
 
+        listUnsubscribe(this._hand);
+
         let newHand = [];
         this._game.hand.forEach(function (card, i) {
             if (!card || typeof card === "string") return;
             newHand.push({
                 id: card.id % 10 + 1,
+                index: i,
                 card: card,
                 itemGenerator: () => {
                     let group = generateCard.bind(this)(card);
@@ -438,7 +486,6 @@ class GameController extends View {
                         x: CARD_WIDTH / group.getWidth(),
                         y: CARD_HEIGHT / group.getHeight()
                     });
-                    group.opacity(0.6);
 
                     return group;
                 },
@@ -455,12 +502,11 @@ class GameController extends View {
                     group.on('mouseout', function () {
                         highLight.reverse();
                     });
-
                 }
             });
         }.bind(this));
-        this._hand = updateList(this._groupHand, this._hand, newHand);
-        this._groupHand.drawScene();
+        this._hand = listUpdate(this._groupHand, this._hand, newHand);
+        this._layerGame.drawScene();
 
         const cardsWidth = this._hand.length * (CARD_OFFSET + CARD_WIDTH) - CARD_OFFSET;
         const tween = new Konva.Tween({
@@ -527,7 +573,7 @@ class GameController extends View {
         let newUsers = [];
         this._game.users.forEach(function (user, i) {
             newUsers.push({
-                id: `${user.nickname}${user.score}`,
+                id: `${user.nickname}${user.score}${user.isMaster}`,
                 itemGenerator: () => {
                     // current user line
                     user.avatar = USER_AVATARS[i];
@@ -549,9 +595,8 @@ class GameController extends View {
                 }
             });
         }.bind(this));
-        let u = updateList(this._groupUsers, this._users, newUsers);
-        this._users = u;
-        this._groupUsers.drawScene();
+        this._users = listUpdate(this._groupUsers, this._users, newUsers);
+        this._layerGame.drawScene();
     }
 
     _updateTable() {
@@ -583,8 +628,8 @@ class GameController extends View {
                 }
             });
         }.bind(this));
-        this._table = updateList(this._groupTable, this._table, newTable);
-        this._groupTable.drawScene();
+        this._table = listUpdate(this._groupTable, this._table, newTable);
+        this._layerGame.drawScene();
 
         const cardsWidth = this._table.length * (TABLE_CARD_OFFSET + TABLE_CARD_WIDTH) - TABLE_CARD_OFFSET;
         const tableWidth = STAGE_WIDTH - 2 * USERS_WIDTH - 2 * USERS_RIGHT;
@@ -598,91 +643,90 @@ class GameController extends View {
         tween.play();
     }
 
-    _updateHandToSelect() {
-        if (!this._hand) this._updateHand();
 
-        let isClicked = false;
-        let tweens = [];
-        this._hand.forEach(function (c, i) {
-            let highLight = new Konva.Tween({
-                node: c.item,
-                opacity: 1,
-                duration: 0.2
-            });
+    _onSelectFromHand() {
+        this._updateHand();
 
-            let up = new Konva.Tween({
-                node: c.item,
-                y: c.item.getY() - 20,
+        const moveCard = function (item, isUp) {
+            const tween = new Konva.Tween({
+                node: item,
+                y: isUp ? -20 : 0,
                 duration: 0.2,
-                easing: Konva.Easings['StrongEaseOut'],
+                easing: Konva.Easings.StrongEaseOut,
             });
+            tween.play();
+        };
 
-            highLight.play();
-            tweens.push(highLight);
-            c.item.on('mousedown touchstart', function () {
-                if (isClicked || (c.card.red && this._game.roundCount - 1 !== this._game.roundNum)) return;
-                isClicked = true;
+        listHighlight(this._hand);
+        listSubscribe({
+            list: this._hand,
+            onClick: function (c) {
+                if (c.card.red && this._game.roundCount - 1 !== this._game.roundNum) return;
+
+                moveCard(c.item, false);
+
                 this._stage.container().style.cursor = 'default';
-                this._game.selectCardFromHand(i);
-                tweens.forEach(x => x !== highLight && x.reverse());
-                up.reverse();
+                this._game.selectCardFromHand(c.index);
+
+                listUnsubscribe(this._hand);
+                listFade(this._hand);
+
                 this._updateTooltip('waitForPlayers');
-            }.bind(this));
-            c.item.on('mouseover', function () {
-                if (isClicked || (c.card.red && this._game.roundCount - 1 !== this._game.roundNum)) return;
+            }.bind(this),
+            onMouseOver: function (c) {
+                if (c.card.red && this._game.roundCount - 1 !== this._game.roundNum) return;
+
+                moveCard(c.item, true);
+
                 this._stage.container().style.cursor = 'pointer';
-                up.play();
-            }.bind(this));
-            c.item.on('mouseout', function () {
-                if (isClicked || (c.card.red && this._game.roundCount - 1 !== this._game.roundNum)) return;
+            }.bind(this),
+            onMouseOut: function (c) {
+                if (c.card.red && this._game.roundCount - 1 !== this._game.roundNum) return;
+
+                moveCard(c.item, false);
+
                 this._stage.container().style.cursor = 'default';
-                up.reverse();
-            }.bind(this));
-        }.bind(this));
+            }.bind(this),
+        });
     }
 
-    _updateTableToSelect() {
-        if (!this._table) this._updateTable();
+    _onSelectFromTable() {
+        this._updateTable();
 
-        let isClicked = false;
-        let tweens = [];
-        this._table.forEach(function (c, i) {
-            let highLight = new Konva.Tween({
-                node: c.item,
-                opacity: 1,
-                duration: 0.2
-            });
-
-            let up = new Konva.Tween({
-                node: c.item,
-                scaleX: 1.1,
-                scaleY: 1.1,
+        const moveCard = function (item, isUp) {
+            const tween = new Konva.Tween({
+                node: item,
+                scaleX: isUp ? 1.1 : 1,
+                scaleY: isUp ? 1.1 : 1,
                 duration: 0.2,
-                easing: Konva.Easings['StrongEaseOut'],
+                easing: Konva.Easings.StrongEaseOut,
             });
+            tween.play();
+        };
 
-            highLight.play();
-            tweens.push(highLight);
-            c.item.on('mousedown touchstart', function () {
-                if (isClicked) return;
-                isClicked = true;
+        listSubscribe({
+            list: this._table,
+            onClick: function (c) {
                 this._stage.container().style.cursor = 'default';
+
                 this._game.selectCardFromTable(c.index);
-                tweens.forEach(x => x !== highLight && x.reverse());
-                up.reverse();
+
+                listUnsubscribe(this._table);
+                moveCard(c.item, false);
+
                 this._updateTooltip('waitForPlayers');
-            }.bind(this));
-            c.item.on('mouseover', function () {
-                if (isClicked) return;
+            }.bind(this),
+            onMouseOver: function (c) {
+                moveCard(c.item, true);
+
                 this._stage.container().style.cursor = 'pointer';
-                up.play();
-            }.bind(this));
-            c.item.on('mouseout', function () {
-                if (isClicked) return;
+            }.bind(this),
+            onMouseOut: function (c) {
+                moveCard(c.item, false);
+
                 this._stage.container().style.cursor = 'default';
-                up.reverse();
-            }.bind(this));
-        }.bind(this));
+            }.bind(this),
+        });
     }
 
     _updateTooltip(state) {
