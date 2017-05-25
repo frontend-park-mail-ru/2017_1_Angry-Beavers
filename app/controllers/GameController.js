@@ -389,8 +389,8 @@ class GameController extends View {
                 this._onSelectFromTable();
             }.bind(this);
             this._game.onGameFinishedMessage = function () {
-                alert('Game over');
-                this.router.go('/');
+                this._game.onClosed = undefined;
+                this._game.onError = undefined;
             }.bind(this);
             this._createCanvas();
             this._showGame();
