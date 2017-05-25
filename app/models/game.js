@@ -94,19 +94,19 @@ class Game {
     }
 
     get hand() {
-        return this._hand;
+        return this._hand.slice();
     }
 
     get users() {
-        return this._users;
+        return this._users.slice();
     }
 
     get table() {
-        return this._table;
+        return this._table.slice();
     }
 
     get userCards() {
-        return this._userCards;
+        return this._userCards.slice();
     }
 
     get onHandInfo() {

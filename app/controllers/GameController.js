@@ -19,6 +19,13 @@ import View from '../modules/view';
 const STAGE_WIDTH = 1280;
 const STAGE_HEIGHT = 720;
 
+const UTABLE_TOP = 340;
+const UTABLE_CARD_WIDTH = 95;
+const UTABLE_CARD_HEIGHT = UTABLE_CARD_WIDTH * 1.4786324786324787;
+const UTABLE_CARD_OFFSET = 10;
+const UTABLE_CARD_BORDER_THICKNESS = 4;
+const UTABLE_CARD_BORDER_RADIUS = 4;
+
 const TABLE_TOP = 100;
 const TABLE_CARD_WIDTH = 150;
 const TABLE_CARD_HEIGHT = TABLE_CARD_WIDTH * 1.4786324786324787;
@@ -607,7 +614,7 @@ class GameController extends View {
         this._layerGame.drawScene();
     }
 
-    _updateTable() {
+    _updateTable(list) {
         if (!this._groupTable) {
             this._groupTable = new Konva.Group({
                 y: TABLE_TOP,
@@ -619,7 +626,7 @@ class GameController extends View {
 
         let newTable = [];
         let _i = 0;
-        this._game.table.forEach(function (card, i) {
+        (list || this._game.table).forEach(function (card, i) {
             if (!card || typeof card === "string") return;
             let __i = _i;
             ++_i;
@@ -657,7 +664,7 @@ class GameController extends View {
     _updateUserCards() {
         if (!this._groupUserCards) {
             this._groupUserCards = new Konva.Group({
-                y: TABLE_TOP + 100,
+                y: UTABLE_TOP,
             });
             this._layerGame.add(this._groupUserCards);
         }
@@ -677,10 +684,10 @@ class GameController extends View {
                 itemGenerator: () => {
                     let group = generateCard.bind(this)(card);
                     group.scale({
-                        x: TABLE_CARD_WIDTH / group.getWidth(),
-                        y: TABLE_CARD_HEIGHT / group.getHeight()
+                        x: UTABLE_CARD_WIDTH / group.getWidth(),
+                        y: UTABLE_CARD_HEIGHT / group.getHeight()
                     });
-                    group.setX((TABLE_CARD_WIDTH + TABLE_CARD_OFFSET) * (__i + 1));
+                    group.setX((UTABLE_CARD_WIDTH + UTABLE_CARD_OFFSET) * (__i + 1));
                     group.setY(0);
                     return group;
                 }
@@ -689,12 +696,11 @@ class GameController extends View {
         this._userCards = listUpdate(this._groupUserCards, this._userCards, newUserCards);
         this._layerGame.drawScene();
 
-        const cardsWidth = this._userCards.length * (TABLE_CARD_OFFSET + TABLE_CARD_WIDTH) - TABLE_CARD_OFFSET;
-        const tableWidth = STAGE_WIDTH - 2 * USERS_WIDTH - 2 * USERS_RIGHT;
+        const cardsWidth = this._userCards.length * (UTABLE_CARD_OFFSET + UTABLE_CARD_WIDTH) - UTABLE_CARD_OFFSET;
+        const tableWidth = STAGE_WIDTH - USERS_WIDTH - 2 * USERS_RIGHT;
         const tween = new Konva.Tween({
             node: this._groupUserCards,
             x: (tableWidth - cardsWidth) / 2,
-            y: TABLE_TOP + 100,
             duration: 0.45,
             easing: Konva.Easings.StrongEaseOut,
         });
@@ -750,17 +756,6 @@ class GameController extends View {
     _onSelectFromTable() {
         this._updateUserCards();
 
-        const moveCard = function (item, isUp) {
-            const tween = new Konva.Tween({
-                node: item,
-                scaleX: isUp ? 1.1 : 1,
-                scaleY: isUp ? 1.1 : 1,
-                duration: 0.2,
-                easing: Konva.Easings.StrongEaseOut,
-            });
-            tween.play();
-        };
-
         listSubscribe({
             list: this._userCards,
             onClick: function (c) {
@@ -769,17 +764,18 @@ class GameController extends View {
                 this._game.selectCardFromTable(c.index);
 
                 listUnsubscribe(this._userCards);
-                moveCard(c.item, false);
 
                 this._updateTooltip('waitForPlayers');
             }.bind(this),
             onMouseOver: function (c) {
-                moveCard(c.item, true);
+                const l = this._game.table;
+                l.push(c.card);
+                this._updateTable(l);
 
                 this._stage.container().style.cursor = 'pointer';
             }.bind(this),
             onMouseOut: function (c) {
-                moveCard(c.item, false);
+                this._updateTable();
 
                 this._stage.container().style.cursor = 'default';
             }.bind(this),
