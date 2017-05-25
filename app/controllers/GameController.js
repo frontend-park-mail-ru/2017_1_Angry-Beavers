@@ -610,8 +610,11 @@ class GameController extends View {
         if (!this._table) this._table = [];
 
         let newTable = [];
+        let _i = 0;
         this._game.table.forEach(function (card, i) {
             if (!card || typeof card === "string") return;
+            let __i = _i;
+            ++_i;
             newTable.push({
                 id: card.id,
                 card: card,
@@ -622,7 +625,7 @@ class GameController extends View {
                         x: TABLE_CARD_WIDTH / group.getWidth(),
                         y: TABLE_CARD_HEIGHT / group.getHeight()
                     });
-                    group.setX((TABLE_CARD_WIDTH + TABLE_CARD_OFFSET) * (i + 1));
+                    group.setX((TABLE_CARD_WIDTH + TABLE_CARD_OFFSET) * (__i + 1));
                     group.setY(0);
                     return group;
                 }
