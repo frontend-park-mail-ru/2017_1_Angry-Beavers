@@ -4,7 +4,7 @@
 
 'use strict';
 
-import './ScoreList.css';
+import './ScoreList.scss';
 import pugScoreList from './ScoreList.pug';
 
 import BorderConstruct from '../../constructs/BorderConstruct/BorderConstruct';

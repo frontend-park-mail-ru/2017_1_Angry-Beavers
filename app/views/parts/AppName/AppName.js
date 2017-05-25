@@ -4,7 +4,7 @@
 
 'use strict';
 
-import './AppName.css';
+import './AppName.scss';
 import pugAppName from './AppName.pug';
 
 const AppName = function () {

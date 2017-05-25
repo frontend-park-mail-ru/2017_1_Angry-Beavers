@@ -1,3 +1,6 @@
+$green: #42A045;
+$gray: #88C1D8;
+
 .appname .appname-brand {
     cursor: pointer;
     text-decoration: none;
@@ -6,20 +9,20 @@
     color: #FFFFFF;
     text-align: center;
     text-shadow: -0 0 1px #000000, 0 -4px 1px #000000, -0 4px 1px #000000, 0 4px 1px #000000, -4px -0 1px #000000, 4px -0 1px #000000, -4px 0 1px #000000, 4px 0 1px #000000, -1px -4px 1px #000000, 1px -4px 1px #000000, -1px 4px 1px #000000, 1px 4px 1px #000000, -4px -1px 1px #000000, 4px -1px 1px #000000, -4px 1px 1px #000000, 4px 1px 1px #000000, -2px -4px 1px #000000, 2px -4px 1px #000000, -2px 4px 1px #000000, 2px 4px 1px #000000, -4px -2px 1px #000000, 4px -2px 1px #000000, -4px 2px 1px #000000, 4px 2px 1px #000000, -3px -4px 1px #000000, 3px -4px 1px #000000, -3px 4px 1px #000000, 3px 4px 1px #000000, -4px -3px 1px #000000, 4px -3px 1px #000000, -4px 3px 1px #000000, 4px 3px 1px #000000, -4px -4px 1px #000000, 4px -4px 1px #000000, -4px 4px 1px #000000, 4px 4px 1px #000000, -4px -4px 1px #000000, 4px -4px 1px #000000, -4px 4px 1px #000000, 4px 4px 1px #000000;
-}
 
-.appname .appname-brand.appname-brand__joking {
-    color: #88C1D8;
-}
+    .appname-brand__joking {
+        color: $gray;
+    }
 
-.appname .appname-brand.appname-brand__joking:hover {
-    color: #42A045;
-}
+    .appname-brand__joking:hover {
+        color: $green;
+    }
 
-.appname .appname-brand.appname-brand__hazard {
-    color: #42A045;
-}
+    .appname-brand__hazard {
+        color: $green;
+    }
 
-.appname .appname-brand.appname-brand__hazard:hover {
-    color: #88C1D8;
+    .appname-brand__hazard:hover {
+        color: $gray;
+    }
 }

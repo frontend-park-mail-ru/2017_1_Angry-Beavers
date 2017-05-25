@@ -4,7 +4,7 @@
 
 'use strict';
 
-import './Footer.css';
+import './Footer.scss';
 import pugFooter from './Footer.pug';
 
 const TEXT = "Copyright © Angry Beavers. All rights reserved.";
