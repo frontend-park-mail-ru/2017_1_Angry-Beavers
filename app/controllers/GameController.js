@@ -50,7 +50,7 @@ const USER_AVATAR_WIDTH = 50;
 const TOOLTIP_LEFT = 10;
 const TOOLTIP_TOP = 10;
 const TOOLTIP_TIMER_SIZE = 50;
-const TOOLTIP_TEXT_TOP = TOOLTIP_TIMER_SIZE / 2 - 8;
+const TOOLTIP_TEXT_TOP = TOOLTIP_TIMER_SIZE / 2.5;
 
 const ERROR_LOGO_SIZE = 140;
 
@@ -158,98 +158,18 @@ const generateUser = function (user) {
 
 };
 
-const generateTimer = function (time = 60) {
-    let timer = new Konva.Group({});
-
-    let circleBack = new Konva.Circle({
-        x: 0,
-        y: 0,
-        radius: TOOLTIP_TIMER_SIZE / 2,
-        stroke: 'gray',
-        strokeWidth: 2,
-    });
-    timer.add(circleBack);
-
-    let circleFront = new Konva.Arc({
-        x: 0,
-        y: 0,
-        innerRadius: TOOLTIP_TIMER_SIZE / 2 - 0.5,
-        outerRadius: TOOLTIP_TIMER_SIZE / 2 + 0.5,
-        angle: 360,
-        stroke: 'black',
-        fill: 'black',
-        scaleY: -1,
-        rotation: -90,
-    });
-    timer.add(circleFront);
-
-    let text = new Konva.Text({
-        x: -TOOLTIP_TIMER_SIZE / 2,
-        y: -TOOLTIP_TIMER_SIZE / 2 + TOOLTIP_TEXT_TOP,
-        width: TOOLTIP_TIMER_SIZE,
-        align: 'center',
-        fontSize: 20,
-        fontFamily: 'DigitalStrip',
-        text: time,
-    });
-    timer.add(text);
-
-    let tween = new Konva.Tween({
-        node: circleFront,
-        angle: 0,
-        duration: 60,
-    });
-    tween.play();
-
-    let _;
-    _ = () => {
-        if (time) {
-            text.text(--time);
-            text.getLayer() && text.getLayer().drawScene();
-            setTimeout(_, 1000);
-        }
-    };
-    _();
-
-    return timer;
-};
-
-const generateTooltipText = function (text) {
-    let group = new Konva.Group({});
-    let _text = new Konva.Text({
-        align: 'left',
-        text: text,
-        fontSize: 20,
-        fontFamily: 'DigitalStrip',
-    });
-    group.add(_text);
-    return group;
-};
-
 const insertItem = function (parent, item) {
     parent.add(item);
-    const tween = new Konva.Tween({
-        node: item,
-        duration: 0.3,
-        opacity: 1,
-    });
-    tween.play();
-    return new Promise(r => setTimeout(r, 300));
+    return new Promise(r => r());
 };
 
 const removeItem = function (item) {
-    const tween = new Konva.Tween({
-        node: item,
-        duration: 0.3,
-        opacity: 0,
-    });
-    tween.play();
-    return new Promise(r => setTimeout(r, 300))
-        .then(() => item.remove());
+    item.remove();
+    return new Promise(r => r());
 };
 
 const replaceItem = function (oldItem, newItem) {
-    let parent = oldItem.getParent();
+    const parent = oldItem.getParent();
     return removeItem(oldItem)
         .then(() => insertItem(parent, newItem));
 };
@@ -264,21 +184,18 @@ const listUpdate = function (parent, oldItems, newItems) {
         newItems[i].item = newItems[i].itemGenerator();
         // если уже на экране уже есть итем
         if (oldItems[i]) {
-            let parent = oldItems[i].item.getParent();
-            removeItem(oldItems[i].item)
-                .then(() => {
-                    insertItem(parent, newItems[i].item);
-                    newItems[i].onAdd && newItems[i].onAdd(newItems[i].item);
-                });
+            oldItems[i].item.remove();
+            parent.add(newItems[i].item);
+            newItems[i].onAdd && newItems[i].onAdd(newItems[i].item);
         }
         // если её нет
         else {
-            insertItem(parent, newItems[i].item);
+            parent.add(newItems[i].item);
         }
     }
     // удаляем все последующие итемы с экрана
     for (let i = newItems.length; i < oldItems.length; ++i) {
-        removeItem(oldItems[i].item);
+        oldItems[i].item.remove();
     }
 
     return newItems;
@@ -733,6 +650,7 @@ class GameController extends View {
 
                 listUnsubscribe(this._hand);
                 listFade(this._hand);
+                this._updateTable();
 
                 this._updateTooltip('waitForPlayers');
             }.bind(this),
@@ -741,12 +659,23 @@ class GameController extends View {
 
                 moveCard(c.item, true);
 
+                const l = this._game.table;
+                if (l[l.length - 1].red) {
+                    const a = l[l.length - 1];
+                    l[l.length - 1] = c.card;
+                    l.push(a);
+                } else {
+                    l.push(c.card);
+                }
+                this._updateTable(l);
+
                 this._stage.container().style.cursor = 'pointer';
             }.bind(this),
             onMouseOut: function (c) {
                 if (c.card.red && this._game.roundCount - 1 !== this._game.roundNum) return;
 
                 moveCard(c.item, false);
+                this._updateTable();
 
                 this._stage.container().style.cursor = 'default';
             }.bind(this),
@@ -769,7 +698,13 @@ class GameController extends View {
             }.bind(this),
             onMouseOver: function (c) {
                 const l = this._game.table;
-                l.push(c.card);
+                if (l[l.length - 1].red) {
+                    const a = l[l.length - 1];
+                    l[l.length - 1] = c.card;
+                    l.push(a);
+                } else {
+                    l.push(c.card);
+                }
                 this._updateTable(l);
 
                 this._stage.container().style.cursor = 'pointer';
@@ -783,15 +718,6 @@ class GameController extends View {
     }
 
     _updateTooltip(state) {
-        if (!this._groupHint) {
-            this._groupHint = new Konva.Group({
-                x: TOOLTIP_LEFT,
-                y: TOOLTIP_TOP,
-            });
-
-            this._layerGame.add(this._groupHint);
-        }
-
         switch (state) {
             case 'chooseCardFromHand':
                 this._updateTooltipText('Выбери карту');
@@ -803,43 +729,96 @@ class GameController extends View {
                 break;
             case 'waitForPlayers':
                 this._updateTooltipText('Подожди остальных игроков...');
-                this._startTimer();
+                this._stopTimer();
                 break;
             default:
-                this._tooltipText.text('');
+                this._updateTooltipText('');
                 this._stopTimer();
         }
-
-        this._groupHint.drawScene();
     }
 
     _updateTooltipText(text) {
-        let newText = generateTooltipText(text);
-        newText.setX(TOOLTIP_TIMER_SIZE + 10);
-        newText.setY(TOOLTIP_TEXT_TOP);
-        newText.opacity(0);
-        if (this._tooltipText) {
-            replaceItem(this._tooltipText, newText);
-        } else {
-            insertItem(this._groupHint, newText);
+        if (!this._hintText) {
+            this._hintText = new Konva.Text({
+                align: 'left',
+                fontSize: 20,
+                fontFamily: 'DigitalStrip',
+                x: TOOLTIP_TIMER_SIZE + 15,
+                y: TOOLTIP_TEXT_TOP,
+            });
+
+            this._layerGame.add(this._hintText);
         }
-        this._tooltipText = newText;
-        this._groupHint.add(this._tooltipText);
+
+        this._hintText.text(text);
+        this._layerGame.drawScene();
     }
 
     _startTimer() {
-        this._stopTimer();
-        this._tooltipTimer = generateTimer();
-        this._tooltipTimer.setX(TOOLTIP_TIMER_SIZE / 2);
-        this._tooltipTimer.setY(TOOLTIP_TIMER_SIZE / 2);
-        this._groupHint.add(this._tooltipTimer);
-        insertItem(this._groupHint, this._tooltipTimer);
-        this._groupHint.drawScene();
+        if (!this._timerCircle) {
+            let circleBack = new Konva.Circle({
+                x: TOOLTIP_TIMER_SIZE / 2 + 4,
+                y: TOOLTIP_TIMER_SIZE / 2 + 4,
+                radius: TOOLTIP_TIMER_SIZE / 2,
+                stroke: 'gray',
+                strokeWidth: 2,
+            });
+            this._layerGame.add(circleBack);
+
+            let circleFront = new Konva.Arc({
+                x: TOOLTIP_TIMER_SIZE / 2 + 4,
+                y: TOOLTIP_TIMER_SIZE / 2 + 4,
+                innerRadius: TOOLTIP_TIMER_SIZE / 2 - 0.5,
+                outerRadius: TOOLTIP_TIMER_SIZE / 2 + 0.5,
+                angle: 360,
+                stroke: 'black',
+                fill: 'black',
+                scaleY: -1,
+                rotation: -90,
+            });
+            this._layerGame.add(circleFront);
+            this._timerCircle = circleFront;
+
+            let text = new Konva.Text({
+                x: TOOLTIP_TIMER_SIZE / 10,
+                y: TOOLTIP_TIMER_SIZE / 2.5,
+                width: TOOLTIP_TIMER_SIZE,
+                align: 'center',
+                fontSize: 20,
+                fontFamily: 'DigitalStrip',
+            });
+            this._layerGame.add(text);
+            this._timerText = text;
+        }
+
+        this._timerCircle.angle(360);
+
+        let tween = new Konva.Tween({
+            node: this._timerCircle,
+            angle: 0,
+            duration: 60,
+        });
+        tween.play();
+
+        this._timerText.opacity(1);
+        this._timerCircle.opacity(1);
+
+        let time = 60;
+        let _;
+        _ = () => {
+            if (time && this._timerText.getAbsoluteOpacity() === 1) {
+                this._timerText.text(--time);
+                this._layerGame.drawScene();
+                setTimeout(_, 1000);
+            }
+        };
+        _();
     }
 
     _stopTimer() {
-        if (this._tooltipTimer) {
-            return removeItem(this._tooltipTimer);
+        if (this._timerCircle) {
+            this._timerText.opacity(0);
+            this._timerCircle.opacity(0);
         }
         return new Promise(r => r());
     }
