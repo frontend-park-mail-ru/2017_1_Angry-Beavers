@@ -4,4 +4,4 @@
 
 'use strict';
 
-import './FormConstruct.css';
+import './FormConstruct.scss';

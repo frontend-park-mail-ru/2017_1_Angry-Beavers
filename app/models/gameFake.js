@@ -6,7 +6,7 @@
 
 class GameFake {
     constructor(session){
-        this._session = sesson;
+        this._session = session;
     }
 
     get session() {

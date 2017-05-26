@@ -8,7 +8,7 @@ import BorderConstruct from '../../constructs/BorderConstruct/BorderConstruct';
 import FormConsruct from '../../constructs/FormConstruct/FormConstruct';
 import pugFormSignUp from './FormSignUp.pug';
 
-const RIGHT_IMG = "images/add_your_data.png";
+const RIGHT_IMG = "images/add_your_data.webp";
 const TITLE = "Регистрация";
 
 const EMAIL_FIELD = {
@@ -44,7 +44,7 @@ const SIGN_UP_BUTTON = {
 const SIGN_IN_BUTTON = {
     id: "formSignUp_signInBtn",
     type: "reset",
-    text: "Авторизация",
+    text: "Назад ко входу",
 };
 
 const FormSignUp = function () {
