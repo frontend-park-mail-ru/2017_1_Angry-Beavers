@@ -1,12 +1,11 @@
-ENV NGINX_VERSION "1.13-alpine"
-FROM nginx:${NGINX_VERSION}
+FROM nginx:1.13-alpine
 ENV MODULES_DIR /usr/src/nginx-modules
 RUN apk add --update bash
 
-RUN cd /usr/src/nginx-${NGINX_VERSION} && ./configure \
+RUN cd /usr/src/nginx-1.13-alpine && ./configure \
     --with-http_gzip_static_module \
     --add-module=${MODULES_DIR}/nginx-upload-module \
-RUN cd /usr/src/nginx-${NGINX_VERSION} && make && make install
+RUN cd /usr/src/nginx-1.13-alpine && make && make install
 RUN useradd --no-create-home nginx && \
      mkdir -p /var/lib/nginx/tmp && \
      chown -R nginx:nginx /var/lib/nginx && \
