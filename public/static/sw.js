@@ -29,6 +29,6 @@ this.addEventListener('fetch', function (event) {
                 return cachedResponse;
             }
             return fetch(event.request);
-        }),
+        })
     );
 });
