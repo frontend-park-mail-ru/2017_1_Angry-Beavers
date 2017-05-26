@@ -9,7 +9,7 @@ import pugScoreList from './ScoreList.pug';
 
 import BorderConstruct from '../../constructs/BorderConstruct/BorderConstruct';
 
-const RIGHT_IMG = "images/Scorelist.webp";
+const RIGHT_IMG = "/images/Scorelist.webp";
 const TITLE = "типа скорлист";
 const PLAYERS = [
     {
