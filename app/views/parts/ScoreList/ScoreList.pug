@@ -1,22 +1,4 @@
 //
    Created by ed on 28.03.17.
 
-mixin row(player)
-    tr.scorelist__row
-        if player
-                th.col-lg-2.scorelist__cell= player.position
-                th.col-lg-8.scorelist__cell= player.nickname
-                th.col-lg-2.scorelist__cell= player.score
-        else if player === 0
-                th.scorelist__separator(colspan=3)= "..."
-        else
-                th.col-lg-2.scorelist__head= "#"
-                th.col-lg-8.scorelist__head= "Nickname"
-                th.col-lg-2.scorelist__head= "Score"
-
-table.scorelist
-    +row()
-    each topPlayer in topPlayers
-        +row(topPlayer)
-    +row(0)
-    +row(player)
+table.scorelist#score_list

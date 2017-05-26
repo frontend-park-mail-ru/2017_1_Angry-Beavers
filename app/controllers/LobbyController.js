@@ -23,8 +23,10 @@ class LobbyController extends View {
                 event.preventDefault();
                 this.router.go("/");
             }));
+        document.getElementById('lobby_single').addEventListener('click', function () {
+            this.router.go('/gameFake');
+        }.bind(this));
     }
-
 
     resume() {
         this.show();
@@ -61,17 +63,20 @@ class LobbyController extends View {
         handler();
         this._lobby.onInfo = handler;
         this._lobby.onError = (function () {
-            this._lobby = this.session.createFakeLobby();
-            this._lobby.onInfo = handler;
-            this._lobby.onUserAdd = handler;
-            this._lobby.onUserRemove = handler;
-            this._lobby.start();
+            if (confirm('Произошла ошибка. Поиграешь один?')) {
+                this.router.go('/gameFake');
+            } else {
+                this.router.go('/');
+            }
+        }).bind(this);
+        this._lobby.onClosed = (function () {
+            this.router.go('/game');
         }).bind(this);
         this._lobby.onUserAdd = handler;
         this._lobby.onUserRemove = handler;
         this._lobby.onGameStart = function () {
-            alert('Game should be started...');
-            this.router.go('/');
+            this._lobby.onClosed = undefined;
+            this.router.go('/game');
         }.bind(this);
         this._lobby.start();
     }
@@ -84,7 +89,7 @@ class LobbyController extends View {
         document.getElementById('lobby_users').innerHTML = '';
         document.getElementById('lobby_title').innerHTML = 'Ожидаем игроков...';
         if (this._lobby && this._lobby.users) {
-            document.getElementById('lobby_title').innerHTML = `Ожидаем игроков${this._lobby.maxUsersCount ? `(${this._lobby.maxUsersCount}` : ''})`;
+            document.getElementById('lobby_title').innerHTML = `Ожидаем игроков${this._lobby.maxUsersCount ? ` (${this._lobby.maxUsersCount - this._lobby.users.length}` : ''})`;
             this._lobby.users.forEach(u => {
                 let user = document.createElement('label');
                 user.innerHTML = u.userLogin;

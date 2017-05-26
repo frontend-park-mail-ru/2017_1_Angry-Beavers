@@ -4,11 +4,13 @@
 
 'use strict';
 
-import Lobby from './lobby';
-import LobbyFake from './lobbyFake';
+const isBrowser = typeof navigator !== "undefined";
 
-let isBrowser = typeof navigator !== "undefined";
-let fetch = isBrowser ? window.fetch : require('node-fetch');
+import 'whatwg-fetch';
+
+import Lobby from './lobby';
+import Game from './game';
+import GameFake from './gameFake';
 
 const DEFAULT_HOST = 'jokinghazardserver.herokuapp.com';
 
@@ -80,10 +82,16 @@ class Session {
         return this._lobby;
     }
 
-    createFakeLobby() {
-        this._lobby && this._lobby.stop();
-        this._lobby = new LobbyFake(this);
-        return this._lobby;
+    createGame() {
+        this._game && this._game.stop();
+        this._game = new Game(this);
+        return this._game;
+    }
+
+    createFakeGame() {
+        this._game && this._game.stop();
+        this._game = new GameFake(this);
+        return this._game;
     }
 
     userData() {
@@ -96,6 +104,10 @@ class Session {
                 _this._user.score = 0;
                 return response;
             });
+    }
+
+    getScoreList() {
+        return this._call('GET', '/score');
     }
 
     login(login, password) {

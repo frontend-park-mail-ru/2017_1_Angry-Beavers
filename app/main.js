@@ -5,6 +5,7 @@ import CreatePage from './views/CreatePage';
 import Session from './models/session';
 
 import AboutUsController from './controllers/AboutUsController';
+import GameController from './controllers/GameController';
 import LobbyController from './controllers/LobbyController';
 import MenuStartController from './controllers/MenuStartController';
 import MenuGameController from './controllers/MenuGameController';
@@ -26,7 +27,9 @@ const createSession = function () {
         .addRoute('/scorelist', ScoreListController, {session: session, page: page})
         .addRoute('/aboutus', AboutUsController, {session: session, page: page})
         .addRoute('/rules', RulesController, {session: session, page: page})
-        .addRoute('/game', LobbyController, {session: session, page: page})
+        .addRoute('/lobby', LobbyController, {session: session, page: page})
+        .addRoute('/game', GameController, {session: session, page: page})
+        .addRoute('/gameFake', GameController, {session: session, page: page})
         .start();
     return router;
 };
