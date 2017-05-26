@@ -44,7 +44,7 @@ const SIGN_UP_BUTTON = {
 const SIGN_IN_BUTTON = {
     id: "formSignUp_signInBtn",
     type: "reset",
-    text: "Авторизация",
+    text: "Назад ко входу",
 };
 
 const FormSignUp = function () {
