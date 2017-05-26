@@ -1,6 +1,7 @@
 import 'bootstrap-loader';
 
 import SwLoader from './modules/Swloader';
+SwLoader.register('./modules/sw');
 
 import Router from './modules/router';
 import CreatePage from './views/CreatePage';
@@ -15,7 +16,6 @@ import SignUpController from './controllers/SignUpController';
 import ScoreListController from './controllers/ScoreListController';
 import RulesController from './controllers/RulesController';
 
-SwLoader.register('./sw.js');
 
 const page = new CreatePage();
 const session = new Session();
