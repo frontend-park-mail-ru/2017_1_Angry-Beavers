@@ -4,6 +4,7 @@
 export default class SwLoader {
 
     static register(path) {
+        debugger;
         if (typeof path !== 'string' && path.length === 0) {
             console.error('SwLoader.register argument must be a not empty string.');
             return;
