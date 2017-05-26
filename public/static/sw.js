@@ -4,8 +4,12 @@
 const CACHE_VERSION = 'app_sw_v0.0.1';
 
 const cacheUrls = [
-    '/',
+    '/bundle.js',
 ];
+
+for (let i = 0; i < 441; ++i) {
+    cacheUrls.push(`https://raw.githubusercontent.com/ed-asriyan/joking-hazard-cards/master/pure-cropped/${Math.trunc((i - 1) / 9) + 1}_${i % 9}.jpg`)
+}
 
 this.addEventListener('install', function (event) {
     console.log('sw  install', event);
