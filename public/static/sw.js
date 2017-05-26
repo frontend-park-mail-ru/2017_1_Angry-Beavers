@@ -17,7 +17,7 @@ this.addEventListener('install', function (event) {
         caches.open(CACHE_VERSION)
             .then(function (cache) {
                 return cache.addAll(cacheUrls);
-            }),
+            })
     );
 });
 
