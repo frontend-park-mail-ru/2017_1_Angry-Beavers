@@ -21,6 +21,15 @@ const cacheUrls = [
     '/images/About_us.webp',
     '/images/About_rules_2.webp',
     '/images/Users-Exit-icon.webp',
+    '/signin',
+    '/signup',
+    '/menu',
+    '/scorelist',
+    '/aboutus',
+    '/rules',
+    '/lobby',
+    '/game',
+    '/gameFake',
 ];
 
 for (let i = 0; i < 441; ++i) {
