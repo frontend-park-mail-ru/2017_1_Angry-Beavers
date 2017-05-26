@@ -1,7 +1,7 @@
 import 'bootstrap-loader';
 
 import SwLoader from './modules/Swloader';
-SwLoader.register('./modules/sw');
+SwLoader.register('/sw.js');
 
 import Router from './modules/router';
 import CreatePage from './views/CreatePage';
