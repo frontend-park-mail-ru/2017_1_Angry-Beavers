@@ -4,7 +4,7 @@
 
 'use strict';
 
-import './UserHeader.css';
+import './UserHeader.scss';
 import pugUserHeader from './UserHeader.pug';
 
 const UserHeader = function () {

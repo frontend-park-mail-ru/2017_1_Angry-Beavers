@@ -4,12 +4,12 @@
 
 'use strict';
 
-import './Rules.css';
+import './Rules.scss';
 import pugRules from './Rules.pug';
 
 import BorderConstruct from '../../constructs/BorderConstruct/BorderConstruct';
 
-const RIGHT_IMG = "images/Rules_page.png";
+const RIGHT_IMG = "images/Rules_page.webp";
 const TITLE = "ну тут какие-то правила будут, наверное...";
 
 const Rules = function () {
