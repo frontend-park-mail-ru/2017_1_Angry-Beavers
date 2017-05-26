@@ -18,7 +18,7 @@ this.addEventListener('install', function (event) {
             .then(function (cache) {
                 return cache.addAll(cacheUrls);
             }),
-    );
+    )
 });
 
 this.addEventListener('fetch', function (event) {
