@@ -7,6 +7,7 @@
 class GameFake {
     constructor(session) {
         this._session = session;
+        this._history = [];
     }
 
     get session() {
@@ -30,7 +31,7 @@ class GameFake {
                 "isMaster": true,
                 "score": 0,
                 "type": "GameUserInfo"
-            },
+            }
         ]);
         this._table = [
             {
@@ -39,6 +40,7 @@ class GameFake {
             }
         ];
 
+        this._onNewRoundMessage && this._onNewRoundMessage();
         this._onHandInfo && this._onHandInfo();
         this._roundNum = 1;
         this._onRoundInfo && this._onRoundInfo();
@@ -52,7 +54,7 @@ class GameFake {
 
     selectCardFromHand(index) {
         setTimeout(function () {
-            if (this._table.length === 4) return;
+            if (this._table.length === 3) return;
 
             let card = this._hand[index];
             if (this._table[this._table.length - 1].red) {
@@ -69,7 +71,7 @@ class GameFake {
             };
 
             this._onTableInfo && this._onTableInfo();
-            if (++this._roundNum === 4) {
+            if (++this._roundNum === 3) {
                 this._userCards = [];
                 for (let i = 0; i < 3; ++i) {
                     this._userCards.push({
@@ -92,6 +94,15 @@ class GameFake {
     }
 
     selectCardFromTable(index) {
+        let card = this._userCards[index];
+        if (this._table[this._table.length - 1].red) {
+            const a = this._table[this._table.length - 1];
+            this._table[this._table.length - 1] = card;
+            this._table.push(a);
+        } else {
+            this._table.push(card);
+        }
+        this._history.push(this._table);
         this._hand = [];
         this._onHandInfo && this._onHandInfo();
         setTimeout(function () {
@@ -123,6 +134,10 @@ class GameFake {
 
     get userCards() {
         return this._userCards.slice();
+    }
+
+    get history() {
+        return this._history;
     }
 
     get onHandInfo() {
@@ -171,6 +186,14 @@ class GameFake {
 
     set onGetCardFromTable(value) {
         this._onGetCardFromTable = value;
+    }
+
+    get onNewRoundMessage() {
+        return this._onNewRoundMessage;
+    }
+
+    set onNewRoundMessage(value) {
+        this._onNewRoundMessage = value;
     }
 
     get onError() {

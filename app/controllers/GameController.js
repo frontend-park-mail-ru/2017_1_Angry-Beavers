@@ -47,6 +47,13 @@ const USERS_BORDER_RADIUS = 5;
 const USER_HEIGHT = 50;
 const USER_AVATAR_WIDTH = 50;
 
+const HISTORY_TOP = 50;
+const HISTORY_LEFT = 5;
+const HISTORY_CARD_WIDTH = 30;
+const HISTORY_CARD_HEIGHT = HISTORY_CARD_WIDTH * 1.4786324786324787;
+const HISTORY_OFFSET = 5;
+const HISTORY_CARD_OFFSET = 5;
+
 const TOOLTIP_LEFT = 10;
 const TOOLTIP_TOP = 10;
 const TOOLTIP_TIMER_SIZE = 50;
@@ -315,6 +322,10 @@ class GameController extends View {
             this._game.onGameFinishedMessage = function () {
                 this._game.onClosed = undefined;
                 this._game.onError = undefined;
+                this._showError('игра закончена');
+            }.bind(this);
+            this._game.onNewRoundMessage = function () {
+                this._updateHistory();
             }.bind(this);
             this._createCanvas();
             this._showGame();
@@ -624,6 +635,60 @@ class GameController extends View {
         tween.play();
     }
 
+    _updateHistory(list) {
+        if (!this._groupHistory) {
+            this._groupHistory = new Konva.Group({
+                x: HISTORY_LEFT,
+                y: HISTORY_TOP,
+            });
+            this._layerGame.add(this._groupHistory);
+        }
+
+        if (!this._history) this._history = [];
+
+        let newHistory = [];
+        let _i = 0;
+        (list || this._game.history).forEach(function (l, i) {
+            if (!l) return;
+
+            let __i = _i;
+            ++_i;
+            newHistory.push({
+                id: l,
+                index: i,
+                itemGenerator: () => {
+                    let group = new Konva.Group({
+                        x: HISTORY_LEFT,
+                        y: HISTORY_TOP + __i * (HISTORY_OFFSET + HISTORY_CARD_HEIGHT)
+                    });
+
+                    let i_ = 0;
+                    l.forEach(function (card) {
+                        if (!card) return;
+                        let cardGroup = generateCard.bind(this)(card);
+                        cardGroup.scale({
+                            x: HISTORY_CARD_WIDTH / cardGroup.getWidth(),
+                            y: HISTORY_CARD_HEIGHT / cardGroup.getHeight()
+                        });
+                        cardGroup.setX((HISTORY_CARD_WIDTH + HISTORY_CARD_OFFSET) * i_++);
+                        group.add(cardGroup);
+                    }.bind(this));
+
+                    group.on('mouseover', function () {
+                        this._updateTable(l);
+                    }.bind(this));
+                    group.on('mouseout', function () {
+                        this._updateTable();
+                    }.bind(this));
+
+                    return group;
+                }
+            });
+        }.bind(this));
+        this._history = listUpdate(this._groupHistory, this._history, newHistory);
+        this._layerGame.drawScene();
+    }
+
     _onSelectFromHand() {
         this._updateHand();
 
@@ -728,7 +793,7 @@ class GameController extends View {
                 this._startTimer();
                 break;
             case 'waitForPlayers':
-                this._updateTooltipText('Подожди пока другие игроки сделаю выбор...');
+                this._updateTooltipText('Подожди пока другие игроки сделают выбор...');
                 this._stopTimer();
                 break;
             case 'waitForMaster':

@@ -7,6 +7,7 @@
 class Game {
     constructor(session) {
         this._session = session;
+        this._history = [];
     }
 
     get session() {
@@ -51,6 +52,11 @@ class Game {
                     break;
                 case 'GetCardFromTable':
                     this._onGetCardFromTable && this._onGetCardFromTable(data);
+                    break;
+                case 'NewRoundMessage':
+                    this._history.push(this._table);
+                    this._table = [];
+                    this._onNewRoundMessage && this._onNewRoundMessage(data);
                     break;
                 case 'Game Finished Message':
                     this._onGameFinishedMessage && this._onGameFinishedMessage(data);
@@ -109,6 +115,10 @@ class Game {
         return this._userCards.slice();
     }
 
+    get history() {
+        return this._history = [];
+    }
+
     get onHandInfo() {
         return this._onHandInfo;
     }
@@ -163,6 +173,14 @@ class Game {
 
     set onGameFinishedMessage(value) {
         this._onGameFinishedMessage = value;
+    }
+
+    get onNewRoundMessage() {
+        return this._onNewRoundMessage;
+    }
+
+    set onNewRoundMessage(value) {
+        this._onNewRoundMessage = value;
     }
 
     get onError() {
