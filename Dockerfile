@@ -1,7 +1,7 @@
 FROM nginx:1.13-alpine
 RUN apk add --update bash
-RUN    apt-get update
-RUN    apt-get -y install wget vim git libpq-dev
+CMD   apt-get update
+CMD    apt-get -y install wget vim git libpq-dev
 
 CMD ./configure --with-http_gzip_static_module && make && make install
 RUN mv /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf.backup
