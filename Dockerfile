@@ -1,4 +1,4 @@
-ENV NGINX_VERSION 1.13-alpine
+ENV NGINX_VERSION "1.13-alpine"
 FROM nginx:${NGINX_VERSION}
 ENV MODULES_DIR /usr/src/nginx-modules
 RUN apk add --update bash
