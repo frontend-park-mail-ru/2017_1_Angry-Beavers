@@ -17,14 +17,14 @@ class MenuGameController extends View {
     }
 
     addListener() {
-        [...document.querySelectorAll(".userheader__appname")]
+        [...document.querySelectorAll(".userheader-appname")]
             .concat([...document.querySelectorAll('.appname')])
             .forEach(a => a.addEventListener('click', event => {
                 event.preventDefault();
                 this.router.go("/");
             }));
 
-        document.querySelectorAll(".userheader__logout").forEach(a => a.addEventListener('click', event => {
+        document.querySelectorAll(".userheader-logout").forEach(a => a.addEventListener('click', event => {
             event.preventDefault();
             this.session.logout()
                 .then(() => {
@@ -65,8 +65,8 @@ class MenuGameController extends View {
         else {
             this.page_parts.get("MenuGame").hidden = false;
 
-            document.querySelectorAll('.userheader__login').forEach(a => a.innerHTML = this.session.user.login);
-            document.querySelectorAll('.userheader__score').forEach(a => a.innerHTML = this.session.user.score);
+            document.querySelectorAll('.userheader-login').forEach(a => a.innerHTML = this.session.user.login);
+            document.querySelectorAll('.userheader-score').forEach(a => a.innerHTML = this.session.user.score);
         }
         this.page_parts.get("Footer").hidden = false;
     }
