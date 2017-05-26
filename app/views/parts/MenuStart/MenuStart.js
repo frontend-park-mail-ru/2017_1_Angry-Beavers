@@ -11,18 +11,18 @@ import MenuConstruct from '../../constructs/MenuConstruct/MenuConstruct';
 const ITEMS = [
     {
         id: "menuStart_signIn",
-        defaultImg: "images/Login_btn.png",
-        backImg: "images/GOODFACE.png"
+        defaultImg: "images/Login_btn.webp",
+        backImg: "images/GOODFACE.webp"
     },
     {
         id: "menuStart_aboutUs",
-        defaultImg: "images/About_us.png",
-        backImg: "images/We_do_it.png"
+        defaultImg: "images/About_us.webp",
+        backImg: "images/We_do_it.webp"
     },
     {
         id: "menuStart_rules",
-        defaultImg: "images/About_rules.png",
-        backImg: "images/About_rules_2.png"
+        defaultImg: "images/About_rules.webp",
+        backImg: "images/About_rules_2.webp"
     }
 ];
 

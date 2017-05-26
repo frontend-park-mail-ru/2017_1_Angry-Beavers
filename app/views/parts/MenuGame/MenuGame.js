@@ -11,23 +11,23 @@ import MenuConstruct from '../../constructs/MenuConstruct/MenuConstruct';
 const ITEMS = [
     {
         id: "menuGame_play",
-        defaultImg: "images/Game.png",
-        backImg: "images/Game_hold.png"
+        defaultImg: "images/Game.webp",
+        backImg: "images/Game_hold.webp"
     },
     {
         id: "menuGame_score",
-        defaultImg: "images/Score_btn.png",
-        backImg: "images/Score_btn_hold.png"
+        defaultImg: "images/Score_btn.webp",
+        backImg: "images/Score_btn_hold.webp"
     },
     {
         id: "menuGame_aboutUs",
-        defaultImg: "images/About_us.png",
-        backImg: "images/We_do_it.png"
+        defaultImg: "images/About_us.webp",
+        backImg: "images/We_do_it.webp"
     },
     {
         id: "menuGame_rules",
-        defaultImg: "images/About_rules.png",
-        backImg: "images/About_rules_2.png"
+        defaultImg: "images/About_rules.webp",
+        backImg: "images/About_rules_2.webp"
     }
 ];
 
