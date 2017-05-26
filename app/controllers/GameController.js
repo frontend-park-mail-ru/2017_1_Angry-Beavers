@@ -833,14 +833,15 @@ class GameController extends View {
     _showGame() {
         if (this._groupError) {
             const errorTween = new Konva.Tween({
-                node: this._layerError,
+                node: this._groupError,
                 opacity: 0,
                 duration: 0.5,
             });
 
-            this._groupError && this._groupError.remove();
-            delete this._groupError;
-
+            errorTween.onFinish = function () {
+                this._groupError && this._groupError.remove();
+                delete this._groupError;
+            }.bind(this);
             errorTween.play();
         }
     };
@@ -851,15 +852,19 @@ class GameController extends View {
             return;
         }
 
-        const errorTween = new Konva.Tween({
-            node: this._layerError,
-            opacity: 1,
-            duration: 0.5,
-        });
-
         this._groupError && this._groupError.remove();
-        this._groupError = new Konva.Group();
+        this._groupError = new Konva.Group({
+            opacity: 0,
+        });
         this._layerError.add(this._groupError);
+
+        const layerErrorBackground = new Konva.Rect({
+            x: 0,
+            y: 0,
+            width: STAGE_WIDTH,
+            height: STAGE_HEIGHT,
+            fill: '#fbfbfb',
+        });
 
         const layerErrorLoader = new Konva.Arc({
             x: STAGE_WIDTH / 2,
@@ -916,6 +921,7 @@ class GameController extends View {
             tween.play();
         }.bind(this));
 
+        this._groupError.add(layerErrorBackground);
         this._groupError.add(layerErrorDescription);
         this._groupError.add(layerErrorLoader);
         this._groupError.add(layerErrorButton);
@@ -942,6 +948,11 @@ class GameController extends View {
         tween2.onReset = () => tween2.play();
         tween2.play();
 
+        const errorTween = new Konva.Tween({
+            node: this._groupError,
+            opacity: 1,
+            duration: 0.5,
+        });
         errorTween.play();
     };
 }
