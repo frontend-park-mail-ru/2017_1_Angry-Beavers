@@ -1,6 +1,8 @@
-.menuconstruct .menuconstruct__image {
-    cursor: pointer;
-    border-radius: 12px;
-    border: 8px solid black;
-    margin: 10px auto;
+.menuconstruct {
+    &__image {
+        cursor: pointer;
+        border-radius: 12px;
+        border: 8px solid black;
+        margin: 10px auto;
+    }
 }
