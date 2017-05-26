@@ -17,7 +17,7 @@ class LobbyController extends View {
     }
 
     addListener() {
-        [...document.querySelectorAll(".userheader__appname")]
+        [...document.querySelectorAll(".userheader-appname")]
             .concat([...document.querySelectorAll('.appname')])
             .forEach(a => a.addEventListener('click', event => {
                 event.preventDefault();
@@ -39,8 +39,8 @@ class LobbyController extends View {
         else {
             this.page_parts.get("UserHeader").hidden = false;
             this.page_parts.get("Lobby").hidden = false;
-            document.querySelectorAll('.userheader__login').forEach(a => a.innerHTML = this.session.user.login);
-            document.querySelectorAll('.userheader__score').forEach(a => a.innerHTML = this.session.user.score);
+            document.querySelectorAll('.userheader-login').forEach(a => a.innerHTML = this.session.user.login);
+            document.querySelectorAll('.userheader-score').forEach(a => a.innerHTML = this.session.user.score);
 
             this._startLobby();
         }
