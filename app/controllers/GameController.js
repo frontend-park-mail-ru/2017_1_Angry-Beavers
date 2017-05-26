@@ -291,8 +291,7 @@ class GameController extends View {
             this._game.onRoundInfo = function () {
                 this._showGame();
                 this._updateUsers();
-                this._game._userCards = []; // todo: исправить
-                this._updateUserCards();
+                this._updateUserCards([]);
             }.bind(this);
             this._game.onTableInfo = function () {
                 this._showGame();
@@ -300,6 +299,7 @@ class GameController extends View {
             }.bind(this);
             this._game.onUserCardsInfo = function () {
                 this._showGame();
+                this._updateTooltip('waitForMaster');
                 this._updateUserCards();
             }.bind(this);
             this._game.onGetCardFromHand = function () {
@@ -451,7 +451,7 @@ class GameController extends View {
         tween.play();
     }
 
-    _updateUsers() {
+    _updateUsers(list) {
         if (!this._groupUsers) {
             let layerUserBox = new Konva.Group({
                 x: STAGE_WIDTH - USERS_RIGHT - USERS_WIDTH,
@@ -503,7 +503,7 @@ class GameController extends View {
         if (!this._users) this._users = [];
 
         let newUsers = [];
-        this._game.users.forEach(function (user, i) {
+        (list || this._game.users).forEach(function (user, i) {
             newUsers.push({
                 id: `${user.nickname}${user.score}${user.isMaster}`,
                 itemGenerator: () => {
@@ -578,7 +578,7 @@ class GameController extends View {
         tween.play();
     }
 
-    _updateUserCards() {
+    _updateUserCards(list) {
         if (!this._groupUserCards) {
             this._groupUserCards = new Konva.Group({
                 y: UTABLE_TOP,
@@ -590,7 +590,7 @@ class GameController extends View {
 
         let newUserCards = [];
         let _i = 0;
-        this._game.userCards.forEach(function (card, i) {
+        (list || this._game.userCards).forEach(function (card, i) {
             if (!card || typeof card === "string") return;
             let __i = _i;
             ++_i;
@@ -720,15 +720,19 @@ class GameController extends View {
     _updateTooltip(state) {
         switch (state) {
             case 'chooseCardFromHand':
-                this._updateTooltipText('Выбери карту');
+                this._updateTooltipText('Выбери карту, которая лучше всего подходит для комикса');
                 this._startTimer();
                 break;
             case 'chooseCardFromTable':
-                this._updateTooltipText('Выбери карту на столе');
+                this._updateTooltipText('Выбери карту, из предложенных, которая лучше всего подходит для комикса');
                 this._startTimer();
                 break;
             case 'waitForPlayers':
-                this._updateTooltipText('Подожди остальных игроков...');
+                this._updateTooltipText('Подожди пока другие игроки сделаю выбор...');
+                this._stopTimer();
+                break;
+            case 'waitForMaster':
+                this._updateTooltipText('Подожди пока ведущий выберет лучшую карту...');
                 this._stopTimer();
                 break;
             default:
