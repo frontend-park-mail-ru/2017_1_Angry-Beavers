@@ -17,7 +17,7 @@ class SignInController extends View {
     }
 
     addListener() {
-        [...document.querySelectorAll(".userheader__appname")]
+        [...document.querySelectorAll(".userheader-appname")]
             .concat([...document.querySelectorAll('.appname')])
             .forEach(a => a.addEventListener('click', event => {
                 event.preventDefault();
