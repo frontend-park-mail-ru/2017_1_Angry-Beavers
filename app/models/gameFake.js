@@ -39,6 +39,7 @@ class GameFake {
                 "id": Math.round(Math.random() * 400)
             }
         ];
+        this._userCards = [];
 
         this._onNewRoundMessage && this._onNewRoundMessage();
         this._onHandInfo && this._onHandInfo();

@@ -23,21 +23,16 @@ const UTABLE_TOP = 340;
 const UTABLE_CARD_WIDTH = 95;
 const UTABLE_CARD_HEIGHT = UTABLE_CARD_WIDTH * 1.4786324786324787;
 const UTABLE_CARD_OFFSET = 10;
-const UTABLE_CARD_BORDER_THICKNESS = 4;
-const UTABLE_CARD_BORDER_RADIUS = 4;
 
 const TABLE_TOP = 100;
-const TABLE_CARD_WIDTH = 150;
+const TABLE_CARD_WIDTH = 155;
 const TABLE_CARD_HEIGHT = TABLE_CARD_WIDTH * 1.4786324786324787;
 const TABLE_CARD_OFFSET = 30;
-const TABLE_CARD_BORDER_THICKNESS = 4;
-const TABLE_CARD_BORDER_RADIUS = 4;
 
-const CARD_WIDTH = 145;
-const CARD_HEIGHT = CARD_WIDTH * 1.4786324786324787;
-const CARD_OFFSET = 20;
-const CARD_BORDER_THICKNESS = 4;
-const CARD_BORDER_RADIUS = 4;
+const HAND_CARD_WIDTH = 145;
+const HAND_CARD_HEIGHT = HAND_CARD_WIDTH * 1.4786324786324787;
+const HAND_CARD_OFFSET = 20;
+const HAND_CARD_BORDER_THICKNESS = 4;
 
 const USERS_TOP = 50;
 const USERS_RIGHT = 20;
@@ -298,25 +293,29 @@ class GameController extends View {
             this._game.onRoundInfo = function () {
                 this._showGame();
                 this._updateUsers();
-                this._updateUserCards([]);
+                this._updateUserCards();
             }.bind(this);
             this._game.onTableInfo = function () {
                 this._showGame();
                 this._updateTable();
+                this._moveTableCenter();
             }.bind(this);
             this._game.onUserCardsInfo = function () {
                 this._showGame();
                 this._updateTooltip('waitForMaster');
                 this._updateUserCards();
+                this._moveHandRight();
             }.bind(this);
             this._game.onGetCardFromHand = function () {
                 this._showGame();
                 this._updateTooltip('chooseCardFromHand');
+                this._moveHandCenter();
                 this._onSelectFromHand();
             }.bind(this);
             this._game.onGetCardFromTable = function () {
                 this._showGame();
                 this._updateTooltip('chooseCardFromTable');
+                this._moveHandRight();
                 this._onSelectFromTable();
             }.bind(this);
             this._game.onGameFinishedMessage = function () {
@@ -404,7 +403,7 @@ class GameController extends View {
         if (!this._groupHand) {
             this._groupHand = new Konva.Group({
                 x: 0,
-                y: STAGE_HEIGHT - CARD_HEIGHT - CARD_BORDER_THICKNESS,
+                y: STAGE_HEIGHT - HAND_CARD_HEIGHT - HAND_CARD_BORDER_THICKNESS,
             });
             this._layerGame.add(this._groupHand);
         }
@@ -423,11 +422,11 @@ class GameController extends View {
                 itemGenerator: () => {
                     let group = generateCard.bind(this)(card);
 
-                    group.setX((CARD_WIDTH + CARD_OFFSET) * i + 5);
+                    group.setX((HAND_CARD_WIDTH + HAND_CARD_OFFSET) * i + 5);
                     group.setY(0);
                     group.scale({
-                        x: CARD_WIDTH / group.getWidth(),
-                        y: CARD_HEIGHT / group.getHeight()
+                        x: HAND_CARD_WIDTH / group.getWidth(),
+                        y: HAND_CARD_HEIGHT / group.getHeight()
                     });
 
                     return group;
@@ -450,16 +449,6 @@ class GameController extends View {
         }.bind(this));
         this._hand = listUpdate(this._groupHand, this._hand, newHand);
         this._layerGame.drawScene();
-
-        const cardsWidth = this._hand.length * (CARD_OFFSET + CARD_WIDTH) - CARD_OFFSET;
-        const tween = new Konva.Tween({
-            node: this._groupHand,
-            x: (STAGE_WIDTH - cardsWidth) / 2,
-            y: STAGE_HEIGHT - CARD_HEIGHT - CARD_BORDER_THICKNESS,
-            duration: 0.45,
-            easing: Konva.Easings['StrongEaseOut'],
-        });
-        tween.play();
     }
 
     _updateUsers(list) {
@@ -576,17 +565,6 @@ class GameController extends View {
         }.bind(this));
         this._table = listUpdate(this._groupTable, this._table, newTable);
         this._layerGame.drawScene();
-
-        const cardsWidth = this._table.length * (TABLE_CARD_OFFSET + TABLE_CARD_WIDTH) - TABLE_CARD_OFFSET;
-        const tableWidth = STAGE_WIDTH - 2 * USERS_WIDTH - 2 * USERS_RIGHT;
-        const tween = new Konva.Tween({
-            node: this._groupTable,
-            x: (tableWidth - cardsWidth) / 2,
-            y: TABLE_TOP,
-            duration: 0.45,
-            easing: Konva.Easings['StrongEaseOut'],
-        });
-        tween.play();
     }
 
     _updateUserCards(list) {
@@ -623,16 +601,6 @@ class GameController extends View {
         }.bind(this));
         this._userCards = listUpdate(this._groupUserCards, this._userCards, newUserCards);
         this._layerGame.drawScene();
-
-        const cardsWidth = this._userCards.length * (UTABLE_CARD_OFFSET + UTABLE_CARD_WIDTH) - UTABLE_CARD_OFFSET;
-        const tableWidth = STAGE_WIDTH - USERS_WIDTH - 2 * USERS_RIGHT;
-        const tween = new Konva.Tween({
-            node: this._groupUserCards,
-            x: (tableWidth - cardsWidth) / 2,
-            duration: 0.45,
-            easing: Konva.Easings.StrongEaseOut,
-        });
-        tween.play();
     }
 
     _updateHistory(list) {
@@ -676,9 +644,11 @@ class GameController extends View {
 
                     group.on('mouseover', function () {
                         this._updateTable(l);
+                        this._moveTableCenter();
                     }.bind(this));
                     group.on('mouseout', function () {
                         this._updateTable();
+                        this._moveTableCenter();
                     }.bind(this));
 
                     return group;
@@ -687,6 +657,81 @@ class GameController extends View {
         }.bind(this));
         this._history = listUpdate(this._groupHistory, this._history, newHistory);
         this._layerGame.drawScene();
+    }
+
+    _moveTableCenter() {
+        const cardsWidth = this._table.length * (TABLE_CARD_OFFSET + TABLE_CARD_WIDTH) - TABLE_CARD_OFFSET;
+        const tableWidth = STAGE_WIDTH - 2 * USERS_WIDTH - 2 * USERS_RIGHT;
+        const tween = new Konva.Tween({
+            node: this._groupTable,
+            x: (tableWidth - cardsWidth) / 2,
+            y: TABLE_TOP,
+            duration: 0.45,
+            easing: Konva.Easings.StrongEaseOut,
+        });
+        tween.play();
+    }
+
+    _moveHandRight() {
+        if (this._groupHand) {
+            const scale = (USERS_WIDTH) / ((HAND_CARD_WIDTH + HAND_CARD_OFFSET) * this._hand.length);
+
+            const tween = new Konva.Tween({
+                node: this._groupHand,
+                x: STAGE_WIDTH - USERS_WIDTH - USERS_RIGHT,
+                y: STAGE_HEIGHT - HAND_CARD_HEIGHT * scale - HAND_CARD_BORDER_THICKNESS,
+                scaleX: scale,
+                scaleY: scale,
+                duration: 0.5,
+                easing: Konva.Easings.StrongEaseOut,
+            });
+            tween.play();
+        }
+        if (this._groupUserCards) {
+            const scale = (HAND_CARD_HEIGHT) / (UTABLE_CARD_HEIGHT);
+            const cardsWidth = this._userCards.length * (HAND_CARD_OFFSET + HAND_CARD_WIDTH) - HAND_CARD_OFFSET;
+            const tableWidth = STAGE_WIDTH - 2 * USERS_WIDTH - 2 * USERS_RIGHT;
+
+            const tween = new Konva.Tween({
+                node: this._groupUserCards,
+                y: STAGE_HEIGHT - HAND_CARD_HEIGHT - HAND_CARD_BORDER_THICKNESS,
+                x: (tableWidth - cardsWidth) / 2,
+                scaleX: scale,
+                scaleY: scale,
+                duration: 0.5,
+                easing: Konva.Easings.StrongEaseOut,
+            });
+            tween.play();
+        }
+    }
+
+    _moveHandCenter() {
+        if (this._groupHand) {
+            const cardsWidth = this._hand.length * (HAND_CARD_OFFSET + HAND_CARD_WIDTH) - HAND_CARD_OFFSET;
+            const tween = new Konva.Tween({
+                node: this._groupHand,
+                x: (STAGE_WIDTH - cardsWidth) / 2,
+                y: STAGE_HEIGHT - HAND_CARD_HEIGHT - HAND_CARD_BORDER_THICKNESS,
+                duration: 0.45,
+                scaleX: 1,
+                scaleY: 1,
+                easing: Konva.Easings.StrongEaseOut,
+            });
+            tween.play();
+        }
+        if (this._groupUserCards) {
+            const cardsWidth = this._userCards.length * (UTABLE_CARD_OFFSET + UTABLE_CARD_WIDTH) - UTABLE_CARD_OFFSET;
+            const tableWidth = STAGE_WIDTH - USERS_WIDTH - 2 * USERS_RIGHT;
+            const tween = new Konva.Tween({
+                node: this._groupUserCards,
+                x: (tableWidth - cardsWidth) / 2,
+                duration: 0.45,
+                scaleX: 1,
+                scaleY: 1,
+                easing: Konva.Easings.StrongEaseOut,
+            });
+            tween.play();
+        }
     }
 
     _onSelectFromHand() {
@@ -716,6 +761,7 @@ class GameController extends View {
                 listUnsubscribe(this._hand);
                 listFade(this._hand);
                 this._updateTable();
+                this._moveTableCenter();
 
                 this._updateTooltip('waitForPlayers');
             }.bind(this),
@@ -733,6 +779,7 @@ class GameController extends View {
                     l.push(c.card);
                 }
                 this._updateTable(l);
+                this._moveTableCenter();
 
                 this._stage.container().style.cursor = 'pointer';
             }.bind(this),
@@ -741,6 +788,7 @@ class GameController extends View {
 
                 moveCard(c.item, false);
                 this._updateTable();
+                this._moveTableCenter();
 
                 this._stage.container().style.cursor = 'default';
             }.bind(this),
@@ -759,6 +807,9 @@ class GameController extends View {
 
                 listUnsubscribe(this._userCards);
 
+                this._updateTable();
+                this._moveTableCenter();
+
                 this._updateTooltip('waitForPlayers');
             }.bind(this),
             onMouseOver: function (c) {
@@ -771,11 +822,13 @@ class GameController extends View {
                     l.push(c.card);
                 }
                 this._updateTable(l);
+                this._moveTableCenter();
 
                 this._stage.container().style.cursor = 'pointer';
             }.bind(this),
             onMouseOut: function (c) {
                 this._updateTable();
+                this._moveTableCenter();
 
                 this._stage.container().style.cursor = 'default';
             }.bind(this),
