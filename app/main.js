@@ -5,7 +5,7 @@ if (window.location.hostname !== 'localhost' && window.location.protocol !== 'ht
 import 'bootstrap-loader';
 
 import SwLoader from './modules/Swloader';
-//SwLoader.register('/sw.js');
+SwLoader.register('/sw.js');
 
 import Router from './modules/router';
 import CreatePage from './views/CreatePage';
