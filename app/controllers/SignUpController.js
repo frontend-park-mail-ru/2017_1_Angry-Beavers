@@ -34,7 +34,7 @@ class SignUpController extends View {
                         this.router.go('/menu');
                     })
                     .catch(e => {
-                        alert(e);
+                        document.myalert(e);
                     });
             }
         });
@@ -52,27 +52,27 @@ class SignUpController extends View {
 
         // email check
         if (!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)) {
-            alert("Некорректный e-mail");
+            document.myalert("Некорректный e-mail");
             return false;
         }
 
         // login check
         if (login.length < 4) {
-            alert("Минимальная длина логина - 4 символа");
+            document.myalert("Минимальная длина логина - 4 символа");
             return false;
         }
         if (!/^[a-zA-Z0-9_]*$/.test(login)) {
-            alert("Логин может содержать только символы латинского алфавита, цифры и _");
+            document.myalert("Логин может содержать только символы латинского алфавита, цифры и _");
             return false;
         }
 
         // password check
         if (passw.length < 6) {
-            alert("Минимальная длина пароля - 6 символов");
+            document.myalert("Минимальная длина пароля - 6 символов");
             return false;
         }
         if (passw !== passwRepeat) {
-            alert("Пароли не совпадают");
+            document.myalert("Пароли не совпадают");
             return false;
         }
 
