@@ -3,7 +3,7 @@
  */
 
 import pugAlertMsg from './AlertMsg.pug';
-import "./AlertMsg.scss";
+import "./MsgWindow.scss";
 
 const AlertMsg = function () {
 
@@ -18,9 +18,6 @@ const AlertMsg = function () {
             _block = document.createElement('div');
             _block.setAttribute("class",'blockscreen');
             parent.insertBefore(_block, obj);
-            _block.addEventListener("click", (func => {
-                func();
-            }).bind(null,close));
         }
         _block.style.display = 'inline'; //Установим CSS-свойство
     };
