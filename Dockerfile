@@ -33,7 +33,7 @@ RUN npm install \
     && cp ./public/static/index.html /usr/share/nginx/html \
     && cp ./public/static/sw.js /usr/share/nginx/html \
     && cp ./public/static/images  /usr/share/nginx/html/images -R \
-    && cp ./public/static/fonts /usr/share/nginx/html/fonts -R \
+    && cp ./public/static/fonts /usr/share/nginx/html/fonts -R
 
 WORKDIR /
 RUN rm -r /Frontend && apt-get purge -y nodejs
