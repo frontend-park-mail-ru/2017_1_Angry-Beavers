@@ -112,7 +112,7 @@ class Game {
     }
 
     get roundCount() {
-        return 4;
+        return 5;
     }
 
     get hand() {
