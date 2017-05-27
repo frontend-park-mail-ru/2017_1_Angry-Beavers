@@ -70,21 +70,79 @@ let USER_AVATARS = [
 ];
 
 // меня задолбала копипаста, поэтому я всё таки написал функции, но это по-прежнему индусский гавнокод
+const generateLoader = function () {
+    const layerErrorLoader = new Konva.Arc({
+        innerRadius: 40,
+        outerRadius: 70,
+        angle: 1,
+        fill: '#88C1D8',
+        stroke: 'black',
+        strokeWidth: 4
+    });
+
+    layerErrorLoader.run = () => {
+        let period = 2000;
+        let tween1 = new Konva.Tween({
+            node: layerErrorLoader,
+            duration: period / 1000 / 2,
+            easing: Konva.Easings.EaseInOut,
+            fill: '#42A045',
+            angle: 360,
+        });
+        let tween2 = new Konva.Tween({
+            node: layerErrorLoader,
+            duration: period / 829,
+            easing: Konva.Easings.Linear,
+            fill: '#42A045',
+        });
+
+        tween1.onFinish = () => tween1.reverse();
+        tween1.onReset = () => tween1.play();
+        tween1.play();
+        tween2.onFinish = () => tween2.reverse();
+        tween2.onReset = () => tween2.play();
+        tween2.play();
+    };
+
+    return layerErrorLoader;
+};
+
 const generateCard = function (card) {
     let group = new Konva.Group({
         width: TABLE_CARD_WIDTH,
         height: TABLE_CARD_HEIGHT,
         fill: 'white',
     });
+
+    let rect = new Konva.Rect({
+        x: -1,
+        y: -2,
+        width: TABLE_CARD_WIDTH + 2,
+        height: TABLE_CARD_HEIGHT + 2,
+        stroke: card.red ? 'red' : 'black',
+        fill: 'white',
+        strokeWidth: 1,
+    });
+    group.add(rect);
+
+    let loader = generateLoader();
+
     let cardImg = new Image();
     cardImg.src = `https://raw.githubusercontent.com/ed-asriyan/joking-hazard-cards/master/pure-cropped/${Math.trunc((card.id - 1) / 9) + 1}_${card.id % 9}.jpg`;
+    setTimeout(() => {
+        if (cardImg.complete) return;
+
+        loader.setX(TABLE_CARD_WIDTH / 2);
+        loader.setY(TABLE_CARD_HEIGHT / 2);
+        loader.setScale({x: 0.65, y: 0.65});
+        group.add(loader);
+        loader.run();
+    }, 200);
     cardImg.onload = function () {
         let img = new Konva.Image({
             image: cardImg,
-            strokeWidth: 2,
             width: TABLE_CARD_WIDTH,
             height: TABLE_CARD_HEIGHT,
-            stroke: card.red ? 'red' : 'black',
             opacity: 0,
         });
         group.add(img);
@@ -94,9 +152,11 @@ const generateCard = function (card) {
                 opacity: 1,
                 duration: 0.3
             });
+            tween.onFinish = () => loader.remove();
             tween.play();
         } else {
             img.opacity(1);
+            loader.remove();
         }
     };
     return group;
@@ -330,6 +390,7 @@ class GameController extends View {
             }.bind(this);
             this._game.onNewRoundMessage = function () {
                 this._updateHistory();
+                this._updateUserCards([]);
             }.bind(this);
             this._createCanvas();
             this._showGame();
@@ -343,7 +404,25 @@ class GameController extends View {
     }
 
     _createCanvas() {
-        if (this._stage) return;
+        if (this._stage) {
+            this._stage.remove();
+
+            delete this._groupUserCards;
+            delete this._groupHand;
+            delete this._groupError;
+            delete this._groupErrorDescription;
+            delete this._groupHistory;
+            delete this._groupTable;
+            delete this._groupUsers;
+            delete this._groupTimerCircle;
+            delete this._groupTimerText;
+
+            delete this._userCards;
+            delete this._hand;
+            delete this._table;
+            delete this._history;
+            delete this._users;
+        }
 
         this._stage = new Konva.Stage({
             container: 'container',
@@ -886,7 +965,7 @@ class GameController extends View {
     }
 
     _startTimer() {
-        if (!this._timerCircle) {
+        if (!this._groupTimerCircle) {
             let circleBack = new Konva.Circle({
                 x: TOOLTIP_TIMER_SIZE / 2 + 4,
                 y: TOOLTIP_TIMER_SIZE / 2 + 4,
@@ -908,7 +987,7 @@ class GameController extends View {
                 rotation: -90,
             });
             this._layerGame.add(circleFront);
-            this._timerCircle = circleFront;
+            this._groupTimerCircle = circleFront;
 
             let text = new Konva.Text({
                 x: TOOLTIP_TIMER_SIZE / 10,
@@ -919,29 +998,29 @@ class GameController extends View {
                 fontFamily: 'DigitalStrip',
             });
             this._layerGame.add(text);
-            this._timerText = text;
+            this._groupTimerText = text;
         }
 
-        this._timerCircle.angle(360);
-        this._timerCircle.stroke('black');
+        this._groupTimerCircle.angle(360);
+        this._groupTimerCircle.stroke('black');
 
         let time = 40;
 
         let tween = new Konva.Tween({
-            node: this._timerCircle,
+            node: this._groupTimerCircle,
             angle: 0,
             stroke: 'red',
             duration: time,
         });
         tween.play();
 
-        this._timerText.opacity(1);
-        this._timerCircle.opacity(1);
+        this._groupTimerText.opacity(1);
+        this._groupTimerCircle.opacity(1);
 
         let _;
         _ = () => {
-            if (time && this._timerText.getAbsoluteOpacity() === 1) {
-                this._timerText.text(--time);
+            if (time && this._groupTimerText.getAbsoluteOpacity() === 1) {
+                this._groupTimerText.text(--time);
                 this._layerGame.drawScene();
                 setTimeout(_, 1000);
             }
@@ -950,9 +1029,9 @@ class GameController extends View {
     }
 
     _stopTimer() {
-        if (this._timerCircle) {
-            this._timerText.opacity(0);
-            this._timerCircle.opacity(0);
+        if (this._groupTimerCircle) {
+            this._groupTimerText.opacity(0);
+            this._groupTimerCircle.opacity(0);
         }
         return new Promise(r => r());
     }
@@ -993,16 +1072,9 @@ class GameController extends View {
             fill: '#fbfbfb',
         });
 
-        const layerErrorLoader = new Konva.Arc({
-            x: STAGE_WIDTH / 2,
-            y: STAGE_HEIGHT / 2,
-            innerRadius: 40,
-            outerRadius: 70,
-            angle: 1,
-            fill: '#88C1D8',
-            stroke: 'black',
-            strokeWidth: 4
-        });
+        const layerErrorLoader = generateLoader();
+        layerErrorLoader.setX(STAGE_WIDTH / 2);
+        layerErrorLoader.setY(STAGE_HEIGHT / 2);
 
         const layerErrorDescription = new Konva.Text({
             x: 0,
@@ -1038,7 +1110,6 @@ class GameController extends View {
             tween.play();
         }.bind(this));
         layerErrorButton.on('mouseout', function () {
-            // layerErrorDescription.fontStyle('')
             this._stage.container().style.cursor = 'default';
             let tween = new Konva.Tween({
                 node: layerErrorButton,
@@ -1053,27 +1124,6 @@ class GameController extends View {
         this._groupError.add(layerErrorLoader);
         this._groupError.add(layerErrorButton);
 
-        let period = 2000;
-        let tween1 = new Konva.Tween({
-            node: layerErrorLoader,
-            duration: period / 1000 / 2,
-            easing: Konva.Easings.EaseInOut,
-            fill: '#42A045',
-            angle: 360,
-        });
-        let tween2 = new Konva.Tween({
-            node: layerErrorLoader,
-            duration: period / 829,
-            easing: Konva.Easings.Linear,
-            fill: '#42A045',
-        });
-
-        tween1.onFinish = () => tween1.reverse();
-        tween1.onReset = () => tween1.play();
-        tween1.play();
-        tween2.onFinish = () => tween2.reverse();
-        tween2.onReset = () => tween2.play();
-        tween2.play();
 
         const errorTween = new Konva.Tween({
             node: this._groupError,
@@ -1081,6 +1131,7 @@ class GameController extends View {
             duration: 0.5,
         });
         errorTween.play();
+        layerErrorLoader.run();
     };
 }
 
