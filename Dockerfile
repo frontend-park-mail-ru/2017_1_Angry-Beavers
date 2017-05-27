@@ -52,7 +52,7 @@ RUN chmod +x /usr/share/nginx/html/port.sh
 RUN ls -la /etc/nginx
 
 CMD /usr/share/nginx/html/port.sh /etc/nginx/joking-hazard_listen.conf && nginx -s reaload -g 'daemon off;'
-RUN nginx -v > templog.txt
-RUN cat templog.txt
+CMD nginx -v > templog.conf
+RUN cat templog.conf
 
 
