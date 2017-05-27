@@ -51,6 +51,6 @@ RUN chmod +x /usr/share/nginx/html/port.sh
 
 RUN ls -la /etc/nginx
 
-CMD /usr/share/nginx/html/port.sh /etc/nginx/joking-hazard_listen.conf && nginx -g 'daemon off;'
+CMD /usr/share/nginx/html/port.sh /etc/nginx/joking-hazard_listen.conf && nginx -s reaload -g 'daemon off;'
 
 
