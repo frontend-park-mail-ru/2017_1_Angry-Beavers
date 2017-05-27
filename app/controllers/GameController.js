@@ -330,6 +330,7 @@ class GameController extends View {
             }.bind(this);
             this._game.onNewRoundMessage = function () {
                 this._updateHistory();
+                this._updateUserCards([]);
             }.bind(this);
             this._createCanvas();
             this._showGame();
@@ -343,7 +344,25 @@ class GameController extends View {
     }
 
     _createCanvas() {
-        if (this._stage) return;
+        if (this._stage) {
+            this._stage.remove();
+
+            delete this._groupUserCards;
+            delete this._groupHand;
+            delete this._groupError;
+            delete this._groupErrorDescription;
+            delete this._groupHistory;
+            delete this._groupTable;
+            delete this._groupUsers;
+            delete this._groupTimerCircle;
+            delete this._groupTimerText;
+
+            delete this._userCards;
+            delete this._hand;
+            delete this._table;
+            delete this._history;
+            delete this._users;
+        }
 
         this._stage = new Konva.Stage({
             container: 'container',
@@ -886,7 +905,7 @@ class GameController extends View {
     }
 
     _startTimer() {
-        if (!this._timerCircle) {
+        if (!this._groupTimerCircle) {
             let circleBack = new Konva.Circle({
                 x: TOOLTIP_TIMER_SIZE / 2 + 4,
                 y: TOOLTIP_TIMER_SIZE / 2 + 4,
@@ -908,7 +927,7 @@ class GameController extends View {
                 rotation: -90,
             });
             this._layerGame.add(circleFront);
-            this._timerCircle = circleFront;
+            this._groupTimerCircle = circleFront;
 
             let text = new Konva.Text({
                 x: TOOLTIP_TIMER_SIZE / 10,
@@ -919,29 +938,29 @@ class GameController extends View {
                 fontFamily: 'DigitalStrip',
             });
             this._layerGame.add(text);
-            this._timerText = text;
+            this._groupTimerText = text;
         }
 
-        this._timerCircle.angle(360);
-        this._timerCircle.stroke('black');
+        this._groupTimerCircle.angle(360);
+        this._groupTimerCircle.stroke('black');
 
         let time = 40;
 
         let tween = new Konva.Tween({
-            node: this._timerCircle,
+            node: this._groupTimerCircle,
             angle: 0,
             stroke: 'red',
             duration: time,
         });
         tween.play();
 
-        this._timerText.opacity(1);
-        this._timerCircle.opacity(1);
+        this._groupTimerText.opacity(1);
+        this._groupTimerCircle.opacity(1);
 
         let _;
         _ = () => {
-            if (time && this._timerText.getAbsoluteOpacity() === 1) {
-                this._timerText.text(--time);
+            if (time && this._groupTimerText.getAbsoluteOpacity() === 1) {
+                this._groupTimerText.text(--time);
                 this._layerGame.drawScene();
                 setTimeout(_, 1000);
             }
@@ -950,9 +969,9 @@ class GameController extends View {
     }
 
     _stopTimer() {
-        if (this._timerCircle) {
-            this._timerText.opacity(0);
-            this._timerCircle.opacity(0);
+        if (this._groupTimerCircle) {
+            this._groupTimerText.opacity(0);
+            this._groupTimerCircle.opacity(0);
         }
         return new Promise(r => r());
     }
