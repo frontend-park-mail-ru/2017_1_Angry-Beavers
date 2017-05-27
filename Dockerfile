@@ -30,7 +30,11 @@ ADD . /Frontend
 WORKDIR /Frontend
 RUN npm install \
     && npm start \
-    && cp ./public/static /usr/share/nginx/html/public/static
+    && cp ./public/static/bundle.js /usr/share/nginx/html \
+    && cp ./public/static/index.html /usr/share/nginx/html \
+    && cp ./public/static/sw.js /usr/share/nginx/html \
+    && cp ./public/static/images /usr/share/nginx/html/images \
+    && cp ./public/static/fonts /usr/share/nginx/html/fonts \
 
 WORKDIR /
 RUN rm -r /Frontend && apt-get purge -y nodejs
