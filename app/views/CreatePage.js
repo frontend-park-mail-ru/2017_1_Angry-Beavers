@@ -43,7 +43,6 @@ class CreatePage {
         this.addParts(this.body, "Game", Game());
         AlertMsg();
         ConfirmMsg();
-        document.myconfirm("AAAA",val => console.log(val));
     }
 
     addParts(parent, name, elem) {
