@@ -19,28 +19,10 @@ import View from '../modules/view';
 const STAGE_WIDTH = 1280;
 const STAGE_HEIGHT = 720;
 
-const UTABLE_TOP = 340;
-const UTABLE_CARD_WIDTH = 95;
-const UTABLE_CARD_HEIGHT = UTABLE_CARD_WIDTH * 1.4786324786324787;
-const UTABLE_CARD_OFFSET = 10;
-
-const TABLE_TOP = 100;
-const TABLE_CARD_WIDTH = 155;
-const TABLE_CARD_HEIGHT = TABLE_CARD_WIDTH * 1.4786324786324787;
-const TABLE_CARD_OFFSET = 30;
-
-const HAND_CARD_WIDTH = 145;
-const HAND_CARD_HEIGHT = HAND_CARD_WIDTH * 1.4786324786324787;
-const HAND_CARD_OFFSET = 20;
-const HAND_CARD_BORDER_THICKNESS = 4;
-
 const USERS_TOP = 50;
 const USERS_RIGHT = 20;
 const USERS_WIDTH = 300;
 const USERS_BORDER_RADIUS = 5;
-
-const USER_HEIGHT = 50;
-const USER_AVATAR_WIDTH = 50;
 
 const HISTORY_TOP = 50;
 const HISTORY_LEFT = 5;
@@ -49,8 +31,26 @@ const HISTORY_CARD_HEIGHT = HISTORY_CARD_WIDTH * 1.4786324786324787;
 const HISTORY_OFFSET = 5;
 const HISTORY_CARD_OFFSET = 5;
 
-const TOOLTIP_LEFT = 10;
-const TOOLTIP_TOP = 10;
+const HAND_CARD_WIDTH = 145;
+const HAND_CARD_HEIGHT = HAND_CARD_WIDTH * 1.4786324786324787;
+const HAND_CARD_OFFSET = 20;
+const HAND_CARD_BORDER_THICKNESS = 4;
+
+const TABLE_TOP = 80;
+const TABLE_LEFT = (HISTORY_CARD_WIDTH + HISTORY_CARD_OFFSET) * 4;
+const TABLE_CARD_WIDTH = 170;
+const TABLE_CARD_HEIGHT = TABLE_CARD_WIDTH * 1.4786324786324787;
+const TABLE_CARD_OFFSET = 30;
+
+const UTABLE_TOP = 340;
+const UTABLE_LEFT = TABLE_LEFT;
+const UTABLE_CARD_WIDTH = 95;
+const UTABLE_CARD_HEIGHT = UTABLE_CARD_WIDTH * 1.4786324786324787;
+const UTABLE_CARD_OFFSET = 10;
+
+const USER_HEIGHT = 50;
+const USER_AVATAR_WIDTH = 50;
+
 const TOOLTIP_TIMER_SIZE = 50;
 const TOOLTIP_TEXT_TOP = TOOLTIP_TIMER_SIZE / 2.5;
 
@@ -304,7 +304,11 @@ class GameController extends View {
                 this._showGame();
                 this._updateTooltip('waitForMaster');
                 this._updateUserCards();
-                this._moveHandRight();
+                if (this._game.needToSelectFormHand) {
+                    this._moveHandCenter();
+                } else {
+                    this._moveHandRight();
+                }
             }.bind(this);
             this._game.onGetCardFromHand = function () {
                 this._showGame();
@@ -315,6 +319,7 @@ class GameController extends View {
             this._game.onGetCardFromTable = function () {
                 this._showGame();
                 this._updateTooltip('chooseCardFromTable');
+                this._updateUserCards();
                 this._moveHandRight();
                 this._onSelectFromTable();
             }.bind(this);
@@ -557,7 +562,7 @@ class GameController extends View {
                         x: TABLE_CARD_WIDTH / group.getWidth(),
                         y: TABLE_CARD_HEIGHT / group.getHeight()
                     });
-                    group.setX((TABLE_CARD_WIDTH + TABLE_CARD_OFFSET) * (__i + 1));
+                    group.setX((TABLE_CARD_WIDTH + TABLE_CARD_OFFSET) * __i);
                     group.setY(0);
                     return group;
                 }
@@ -593,7 +598,7 @@ class GameController extends View {
                         x: UTABLE_CARD_WIDTH / group.getWidth(),
                         y: UTABLE_CARD_HEIGHT / group.getHeight()
                     });
-                    group.setX((UTABLE_CARD_WIDTH + UTABLE_CARD_OFFSET) * (__i + 1));
+                    group.setX((UTABLE_CARD_WIDTH + UTABLE_CARD_OFFSET) * __i);
                     group.setY(0);
                     return group;
                 }
@@ -661,10 +666,11 @@ class GameController extends View {
 
     _moveTableCenter() {
         const cardsWidth = this._table.length * (TABLE_CARD_OFFSET + TABLE_CARD_WIDTH) - TABLE_CARD_OFFSET;
-        const tableWidth = STAGE_WIDTH - 2 * USERS_WIDTH - 2 * USERS_RIGHT;
+        const tableWidth = STAGE_WIDTH - TABLE_LEFT - USERS_WIDTH - USERS_RIGHT * 2;
+
         const tween = new Konva.Tween({
             node: this._groupTable,
-            x: (tableWidth - cardsWidth) / 2,
+            x: TABLE_LEFT + (tableWidth - cardsWidth) / 2,
             y: TABLE_TOP,
             duration: 0.45,
             easing: Konva.Easings.StrongEaseOut,
@@ -690,7 +696,7 @@ class GameController extends View {
         if (this._groupUserCards) {
             const scale = (HAND_CARD_HEIGHT) / (UTABLE_CARD_HEIGHT);
             const cardsWidth = this._userCards.length * (HAND_CARD_OFFSET + HAND_CARD_WIDTH) - HAND_CARD_OFFSET;
-            const tableWidth = STAGE_WIDTH - 2 * USERS_WIDTH - 2 * USERS_RIGHT;
+            const tableWidth = STAGE_WIDTH - USERS_WIDTH - 2 * USERS_RIGHT;
 
             const tween = new Konva.Tween({
                 node: this._groupUserCards,
@@ -721,10 +727,11 @@ class GameController extends View {
         }
         if (this._groupUserCards) {
             const cardsWidth = this._userCards.length * (UTABLE_CARD_OFFSET + UTABLE_CARD_WIDTH) - UTABLE_CARD_OFFSET;
-            const tableWidth = STAGE_WIDTH - USERS_WIDTH - 2 * USERS_RIGHT;
+            const tableWidth = STAGE_WIDTH - UTABLE_LEFT - USERS_WIDTH - USERS_RIGHT * 2;
             const tween = new Konva.Tween({
                 node: this._groupUserCards,
-                x: (tableWidth - cardsWidth) / 2,
+                x: UTABLE_LEFT + (tableWidth - cardsWidth) / 2,
+                y: UTABLE_TOP,
                 duration: 0.45,
                 scaleX: 1,
                 scaleY: 1,
@@ -740,7 +747,7 @@ class GameController extends View {
         const moveCard = function (item, isUp) {
             const tween = new Konva.Tween({
                 node: item,
-                y: isUp ? -20 : 0,
+                y: isUp ? -15 : 0,
                 duration: 0.2,
                 easing: Konva.Easings.StrongEaseOut,
             });
@@ -762,6 +769,8 @@ class GameController extends View {
                 listFade(this._hand);
                 this._updateTable();
                 this._moveTableCenter();
+
+                this._moveHandRight();
 
                 this._updateTooltip('waitForPlayers');
             }.bind(this),
