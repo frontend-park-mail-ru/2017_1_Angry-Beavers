@@ -69,7 +69,11 @@ class LobbyController extends View {
             });
         }).bind(this);
         this._lobby.onClosed = (function () {
-            this.router.go('/game');
+            if (confirm('Произошла ошибка. Поиграешь один?')) {
+                this.router.go('/gameFake');
+            } else {
+                this.router.go('/');
+            }
         }).bind(this);
         this._lobby.onUserAdd = handler;
         this._lobby.onUserRemove = handler;
