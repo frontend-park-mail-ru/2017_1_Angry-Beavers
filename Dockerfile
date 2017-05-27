@@ -46,6 +46,6 @@ RUN cat /etc/nginx/nginx.conf
 RUN ls -la /usr/share/nginx/html
 
 CMD /bin/bash -c "echo \"listen $PORT;\" > /etc/nginx/listen.conf"
-RUN nginx -g 'daemon off;'
+RUN /etc/nginx/listen.conf && nginx -g 'daemon off;' -p /etc/nginx/nginx.conf
 
 
