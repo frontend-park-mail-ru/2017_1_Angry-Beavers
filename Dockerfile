@@ -29,12 +29,11 @@ RUN apt-get install -y software-properties-common \
 ADD . /Frontend
 WORKDIR /Frontend
 RUN npm install \
-    && npm run generate_bundle \
     && cp ./public/static/bundle.js /usr/share/nginx/html \
     && cp ./public/static/index.html /usr/share/nginx/html \
     && cp ./public/static/sw.js /usr/share/nginx/html \
-    && cp ./public/static/images /usr/share/nginx/html/images \
-    && cp ./public/static/fonts /usr/share/nginx/html/fonts \
+    && cp ./public/static/images  /usr/share/nginx/html/images -R \
+    && cp ./public/static/fonts /usr/share/nginx/html/fonts -R \
 
 WORKDIR /
 RUN rm -r /Frontend && apt-get purge -y nodejs
