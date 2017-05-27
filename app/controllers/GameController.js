@@ -128,7 +128,7 @@ const generateCard = function (card) {
     let loader = generateLoader();
 
     let cardImg = new Image();
-    cardImg.src = `https://raw.githubusercontent.com/ed-asriyan/joking-hazard-cards/master/pure-cropped/${Math.trunc((card.id - 1) / 9) + 1}_${card.id % 9}.jpg`;
+    cardImg.src = `https://raw.githubusercontent.com/ed-asriyan/joking-hazard-cards/master/pure-cropped/${card.id % 430 + 1}.jpg`;
     setTimeout(() => {
         if (cardImg.complete) return;
 
