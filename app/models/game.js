@@ -48,9 +48,11 @@ class Game {
                     this._onUserCardsInfo && this._onUserCardsInfo(data);
                     break;
                 case 'GetCardFromHand':
+                    this._needToSelectFromHand = true;
                     this._onGetCardFromHand && this._onGetCardFromHand(data);
                     break;
                 case 'GetCardFromTable':
+                    this._needToSelectFromTable = true;
                     this._onGetCardFromTable && this._onGetCardFromTable(data);
                     break;
                 case 'NewRoundMessage':
@@ -82,6 +84,7 @@ class Game {
             "type": "ChooseCardFromHand",
             "chosenCard": index
         }));
+        this._needToSelectFromHand = false;
     }
 
     selectCardFromTable(index) {
@@ -89,6 +92,15 @@ class Game {
             "type": "ChooseCardFromTable",
             "chosenCard": index
         }));
+        this._needToSelectFromTable = false;
+    }
+
+    get needToSelectFormHand() {
+        return this._needToSelectFromHand;
+    }
+
+    get needToSelectFormTable() {
+        return this._needToSelectFromTable;
     }
 
     get roundNum() {
