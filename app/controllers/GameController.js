@@ -364,7 +364,7 @@ class GameController extends View {
                 this._showGame();
                 this._updateTooltip('waitForMaster');
                 this._updateUserCards();
-                if (this._game.needToSelectFormHand) {
+                if (this._game.needToSelectFormHand || !+this._game.userCards) {
                     this._moveHandCenter();
                 } else {
                     this._moveHandRight();
@@ -391,6 +391,7 @@ class GameController extends View {
             this._game.onNewRoundMessage = function () {
                 this._updateHistory();
                 this._updateUserCards([]);
+                this._moveHandCenter();
             }.bind(this);
             this._createCanvas();
             this._showGame();
