@@ -16,6 +16,7 @@ import MenuGame from './parts/MenuGame/MenuGame';
 import ScoreList from './parts/ScoreList/ScoreList';
 import Rules from './parts/Rules/Rules';
 import UserHeader from './parts/UserHeader/UserHeader';
+import AlertMsg from './parts/AlertMsg/AlertMsg';
 
 class CreatePage {
     constructor() {
@@ -39,6 +40,7 @@ class CreatePage {
         this.addParts(this.body, "Footer", Footer());
         this.addParts(this.body, "Lobby", Lobby());
         this.addParts(this.body, "Game", Game());
+        AlertMsg();
     }
 
     addParts(parent, name, elem) {
