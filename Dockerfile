@@ -29,7 +29,7 @@ RUN apt-get install -y software-properties-common \
 ADD . /Frontend
 WORKDIR /Frontend
 RUN npm install \
-    && npm start \
+    && npm run generate_bundle \
     && cp ./public/static/bundle.js /usr/share/nginx/html \
     && cp ./public/static/index.html /usr/share/nginx/html \
     && cp ./public/static/sw.js /usr/share/nginx/html \
