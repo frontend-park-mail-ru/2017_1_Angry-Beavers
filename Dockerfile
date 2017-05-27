@@ -38,8 +38,7 @@ RUN npm install \
 WORKDIR /
 RUN rm -r /Frontend && apt-get purge -y nodejs
 
-RUN mv /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf.backup
-COPY ./joking-hazard.conf        /etc/nginx/conf.d/
+ADD ./joking-hazard.conf        /etc/nginx/nginx.conf
 COPY ./joking-hazard_listen.conf /etc/nginx/
 
 # RUN rm /etc/nginx/sites-enabled/default
@@ -49,6 +48,8 @@ RUN ls -la /usr/share/nginx/html
 
 COPY ./port.sh /usr/share/nginx/html
 RUN chmod +x /usr/share/nginx/html/port.sh
+
+RUN ls -la /etc/nginx
 
 CMD /usr/share/nginx/html/port.sh /etc/nginx/joking-hazard_listen.conf && nginx -g 'daemon off;'
 
