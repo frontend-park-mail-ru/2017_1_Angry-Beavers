@@ -39,13 +39,23 @@ class GameFake {
                 "id": Math.round(Math.random() * 400)
             }
         ];
+        this._userCards = [];
 
         this._onNewRoundMessage && this._onNewRoundMessage();
         this._onHandInfo && this._onHandInfo();
         this._roundNum = 1;
         this._onRoundInfo && this._onRoundInfo();
         this._onTableInfo && this._onTableInfo();
+        this._needToSelectFromHand = true;
         this._onGetCardFromHand && this._onGetCardFromHand();
+        this._userCards = [];
+        for (let i = 0; i < 3; ++i) {
+            this._userCards.push({
+                "red": false,
+                "id": Math.round(Math.random() * 400)
+            });
+        }
+        this._onUserCardsInfo && this._onUserCardsInfo();
     }
 
     stop() {
@@ -53,6 +63,7 @@ class GameFake {
     }
 
     selectCardFromHand(index) {
+        this._needToSelectFromHand = false;
         setTimeout(function () {
             if (this._table.length === 3) return;
 
@@ -71,7 +82,9 @@ class GameFake {
             };
 
             this._onTableInfo && this._onTableInfo();
+
             if (++this._roundNum === 3) {
+                this._needToSelectFromTable = true;
                 this._userCards = [];
                 for (let i = 0; i < 3; ++i) {
                     this._userCards.push({
@@ -79,21 +92,23 @@ class GameFake {
                         "id": Math.round(Math.random() * 400)
                     });
                 }
-
                 this._onUserCardsInfo && this._onUserCardsInfo();
-
                 this._onGetCardFromTable && this._onGetCardFromTable();
             } else {
                 this._onHandInfo && this._onHandInfo();
                 this._onRoundInfo && this._onRoundInfo();
                 setTimeout(function () {
+                    this._needToSelectFromHand = true;
                     this._onGetCardFromHand && this._onGetCardFromHand();
-                }.bind(this), 500);
+                    this._userCards = [];
+                    this._onUserCardsInfo && this._onUserCardsInfo();
+                }.bind(this), 2000);
             }
         }.bind(this), 1000);
     }
 
     selectCardFromTable(index) {
+        this._needToSelectFromTable = false;
         let card = this._userCards[index];
         if (this._table[this._table.length - 1].red) {
             const a = this._table[this._table.length - 1];
@@ -110,6 +125,14 @@ class GameFake {
             ++this._users[0].score;
             this.start();
         }.bind(this), 3000);
+    }
+
+    get needToSelectFormHand() {
+        return this._needToSelectFromHand;
+    }
+
+    get needToSelectFormTable() {
+        return this._needToSelectFromTable;
     }
 
     get roundCount() {
