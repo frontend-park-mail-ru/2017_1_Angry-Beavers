@@ -8,7 +8,6 @@ class ImagesController {
         if (ImagesController.__instance) {
             return ImagesController.__instance;
         }
-         ;
         this.__typeimage = "jpg";
         if(window.navigator.userAgent.indexOf("Chrome") > -1){
             this.__typeimage = "webp";
@@ -36,6 +35,9 @@ class ImagesController {
         return this._path+"menu/"+name+"."+this.__typeimage;
     }
 
+    get_avatar_img(name){
+        return this._path+"avatars/"+name+"."+this.__typeimage;
+    }
 }
 
 const CACHE_NAME = 'app_sw_v0.0.1';
@@ -70,6 +72,9 @@ cacheUrls.push(ic.get_menu_img('About_us'));
 cacheUrls.push(ic.get_menu_img('About_rules_2'));
 cacheUrls.push(ic.get_menu_img('Users-Exit-icon'));
 
+for(let i = 1; i<=10; ++i ){
+    cacheUrls.push(ic.get_avatar_img(`${i}`))
+}
 
 for (let i = 0; i < 441; ++i) {
     cacheUrls.push(ic.get_game_img(`${Math.trunc((i - 1) / 9) + 1}_${i % 9}`))

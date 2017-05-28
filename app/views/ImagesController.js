@@ -6,7 +6,6 @@ class ImagesController {
         if (ImagesController.__instance) {
             return ImagesController.__instance;
         }
-         ;
         this.__typeimage = "jpg";
         if(window.navigator.userAgent.indexOf("Chrome") > -1){
             this.__typeimage = "webp";
@@ -25,7 +24,9 @@ class ImagesController {
         this._path = '/images/'+this.__typeimage+"/";
     }
 
-
+    get_avatar_img(name){
+        return this._path+"avatars/"+name+"."+this.__typeimage;
+    }
     get_game_img(name){
         return this._path+"game/"+name+"."+this.__typeimage;
     }
