@@ -1,26 +1,48 @@
 /**
  * Created by pacman29 on 26.05.17.
  */
+
+
+class ImagesController {
+    constructor(){
+        if (ImagesController.__instance) {
+            return ImagesController.__instance;
+        }
+         ;
+        this.__typeimage = "jpg";
+        if(window.navigator.userAgent.indexOf("Chrome") > -1){
+            this.__typeimage = "webp";
+        };
+        if(window.navigator.userAgent.indexOf("Firefox") > -1){
+            this.__typeimage = "jpg";
+        };
+
+        this._initImages();
+
+        ImagesController.__instance = this;
+        document.imagescontroller =  this;
+    };
+
+    _initImages(){
+        this._path = '/images/'+this.__typeimage+"/";
+    }
+
+
+    get_game_img(name){
+        return this._path+"game/"+name+"."+this.__typeimage;
+    }
+
+    get_menu_img(name){
+        return this._path+"menu/"+name+"."+this.__typeimage;
+    }
+
+}
+
 const CACHE_NAME = 'app_sw_v0.0.1';
 
 const cacheUrls = [
     '/',
     '/bundle.js',
-    '/images/Game.webp',
-    '/images/About_rules.webp',
-    '/images/Score_btn.webp',
-    '/images/Game_hold.webp',
-    '/images/Login_btn.webp',
-    '/images/Scorelist.webp',
-    '/images/Score_btn_hold.webp',
-    '/images/We_do_it.webp',
-    '/images/GOODFACE.webp',
-    '/images/Rules_page.webp',
-    '/images/Dance.webp',
-    '/images/add_your_data.webp',
-    '/images/About_us.webp',
-    '/images/About_rules_2.webp',
-    '/images/Users-Exit-icon.webp',
     '/signin',
     '/signup',
     '/menu',
@@ -31,9 +53,26 @@ const cacheUrls = [
     '/game',
     '/gameFake',
 ];
+var ic = new ImagesController();
+cacheUrls.push(ic.get_menu_img('Game'));
+cacheUrls.push(ic.get_menu_img('About_rules'));
+cacheUrls.push(ic.get_menu_img('Score_btn'));
+cacheUrls.push(ic.get_menu_img('Game_hold'));
+cacheUrls.push(ic.get_menu_img('Login_btn'));
+cacheUrls.push(ic.get_menu_img('Scorelist'));
+cacheUrls.push(ic.get_menu_img('Score_btn_hold'));
+cacheUrls.push(ic.get_menu_img('We_do_it'));
+cacheUrls.push(ic.get_menu_img('GOODFACE'));
+cacheUrls.push(ic.get_menu_img('Rules_page'));
+cacheUrls.push(ic.get_menu_img('Dance.webp'));
+cacheUrls.push(ic.get_menu_img('add_your_data'));
+cacheUrls.push(ic.get_menu_img('About_us'));
+cacheUrls.push(ic.get_menu_img('About_rules_2'));
+cacheUrls.push(ic.get_menu_img('Users-Exit-icon'));
+
 
 for (let i = 0; i < 441; ++i) {
-    cacheUrls.push(`https://raw.githubusercontent.com/ed-asriyan/joking-hazard-cards/master/pure-cropped/${Math.trunc((i - 1) / 9) + 1}_${i % 9}.jpg`)
+    cacheUrls.push(ic.get_game_img(`${Math.trunc((i - 1) / 9) + 1}_${i % 9}`))
 }
 
 this.addEventListener('install', function (event) {
