@@ -15,7 +15,7 @@ import 'konva/src/Animation';
 import 'konva/src/Tween';
 
 import View from '../modules/view';
-
+import ImagesController from "../views/ImagesController";
 const STAGE_WIDTH = 1280;
 const STAGE_HEIGHT = 720;
 
@@ -56,18 +56,10 @@ const TOOLTIP_TEXT_TOP = TOOLTIP_TIMER_SIZE / 2.5;
 
 const ERROR_LOGO_SIZE = 140;
 
-let USER_AVATARS = [
-    '/images/avatars/1.jpg',
-    '/images/avatars/2.jpg',
-    '/images/avatars/3.jpg',
-    '/images/avatars/4.jpg',
-    '/images/avatars/5.jpg',
-    '/images/avatars/6.jpg',
-    '/images/avatars/7.jpg',
-    '/images/avatars/8.jpg',
-    '/images/avatars/9.jpg',
-    '/images/avatars/10.jpg',
-];
+let USER_AVATARS = [];
+for(let i = 1; i<=10; ++i){
+    USER_AVATARS.push(ImagesController.get_avatar_img(`${i}`));
+}
 
 // меня задолбала копипаста, поэтому я всё таки написал функции, но это по-прежнему индусский гавнокод
 const generateLoader = function () {
@@ -107,7 +99,9 @@ const generateLoader = function () {
     return layerErrorLoader;
 };
 
+
 const generateCard = function (card) {
+
     let group = new Konva.Group({
         width: TABLE_CARD_WIDTH,
         height: TABLE_CARD_HEIGHT,
@@ -128,7 +122,7 @@ const generateCard = function (card) {
     let loader = generateLoader();
 
     let cardImg = new Image();
-    cardImg.src = `https://raw.githubusercontent.com/ed-asriyan/joking-hazard-cards/master/pure-cropped/${Math.trunc((card.id - 1) / 9) + 1}_${card.id % 9}.jpg`;
+    cardImg.src = ImagesController.get_game_img(`${card.id}`);
     setTimeout(() => {
         if (cardImg.complete) return;
 
