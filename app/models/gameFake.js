@@ -48,14 +48,6 @@ class GameFake {
         this._onTableInfo && this._onTableInfo();
         this._needToSelectFromHand = true;
         this._onGetCardFromHand && this._onGetCardFromHand();
-        this._userCards = [];
-        for (let i = 0; i < 3; ++i) {
-            this._userCards.push({
-                "red": false,
-                "id": Math.round(Math.random() * 400)
-            });
-        }
-        this._onUserCardsInfo && this._onUserCardsInfo();
     }
 
     stop() {
