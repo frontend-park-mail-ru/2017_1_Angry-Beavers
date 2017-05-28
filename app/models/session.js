@@ -95,12 +95,6 @@ class Session {
     }
 
     userData() {
-        this._user = {
-            'login': 'frfr',
-            'score': 'frfr',
-        };
-        return new Promise(r => r());
-
         let _this = this;
         return this._call('GET', 'user/data')
             .then(response => {
