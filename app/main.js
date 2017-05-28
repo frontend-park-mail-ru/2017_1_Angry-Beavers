@@ -1,7 +1,3 @@
-if (window.location.hostname !== 'localhost' && window.location.protocol !== 'https:') {
-    window.location = 'https://' + window.location.hostname + window.location.pathname + window.location.hash;
-}
-
 import 'bootstrap-loader';
 
 import SwLoader from './modules/Swloader';
