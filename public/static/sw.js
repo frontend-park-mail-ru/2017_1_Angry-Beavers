@@ -9,11 +9,9 @@ class ImagesController {
         }
         this.__typeimage = "jpg";
         if(navigator.userAgent.indexOf("Chrome") > -1){
-            debugger;
             this.__typeimage = "webp";
         };
         if(navigator.userAgent.indexOf("Firefox") > -1){
-            debugger;
             this.__typeimage = "jpg";
         };
 
