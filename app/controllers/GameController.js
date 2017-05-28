@@ -263,28 +263,6 @@ const listUpdate = function (parent, oldItems, newItems) {
     return newItems;
 };
 
-const listHighlight = function (list) {
-    list.forEach(c => {
-        const tween = new Konva.Tween({
-            node: c.item,
-            opacity: 1,
-            duration: 0.2,
-        });
-        tween.play();
-    });
-};
-
-const listFade = function (list) {
-    list.forEach(c => {
-        const tween = new Konva.Tween({
-            node: c.item,
-            opacity: 0.6,
-            duration: 0.2,
-        });
-        tween.play();
-    });
-};
-
 const listSubscribe = function (options) {
     options.list.forEach(c => {
         c.item.on('mousedown touchstart', function () {
@@ -516,20 +494,6 @@ class GameController extends View {
 
                     return group;
                 },
-                onAdd: group => {
-                    let highLight = new Konva.Tween({
-                        node: group,
-                        opacity: 1,
-                        duration: 0.2
-                    });
-
-                    group.on('mouseover', function () {
-                        highLight.play();
-                    });
-                    group.on('mouseout', function () {
-                        highLight.reverse();
-                    });
-                }
             });
         }.bind(this));
         this._hand = listUpdate(this._groupHand, this._hand, newHand);
@@ -821,6 +785,30 @@ class GameController extends View {
         }
     }
 
+    _fadeHand() {
+        if (!this._groupHand) this._updateHand();
+
+        const tween = new Konva.Tween({
+            node: this._groupHand,
+            opacity: 0.6,
+            duration: 0.5,
+        });
+
+        tween.play();
+    }
+
+    _highlightHand() {
+        if (!this._groupHand) this._updateHand();
+
+        const tween = new Konva.Tween({
+            node: this._groupHand,
+            opacity: 1,
+            duration: 0.5,
+        });
+
+        tween.play();
+    }
+
     _onSelectFromHand() {
         this._updateHand();
 
@@ -834,7 +822,7 @@ class GameController extends View {
             tween.play();
         };
 
-        listHighlight(this._hand);
+        this._highlightHand();
         listSubscribe({
             list: this._hand,
             onClick: function (c) {
@@ -846,7 +834,7 @@ class GameController extends View {
                 this._game.selectCardFromHand(c.index);
 
                 listUnsubscribe(this._hand);
-                listFade(this._hand);
+                this._fadeHand();
                 this._updateTable();
                 this._moveTableCenter();
 
