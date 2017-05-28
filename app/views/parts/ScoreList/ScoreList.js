@@ -8,8 +8,9 @@ import './ScoreList.scss';
 import pugScoreList from './ScoreList.pug';
 
 import BorderConstruct from '../../constructs/BorderConstruct/BorderConstruct';
+import imagescontroller from '../../ImagesController';
 
-const RIGHT_IMG = "/images/Scorelist.webp";
+const RIGHT_IMG = imagescontroller.get_menu_img("Scorelist");
 const TITLE = "типа скорлист";
 const PLAYERS = [
     {

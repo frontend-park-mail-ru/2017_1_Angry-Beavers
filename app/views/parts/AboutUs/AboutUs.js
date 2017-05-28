@@ -7,8 +7,9 @@
 import './AboutUs.scss';
 import BorderConstruct from '../../constructs/BorderConstruct/BorderConstruct';
 import pugAboutUs from './AboutUs.pug';
+import imagescontroller from '../../ImagesController';
 
-const RIGHT_IMG = "/images/Dance.webp";
+const RIGHT_IMG = imagescontroller.get_menu_img("Dance");
 const TITLE = "Ага, вот эти ребята: ";
 const MEMBERS = [
     {

@@ -28,7 +28,7 @@ class CreatePage {
         this.links = [];
         this.parts = new Map();
         this.links.push();
-
+        
         this.addParts(this.body, "AppName", AppName());
         this.addParts(this.body, "UserHeader", UserHeader());
         this.addParts(this.body, "MenuStart", MenuStart());
