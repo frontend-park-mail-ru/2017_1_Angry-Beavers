@@ -9,10 +9,10 @@ class ImagesController {
             return ImagesController.__instance;
         }
         this.__typeimage = "jpg";
-        if(window.navigator.userAgent.indexOf("Chrome") > -1){
+        if(navigator.userAgent.indexOf("Chrome") > -1){
             this.__typeimage = "webp";
         };
-        if(window.navigator.userAgent.indexOf("Firefox") > -1){
+        if(navigator.userAgent.indexOf("Firefox") > -1){
             this.__typeimage = "jpg";
         };
 
