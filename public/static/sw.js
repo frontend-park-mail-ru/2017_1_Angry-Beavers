@@ -76,8 +76,8 @@ for(let i = 1; i<=10; ++i ){
     cacheUrls.push(ic.get_avatar_img(`${i}`))
 }
 
-for (let i = 0; i < 441; ++i) {
-    cacheUrls.push(ic.get_game_img(`${Math.trunc((i - 1) / 9) + 1}_${i % 9}`))
+for (let i = 0; i < 430; ++i) {
+    cacheUrls.push(ic.get_game_img(`${i}`))
 }
 
 this.addEventListener('install', function (event) {
