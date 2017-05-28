@@ -2,7 +2,7 @@
  * Created by pacman29 on 26.05.17.
  */
 
-
+debugger;
 class ImagesController {
     constructor(){
         if (ImagesController.__instance) {
