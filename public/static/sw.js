@@ -2,7 +2,6 @@
  * Created by pacman29 on 26.05.17.
  */
 
-debugger;
 class ImagesController {
     constructor(){
         if (ImagesController.__instance) {
@@ -10,16 +9,17 @@ class ImagesController {
         }
         this.__typeimage = "jpg";
         if(navigator.userAgent.indexOf("Chrome") > -1){
+            debugger;
             this.__typeimage = "webp";
         };
         if(navigator.userAgent.indexOf("Firefox") > -1){
+            debugger;
             this.__typeimage = "jpg";
         };
 
         this._initImages();
 
         ImagesController.__instance = this;
-        document.imagescontroller =  this;
     };
 
     _initImages(){
