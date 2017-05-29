@@ -8,12 +8,7 @@ import './AboutUs.scss';
 import BorderConstruct from '../../constructs/BorderConstruct/BorderConstruct';
 import pugAboutUs from './AboutUs.pug';
 import imagescontroller from '../../ImagesController';
-
-<<<<<<< HEAD
-const RIGHT_IMG = "/images/Dance.webp";
-=======
 const RIGHT_IMG = imagescontroller.get_menu_img("Dance");
->>>>>>> baacede1307f7c2bbf11eba3d49f0ccb6063e6d7
 const TITLE = "Ага, вот эти ребята: ";
 const MEMBERS = [
     {
