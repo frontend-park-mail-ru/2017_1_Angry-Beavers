@@ -7,7 +7,6 @@
 class Game {
     constructor(session) {
         this._session = session;
-        this._history = [];
     }
 
     get session() {
@@ -19,6 +18,7 @@ class Game {
         this._users = [];
         this._table = [];
         this._userCards = [];
+        this._history = [];
 
         this._ws = new WebSocket('wss://jokinghazardserver.herokuapp.com/game');
         console.log('GameConnected: ', this._ws);
@@ -48,18 +48,22 @@ class Game {
                     this._onUserCardsInfo && this._onUserCardsInfo(data);
                     break;
                 case 'GetCardFromHand':
+                    this._needToSelectFromHand = true;
                     this._onGetCardFromHand && this._onGetCardFromHand(data);
                     break;
                 case 'GetCardFromTable':
+                    this._needToSelectFromTable = true;
                     this._onGetCardFromTable && this._onGetCardFromTable(data);
                     break;
                 case 'NewRoundMessage':
                     this._history.push(this._table);
                     this._table = [];
+                    this._userCards = [];
                     this._onNewRoundMessage && this._onNewRoundMessage(data);
                     break;
                 case 'Game Finished Message':
                     this._onGameFinishedMessage && this._onGameFinishedMessage(data);
+                    this.stop();
                     break;
             }
         }).bind(this);
@@ -71,7 +75,9 @@ class Game {
 
     stop() {
         if (this._ws) {
-            this._onClosed = undefined;
+            this._ws.onerror = undefined;
+            this._ws.onmessage = undefined;
+            this._ws.onclose = undefined;
             this._onError = undefined;
             this._ws.close();
         }
@@ -82,6 +88,7 @@ class Game {
             "type": "ChooseCardFromHand",
             "chosenCard": index
         }));
+        this._needToSelectFromHand = false;
     }
 
     selectCardFromTable(index) {
@@ -89,6 +96,15 @@ class Game {
             "type": "ChooseCardFromTable",
             "chosenCard": index
         }));
+        this._needToSelectFromTable = false;
+    }
+
+    get needToSelectFormHand() {
+        return this._needToSelectFromHand;
+    }
+
+    get needToSelectFormTable() {
+        return this._needToSelectFromTable;
     }
 
     get roundNum() {
@@ -96,7 +112,7 @@ class Game {
     }
 
     get roundCount() {
-        return 3;
+        return 5;
     }
 
     get hand() {
@@ -116,7 +132,7 @@ class Game {
     }
 
     get history() {
-        return this._history = [];
+        return this._history;
     }
 
     get onHandInfo() {

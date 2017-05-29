@@ -16,6 +16,8 @@ import MenuGame from './parts/MenuGame/MenuGame';
 import ScoreList from './parts/ScoreList/ScoreList';
 import Rules from './parts/Rules/Rules';
 import UserHeader from './parts/UserHeader/UserHeader';
+import AlertMsg from './parts/MsgWindow/AlertMsg';
+import ConfirmMsg from './parts/MsgWindow/ConfirmMsg';
 
 class CreatePage {
     constructor() {
@@ -26,7 +28,7 @@ class CreatePage {
         this.links = [];
         this.parts = new Map();
         this.links.push();
-
+        
         this.addParts(this.body, "AppName", AppName());
         this.addParts(this.body, "UserHeader", UserHeader());
         this.addParts(this.body, "MenuStart", MenuStart());
@@ -39,6 +41,8 @@ class CreatePage {
         this.addParts(this.body, "Footer", Footer());
         this.addParts(this.body, "Lobby", Lobby());
         this.addParts(this.body, "Game", Game());
+        AlertMsg();
+        ConfirmMsg();
     }
 
     addParts(parent, name, elem) {

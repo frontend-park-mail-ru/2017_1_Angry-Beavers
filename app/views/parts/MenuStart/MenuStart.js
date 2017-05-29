@@ -7,10 +7,11 @@
 import pugMenuStart from './MenuStart.pug';
 
 import MenuConstruct from '../../constructs/MenuConstruct/MenuConstruct';
-
+import imagescontroller from '../../ImagesController';
 const ITEMS = [
     {
         id: "menuStart_signIn",
+<<<<<<< HEAD
         defaultImg: "/images/Login_btn.webp",
         backImg: "/images/GOODFACE.webp"
     },
@@ -23,6 +24,20 @@ const ITEMS = [
         id: "menuStart_rules",
         defaultImg: "/images/About_rules.webp",
         backImg: "/images/About_rules_2.webp"
+=======
+        defaultImg: imagescontroller.get_menu_img("Login_btn"),
+        backImg:imagescontroller.get_menu_img("GOODFACE")
+    },
+    {
+        id: "menuStart_aboutUs",
+        defaultImg: imagescontroller.get_menu_img("About_us"),
+        backImg: imagescontroller.get_menu_img("We_do_it")
+    },
+    {
+        id: "menuStart_rules",
+        defaultImg: imagescontroller.get_menu_img("About_rules"),
+        backImg: imagescontroller.get_menu_img("About_rules_2")
+>>>>>>> baacede1307f7c2bbf11eba3d49f0ccb6063e6d7
     }
 ];
 

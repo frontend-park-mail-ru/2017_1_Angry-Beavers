@@ -7,8 +7,13 @@
 import BorderConstruct from '../../constructs/BorderConstruct/BorderConstruct';
 import FormConsruct from '../../constructs/FormConstruct/FormConstruct';
 import pugFormSignUp from './FormSignUp.pug';
+<<<<<<< HEAD
 
 const RIGHT_IMG = "/images/add_your_data.webp";
+=======
+import imagescontroller from '../../ImagesController';
+const RIGHT_IMG = imagescontroller.get_menu_img("add_your_data");
+>>>>>>> baacede1307f7c2bbf11eba3d49f0ccb6063e6d7
 const TITLE = "Регистрация";
 
 const EMAIL_FIELD = {

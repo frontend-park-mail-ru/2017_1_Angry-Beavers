@@ -15,37 +15,14 @@ import 'konva/src/Animation';
 import 'konva/src/Tween';
 
 import View from '../modules/view';
-
+import ImagesController from "../views/ImagesController";
 const STAGE_WIDTH = 1280;
 const STAGE_HEIGHT = 720;
-
-const UTABLE_TOP = 340;
-const UTABLE_CARD_WIDTH = 95;
-const UTABLE_CARD_HEIGHT = UTABLE_CARD_WIDTH * 1.4786324786324787;
-const UTABLE_CARD_OFFSET = 10;
-const UTABLE_CARD_BORDER_THICKNESS = 4;
-const UTABLE_CARD_BORDER_RADIUS = 4;
-
-const TABLE_TOP = 100;
-const TABLE_CARD_WIDTH = 150;
-const TABLE_CARD_HEIGHT = TABLE_CARD_WIDTH * 1.4786324786324787;
-const TABLE_CARD_OFFSET = 30;
-const TABLE_CARD_BORDER_THICKNESS = 4;
-const TABLE_CARD_BORDER_RADIUS = 4;
-
-const CARD_WIDTH = 145;
-const CARD_HEIGHT = CARD_WIDTH * 1.4786324786324787;
-const CARD_OFFSET = 20;
-const CARD_BORDER_THICKNESS = 4;
-const CARD_BORDER_RADIUS = 4;
 
 const USERS_TOP = 50;
 const USERS_RIGHT = 20;
 const USERS_WIDTH = 300;
 const USERS_BORDER_RADIUS = 5;
-
-const USER_HEIGHT = 50;
-const USER_AVATAR_WIDTH = 50;
 
 const HISTORY_TOP = 50;
 const HISTORY_LEFT = 5;
@@ -54,42 +31,149 @@ const HISTORY_CARD_HEIGHT = HISTORY_CARD_WIDTH * 1.4786324786324787;
 const HISTORY_OFFSET = 5;
 const HISTORY_CARD_OFFSET = 5;
 
-const TOOLTIP_LEFT = 10;
-const TOOLTIP_TOP = 10;
+const HAND_CARD_WIDTH = 145;
+const HAND_CARD_HEIGHT = HAND_CARD_WIDTH * 1.4786324786324787;
+const HAND_CARD_OFFSET = 20;
+const HAND_CARD_BORDER_THICKNESS = 4;
+
+const TABLE_TOP = 80;
+const TABLE_LEFT = (HISTORY_CARD_WIDTH + HISTORY_CARD_OFFSET) * 4;
+const TABLE_CARD_WIDTH = 170;
+const TABLE_CARD_HEIGHT = TABLE_CARD_WIDTH * 1.4786324786324787;
+const TABLE_CARD_OFFSET = 30;
+
+const UTABLE_TOP = 340;
+const UTABLE_LEFT = TABLE_LEFT;
+const UTABLE_CARD_WIDTH = 95;
+const UTABLE_CARD_HEIGHT = UTABLE_CARD_WIDTH * 1.4786324786324787;
+const UTABLE_CARD_OFFSET = 10;
+
+const USER_HEIGHT = 50;
+const USER_AVATAR_WIDTH = 50;
+
 const TOOLTIP_TIMER_SIZE = 50;
 const TOOLTIP_TEXT_TOP = TOOLTIP_TIMER_SIZE / 2.5;
 
 const ERROR_LOGO_SIZE = 140;
 
-let USER_AVATARS = [
-    '/images/avatars/1.jpg',
-    '/images/avatars/2.jpg',
-    '/images/avatars/3.jpg',
-    '/images/avatars/4.jpg',
-    '/images/avatars/5.jpg',
-    '/images/avatars/6.jpg',
-    '/images/avatars/7.jpg',
-    '/images/avatars/8.jpg',
-    '/images/avatars/9.jpg',
-    '/images/avatars/10.jpg',
-];
+let USER_AVATARS = [];
+for (let i = 1; i <= 10; ++i) {
+    USER_AVATARS.push(ImagesController.get_avatar_img(`${i}`));
+}
+
+const requestFullScreen = function (element) {
+    // Supports most browsers and their versions.
+    let requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
+
+    if (requestMethod) { // Native full screen.
+        requestMethod.call(element);
+    } else if (typeof window.ActiveXObject !== "undefined") { // Older IE.
+        let wscript = new ActiveXObject("WScript.Shell");
+        if (wscript !== null) {
+            wscript.SendKeys("{F11}");
+        }
+    }
+};
+
+const cancelFullScreen = function (element) {
+    let requestMethod = element.cancelFullScreen || element.webkitCancelFullScreen || element.mozCancelFullScreen || element.exitFullscreen;
+    if (requestMethod) { // cancel full screen.
+        requestMethod.call(element);
+    } else if (typeof window.ActiveXObject !== "undefined") { // Older IE.
+        let wscript = new ActiveXObject("WScript.Shell");
+        if (wscript !== null) {
+            wscript.SendKeys("{F11}");
+        }
+    }
+};
+
+let isFullScreen = false;
+const enterFullScreen = function () {
+    requestFullScreen(document.body);
+    isFullScreen = true;
+};
+
+const exitFullScreen = function () {
+    if (!isFullScreen) return;
+    cancelFullScreen(document.body);
+    isFullScreen = false;
+};
 
 // меня задолбала копипаста, поэтому я всё таки написал функции, но это по-прежнему индусский гавнокод
+const generateLoader = function () {
+    const layerErrorLoader = new Konva.Arc({
+        innerRadius: 40,
+        outerRadius: 70,
+        angle: 1,
+        fill: '#88C1D8',
+        stroke: 'black',
+        strokeWidth: 4
+    });
+
+    layerErrorLoader.run = () => {
+        let period = 2000;
+        let tween1 = new Konva.Tween({
+            node: layerErrorLoader,
+            duration: period / 1000 / 2,
+            easing: Konva.Easings.EaseInOut,
+            fill: '#42A045',
+            angle: 360,
+        });
+        let tween2 = new Konva.Tween({
+            node: layerErrorLoader,
+            duration: period / 829,
+            easing: Konva.Easings.Linear,
+            fill: '#42A045',
+        });
+
+        tween1.onFinish = () => tween1.reverse();
+        tween1.onReset = () => tween1.play();
+        tween1.play();
+        tween2.onFinish = () => tween2.reverse();
+        tween2.onReset = () => tween2.play();
+        tween2.play();
+    };
+
+    return layerErrorLoader;
+};
+
+
 const generateCard = function (card) {
     let group = new Konva.Group({
         width: TABLE_CARD_WIDTH,
         height: TABLE_CARD_HEIGHT,
         fill: 'white',
     });
+
+    let rect = new Konva.Rect({
+        x: -1,
+        y: -2,
+        width: TABLE_CARD_WIDTH + 2,
+        height: TABLE_CARD_HEIGHT + 2,
+        stroke: card.red ? 'red' : 'black',
+        fill: 'white',
+        strokeWidth: 1,
+    });
+    group.add(rect);
+
+    let loader = generateLoader();
+
     let cardImg = new Image();
-    cardImg.src = `https://raw.githubusercontent.com/ed-asriyan/joking-hazard-cards/master/pure-cropped/${Math.trunc((card.id - 1) / 9) + 1}_${card.id % 9}.jpg`;
+    cardImg.src = ImagesController.get_game_img(`${card.id}`);
+    setTimeout(() => {
+        if (cardImg.complete) return;
+
+        loader.setX(TABLE_CARD_WIDTH / 2);
+        loader.setY(TABLE_CARD_HEIGHT / 2);
+        loader.setScale({x: 0.65, y: 0.65});
+        group.add(loader);
+        loader.run();
+    }, 200);
     cardImg.onload = function () {
         let img = new Konva.Image({
             image: cardImg,
-            strokeWidth: 2,
             width: TABLE_CARD_WIDTH,
             height: TABLE_CARD_HEIGHT,
-            stroke: card.red ? 'red' : 'black',
             opacity: 0,
         });
         group.add(img);
@@ -99,9 +183,11 @@ const generateCard = function (card) {
                 opacity: 1,
                 duration: 0.3
             });
+            tween.onFinish = () => loader.remove();
             tween.play();
         } else {
             img.opacity(1);
+            loader.remove();
         }
     };
     return group;
@@ -208,28 +294,6 @@ const listUpdate = function (parent, oldItems, newItems) {
     return newItems;
 };
 
-const listHighlight = function (list) {
-    list.forEach(c => {
-        const tween = new Konva.Tween({
-            node: c.item,
-            opacity: 1,
-            duration: 0.2,
-        });
-        tween.play();
-    });
-};
-
-const listFade = function (list) {
-    list.forEach(c => {
-        const tween = new Konva.Tween({
-            node: c.item,
-            opacity: 0.6,
-            duration: 0.2,
-        });
-        tween.play();
-    });
-};
-
 const listSubscribe = function (options) {
     options.list.forEach(c => {
         c.item.on('mousedown touchstart', function () {
@@ -298,25 +362,34 @@ class GameController extends View {
             this._game.onRoundInfo = function () {
                 this._showGame();
                 this._updateUsers();
-                this._updateUserCards([]);
+                this._updateUserCards();
             }.bind(this);
             this._game.onTableInfo = function () {
                 this._showGame();
                 this._updateTable();
+                this._moveTableCenter();
             }.bind(this);
             this._game.onUserCardsInfo = function () {
                 this._showGame();
                 this._updateTooltip('waitForMaster');
                 this._updateUserCards();
+                if (this._game.needToSelectFormHand || !+this._game.userCards) {
+                    this._moveHandCenter();
+                } else {
+                    this._moveHandRight();
+                }
             }.bind(this);
             this._game.onGetCardFromHand = function () {
                 this._showGame();
                 this._updateTooltip('chooseCardFromHand');
+                this._moveHandCenter();
                 this._onSelectFromHand();
             }.bind(this);
             this._game.onGetCardFromTable = function () {
                 this._showGame();
                 this._updateTooltip('chooseCardFromTable');
+                this._updateUserCards();
+                this._moveHandRight();
                 this._onSelectFromTable();
             }.bind(this);
             this._game.onGameFinishedMessage = function () {
@@ -326,6 +399,8 @@ class GameController extends View {
             }.bind(this);
             this._game.onNewRoundMessage = function () {
                 this._updateHistory();
+                this._updateUserCards([]);
+                this._moveHandCenter();
             }.bind(this);
             this._createCanvas();
             this._showGame();
@@ -334,12 +409,31 @@ class GameController extends View {
     }
 
     hide() {
+        exitFullScreen();
         this.page_parts.get("Game").hidden = true;
         this._game && this._game.stop();
     }
 
     _createCanvas() {
-        if (this._stage) return;
+        if (this._stage) {
+            this._stage.remove();
+
+            delete this._groupUserCards;
+            delete this._groupHand;
+            delete this._groupError;
+            delete this._groupErrorDescription;
+            delete this._groupHistory;
+            delete this._groupTable;
+            delete this._groupUsers;
+            delete this._groupTimerCircle;
+            delete this._groupTimerText;
+
+            delete this._userCards;
+            delete this._hand;
+            delete this._table;
+            delete this._history;
+            delete this._users;
+        }
 
         this._stage = new Konva.Stage({
             container: 'container',
@@ -368,7 +462,7 @@ class GameController extends View {
         window.addEventListener('orientationchange', fitStageIntoParentContainer);
 
         const exitButton = new Konva.Text({
-            x: STAGE_WIDTH - USERS_RIGHT - 85,
+            x: STAGE_WIDTH - USERS_RIGHT - 140,
             y: 15,
             align: 'center',
             fontSize: 20,
@@ -398,13 +492,49 @@ class GameController extends View {
             tween.play();
         }.bind(this));
         this._layerGame.add(exitButton);
+
+        const fullScreenButton = new Konva.Text({
+            x: STAGE_WIDTH - USERS_RIGHT - 20,
+            y: 15,
+            align: 'center',
+            fontSize: 20,
+            fontFamily: 'DigitalStrip',
+            text: 'О',
+        });
+
+        fullScreenButton.on('mousedown touchstart', function () {
+            if (isFullScreen) {
+                exitFullScreen();
+            } else {
+                enterFullScreen();
+            }
+        }.bind(this));
+        fullScreenButton.on('mouseover', function () {
+            this._stage.container().style.cursor = 'pointer';
+            let tween = new Konva.Tween({
+                node: fullScreenButton,
+                fontSize: 23,
+                duration: 0.2
+            });
+            tween.play();
+        }.bind(this));
+        fullScreenButton.on('mouseout', function () {
+            this._stage.container().style.cursor = 'default';
+            let tween = new Konva.Tween({
+                node: fullScreenButton,
+                fontSize: 20,
+                duration: 0.2
+            });
+            tween.play();
+        }.bind(this));
+        this._layerGame.add(fullScreenButton);
     }
 
     _updateHand() {
         if (!this._groupHand) {
             this._groupHand = new Konva.Group({
                 x: 0,
-                y: STAGE_HEIGHT - CARD_HEIGHT - CARD_BORDER_THICKNESS,
+                y: STAGE_HEIGHT - HAND_CARD_HEIGHT - HAND_CARD_BORDER_THICKNESS,
             });
             this._layerGame.add(this._groupHand);
         }
@@ -423,43 +553,19 @@ class GameController extends View {
                 itemGenerator: () => {
                     let group = generateCard.bind(this)(card);
 
-                    group.setX((CARD_WIDTH + CARD_OFFSET) * i + 5);
+                    group.setX((HAND_CARD_WIDTH + HAND_CARD_OFFSET) * i + 5);
                     group.setY(0);
                     group.scale({
-                        x: CARD_WIDTH / group.getWidth(),
-                        y: CARD_HEIGHT / group.getHeight()
+                        x: HAND_CARD_WIDTH / group.getWidth(),
+                        y: HAND_CARD_HEIGHT / group.getHeight()
                     });
 
                     return group;
                 },
-                onAdd: group => {
-                    let highLight = new Konva.Tween({
-                        node: group,
-                        opacity: 1,
-                        duration: 0.2
-                    });
-
-                    group.on('mouseover', function () {
-                        highLight.play();
-                    });
-                    group.on('mouseout', function () {
-                        highLight.reverse();
-                    });
-                }
             });
         }.bind(this));
         this._hand = listUpdate(this._groupHand, this._hand, newHand);
         this._layerGame.drawScene();
-
-        const cardsWidth = this._hand.length * (CARD_OFFSET + CARD_WIDTH) - CARD_OFFSET;
-        const tween = new Konva.Tween({
-            node: this._groupHand,
-            x: (STAGE_WIDTH - cardsWidth) / 2,
-            y: STAGE_HEIGHT - CARD_HEIGHT - CARD_BORDER_THICKNESS,
-            duration: 0.45,
-            easing: Konva.Easings['StrongEaseOut'],
-        });
-        tween.play();
     }
 
     _updateUsers(list) {
@@ -568,7 +674,7 @@ class GameController extends View {
                         x: TABLE_CARD_WIDTH / group.getWidth(),
                         y: TABLE_CARD_HEIGHT / group.getHeight()
                     });
-                    group.setX((TABLE_CARD_WIDTH + TABLE_CARD_OFFSET) * (__i + 1));
+                    group.setX((TABLE_CARD_WIDTH + TABLE_CARD_OFFSET) * __i);
                     group.setY(0);
                     return group;
                 }
@@ -576,17 +682,6 @@ class GameController extends View {
         }.bind(this));
         this._table = listUpdate(this._groupTable, this._table, newTable);
         this._layerGame.drawScene();
-
-        const cardsWidth = this._table.length * (TABLE_CARD_OFFSET + TABLE_CARD_WIDTH) - TABLE_CARD_OFFSET;
-        const tableWidth = STAGE_WIDTH - 2 * USERS_WIDTH - 2 * USERS_RIGHT;
-        const tween = new Konva.Tween({
-            node: this._groupTable,
-            x: (tableWidth - cardsWidth) / 2,
-            y: TABLE_TOP,
-            duration: 0.45,
-            easing: Konva.Easings['StrongEaseOut'],
-        });
-        tween.play();
     }
 
     _updateUserCards(list) {
@@ -615,7 +710,7 @@ class GameController extends View {
                         x: UTABLE_CARD_WIDTH / group.getWidth(),
                         y: UTABLE_CARD_HEIGHT / group.getHeight()
                     });
-                    group.setX((UTABLE_CARD_WIDTH + UTABLE_CARD_OFFSET) * (__i + 1));
+                    group.setX((UTABLE_CARD_WIDTH + UTABLE_CARD_OFFSET) * __i);
                     group.setY(0);
                     return group;
                 }
@@ -623,16 +718,6 @@ class GameController extends View {
         }.bind(this));
         this._userCards = listUpdate(this._groupUserCards, this._userCards, newUserCards);
         this._layerGame.drawScene();
-
-        const cardsWidth = this._userCards.length * (UTABLE_CARD_OFFSET + UTABLE_CARD_WIDTH) - UTABLE_CARD_OFFSET;
-        const tableWidth = STAGE_WIDTH - USERS_WIDTH - 2 * USERS_RIGHT;
-        const tween = new Konva.Tween({
-            node: this._groupUserCards,
-            x: (tableWidth - cardsWidth) / 2,
-            duration: 0.45,
-            easing: Konva.Easings.StrongEaseOut,
-        });
-        tween.play();
     }
 
     _updateHistory(list) {
@@ -676,9 +761,11 @@ class GameController extends View {
 
                     group.on('mouseover', function () {
                         this._updateTable(l);
+                        this._moveTableCenter();
                     }.bind(this));
                     group.on('mouseout', function () {
                         this._updateTable();
+                        this._moveTableCenter();
                     }.bind(this));
 
                     return group;
@@ -689,20 +776,121 @@ class GameController extends View {
         this._layerGame.drawScene();
     }
 
+    _moveTableCenter() {
+        const cardsWidth = this._table.length * (TABLE_CARD_OFFSET + TABLE_CARD_WIDTH) - TABLE_CARD_OFFSET;
+        const tableWidth = STAGE_WIDTH - TABLE_LEFT - USERS_WIDTH - USERS_RIGHT * 2;
+
+        const tween = new Konva.Tween({
+            node: this._groupTable,
+            x: TABLE_LEFT + (tableWidth - cardsWidth) / 2,
+            y: TABLE_TOP,
+            duration: 0.45,
+            easing: Konva.Easings.StrongEaseOut,
+        });
+        tween.play();
+    }
+
+    _moveHandRight() {
+        if (this._groupHand) {
+            const scale = (USERS_WIDTH) / ((HAND_CARD_WIDTH + HAND_CARD_OFFSET) * this._hand.length);
+
+            const tween = new Konva.Tween({
+                node: this._groupHand,
+                x: STAGE_WIDTH - USERS_WIDTH - USERS_RIGHT,
+                y: STAGE_HEIGHT - HAND_CARD_HEIGHT * scale - HAND_CARD_BORDER_THICKNESS,
+                scaleX: scale,
+                scaleY: scale,
+                duration: 0.5,
+                easing: Konva.Easings.StrongEaseOut,
+            });
+            tween.play();
+        }
+        if (this._groupUserCards) {
+            const scale = (HAND_CARD_HEIGHT) / (UTABLE_CARD_HEIGHT);
+            const cardsWidth = this._userCards.length * (HAND_CARD_OFFSET + HAND_CARD_WIDTH) - HAND_CARD_OFFSET;
+            const tableWidth = STAGE_WIDTH - USERS_WIDTH - 2 * USERS_RIGHT;
+
+            const tween = new Konva.Tween({
+                node: this._groupUserCards,
+                y: STAGE_HEIGHT - HAND_CARD_HEIGHT - HAND_CARD_BORDER_THICKNESS,
+                x: (tableWidth - cardsWidth) / 2,
+                scaleX: scale,
+                scaleY: scale,
+                duration: 0.5,
+                easing: Konva.Easings.StrongEaseOut,
+            });
+            tween.play();
+        }
+    }
+
+    _moveHandCenter() {
+        if (this._groupHand) {
+            const cardsWidth = this._hand.length * (HAND_CARD_OFFSET + HAND_CARD_WIDTH) - HAND_CARD_OFFSET;
+            const tween = new Konva.Tween({
+                node: this._groupHand,
+                x: (STAGE_WIDTH - cardsWidth) / 2,
+                y: STAGE_HEIGHT - HAND_CARD_HEIGHT - HAND_CARD_BORDER_THICKNESS,
+                duration: 0.45,
+                scaleX: 1,
+                scaleY: 1,
+                easing: Konva.Easings.StrongEaseOut,
+            });
+            tween.play();
+        }
+        if (this._groupUserCards) {
+            const cardsWidth = this._userCards.length * (UTABLE_CARD_OFFSET + UTABLE_CARD_WIDTH) - UTABLE_CARD_OFFSET;
+            const tableWidth = STAGE_WIDTH - UTABLE_LEFT - USERS_WIDTH - USERS_RIGHT * 2;
+            const tween = new Konva.Tween({
+                node: this._groupUserCards,
+                x: UTABLE_LEFT + (tableWidth - cardsWidth) / 2,
+                y: UTABLE_TOP,
+                duration: 0.45,
+                scaleX: 1,
+                scaleY: 1,
+                easing: Konva.Easings.StrongEaseOut,
+            });
+            tween.play();
+        }
+    }
+
+    _fadeHand() {
+        if (!this._groupHand) this._updateHand();
+
+        const tween = new Konva.Tween({
+            node: this._groupHand,
+            opacity: 0.6,
+            duration: 0.5,
+        });
+
+        tween.play();
+    }
+
+    _highlightHand() {
+        if (!this._groupHand) this._updateHand();
+
+        const tween = new Konva.Tween({
+            node: this._groupHand,
+            opacity: 1,
+            duration: 0.5,
+        });
+
+        tween.play();
+    }
+
     _onSelectFromHand() {
         this._updateHand();
 
         const moveCard = function (item, isUp) {
             const tween = new Konva.Tween({
                 node: item,
-                y: isUp ? -20 : 0,
+                y: isUp ? -15 : 0,
                 duration: 0.2,
                 easing: Konva.Easings.StrongEaseOut,
             });
             tween.play();
         };
 
-        listHighlight(this._hand);
+        this._highlightHand();
         listSubscribe({
             list: this._hand,
             onClick: function (c) {
@@ -714,8 +902,11 @@ class GameController extends View {
                 this._game.selectCardFromHand(c.index);
 
                 listUnsubscribe(this._hand);
-                listFade(this._hand);
+                this._fadeHand();
                 this._updateTable();
+                this._moveTableCenter();
+
+                this._moveHandRight();
 
                 this._updateTooltip('waitForPlayers');
             }.bind(this),
@@ -733,6 +924,7 @@ class GameController extends View {
                     l.push(c.card);
                 }
                 this._updateTable(l);
+                this._moveTableCenter();
 
                 this._stage.container().style.cursor = 'pointer';
             }.bind(this),
@@ -741,6 +933,7 @@ class GameController extends View {
 
                 moveCard(c.item, false);
                 this._updateTable();
+                this._moveTableCenter();
 
                 this._stage.container().style.cursor = 'default';
             }.bind(this),
@@ -759,6 +952,9 @@ class GameController extends View {
 
                 listUnsubscribe(this._userCards);
 
+                this._updateTable();
+                this._moveTableCenter();
+
                 this._updateTooltip('waitForPlayers');
             }.bind(this),
             onMouseOver: function (c) {
@@ -771,11 +967,13 @@ class GameController extends View {
                     l.push(c.card);
                 }
                 this._updateTable(l);
+                this._moveTableCenter();
 
                 this._stage.container().style.cursor = 'pointer';
             }.bind(this),
             onMouseOut: function (c) {
                 this._updateTable();
+                this._moveTableCenter();
 
                 this._stage.container().style.cursor = 'default';
             }.bind(this),
@@ -824,7 +1022,7 @@ class GameController extends View {
     }
 
     _startTimer() {
-        if (!this._timerCircle) {
+        if (!this._groupTimerCircle) {
             let circleBack = new Konva.Circle({
                 x: TOOLTIP_TIMER_SIZE / 2 + 4,
                 y: TOOLTIP_TIMER_SIZE / 2 + 4,
@@ -846,7 +1044,7 @@ class GameController extends View {
                 rotation: -90,
             });
             this._layerGame.add(circleFront);
-            this._timerCircle = circleFront;
+            this._groupTimerCircle = circleFront;
 
             let text = new Konva.Text({
                 x: TOOLTIP_TIMER_SIZE / 10,
@@ -857,29 +1055,29 @@ class GameController extends View {
                 fontFamily: 'DigitalStrip',
             });
             this._layerGame.add(text);
-            this._timerText = text;
+            this._groupTimerText = text;
         }
 
-        this._timerCircle.angle(360);
-        this._timerCircle.stroke('black');
+        this._groupTimerCircle.angle(360);
+        this._groupTimerCircle.stroke('black');
 
         let time = 40;
 
         let tween = new Konva.Tween({
-            node: this._timerCircle,
+            node: this._groupTimerCircle,
             angle: 0,
             stroke: 'red',
             duration: time,
         });
         tween.play();
 
-        this._timerText.opacity(1);
-        this._timerCircle.opacity(1);
+        this._groupTimerText.opacity(1);
+        this._groupTimerCircle.opacity(1);
 
         let _;
         _ = () => {
-            if (time && this._timerText.getAbsoluteOpacity() === 1) {
-                this._timerText.text(--time);
+            if (time && this._groupTimerText.getAbsoluteOpacity() === 1) {
+                this._groupTimerText.text(--time);
                 this._layerGame.drawScene();
                 setTimeout(_, 1000);
             }
@@ -888,9 +1086,9 @@ class GameController extends View {
     }
 
     _stopTimer() {
-        if (this._timerCircle) {
-            this._timerText.opacity(0);
-            this._timerCircle.opacity(0);
+        if (this._groupTimerCircle) {
+            this._groupTimerText.opacity(0);
+            this._groupTimerCircle.opacity(0);
         }
         return new Promise(r => r());
     }
@@ -931,16 +1129,9 @@ class GameController extends View {
             fill: '#fbfbfb',
         });
 
-        const layerErrorLoader = new Konva.Arc({
-            x: STAGE_WIDTH / 2,
-            y: STAGE_HEIGHT / 2,
-            innerRadius: 40,
-            outerRadius: 70,
-            angle: 1,
-            fill: '#88C1D8',
-            stroke: 'black',
-            strokeWidth: 4
-        });
+        const layerErrorLoader = generateLoader();
+        layerErrorLoader.setX(STAGE_WIDTH / 2);
+        layerErrorLoader.setY(STAGE_HEIGHT / 2);
 
         const layerErrorDescription = new Konva.Text({
             x: 0,
@@ -976,7 +1167,6 @@ class GameController extends View {
             tween.play();
         }.bind(this));
         layerErrorButton.on('mouseout', function () {
-            // layerErrorDescription.fontStyle('')
             this._stage.container().style.cursor = 'default';
             let tween = new Konva.Tween({
                 node: layerErrorButton,
@@ -991,27 +1181,6 @@ class GameController extends View {
         this._groupError.add(layerErrorLoader);
         this._groupError.add(layerErrorButton);
 
-        let period = 2000;
-        let tween1 = new Konva.Tween({
-            node: layerErrorLoader,
-            duration: period / 1000 / 2,
-            easing: Konva.Easings.EaseInOut,
-            fill: '#42A045',
-            angle: 360,
-        });
-        let tween2 = new Konva.Tween({
-            node: layerErrorLoader,
-            duration: period / 829,
-            easing: Konva.Easings.Linear,
-            fill: '#42A045',
-        });
-
-        tween1.onFinish = () => tween1.reverse();
-        tween1.onReset = () => tween1.play();
-        tween1.play();
-        tween2.onFinish = () => tween2.reverse();
-        tween2.onReset = () => tween2.play();
-        tween2.play();
 
         const errorTween = new Konva.Tween({
             node: this._groupError,
@@ -1019,6 +1188,7 @@ class GameController extends View {
             duration: 0.5,
         });
         errorTween.play();
+        layerErrorLoader.run();
     };
 }
 
