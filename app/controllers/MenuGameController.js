@@ -31,7 +31,7 @@ class MenuGameController extends View {
                     this.router.go('/');
                 })
                 .catch(e => {
-                    alert(e);
+                    document.myalert(e);
                 });
         }));
         document.getElementById("menuGame_play").addEventListener('click', event => {

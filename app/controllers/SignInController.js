@@ -30,14 +30,14 @@ class SignInController extends View {
             let login = document.getElementById('formSignIn_loginInput').value;
             let passw = document.getElementById('formSignIn_passwordInput').value;
             if (!login || !passw) {
-                alert('Enter login and password');
+                document.myalert('Enter login and password');
             } else {
                 this.session.login(login, passw)
                     .then(() => {
                         this.router.go('/menu');
                     })
                     .catch(e => {
-                        alert(e);
+                        document.myalert(e);
                     });
             }
         });

@@ -63,14 +63,16 @@ class LobbyController extends View {
         handler();
         this._lobby.onInfo = handler;
         this._lobby.onError = (function () {
-            if (confirm('Произошла ошибка. Поиграешь один?')) {
-                this.router.go('/gameFake');
-            } else {
-                this.router.go('/');
-            }
+            let obj = this;
+            document.myconfirm('Произошла ошибка. Поиграешь один?',val => {
+                obj.router.go(val ? '/gameFake' : '/');
+            });
         }).bind(this);
         this._lobby.onClosed = (function () {
-            this.router.go('/game');
+            let obj = this;
+            document.myconfirm('Произошла ошибка. Поиграешь один?',val => {
+                obj.router.go(val ? '/gameFake' : '/');
+            });
         }).bind(this);
         this._lobby.onUserAdd = handler;
         this._lobby.onUserRemove = handler;
