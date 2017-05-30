@@ -57,9 +57,47 @@ const TOOLTIP_TEXT_TOP = TOOLTIP_TIMER_SIZE / 2.5;
 const ERROR_LOGO_SIZE = 140;
 
 let USER_AVATARS = [];
-for(let i = 1; i<=10; ++i){
+for (let i = 1; i <= 10; ++i) {
     USER_AVATARS.push(ImagesController.get_avatar_img(`${i}`));
 }
+
+const requestFullScreen = function (element) {
+    // Supports most browsers and their versions.
+    let requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
+
+    if (requestMethod) { // Native full screen.
+        requestMethod.call(element);
+    } else if (typeof window.ActiveXObject !== "undefined") { // Older IE.
+        let wscript = new ActiveXObject("WScript.Shell");
+        if (wscript !== null) {
+            wscript.SendKeys("{F11}");
+        }
+    }
+};
+
+const cancelFullScreen = function (element) {
+    let requestMethod = element.cancelFullScreen || element.webkitCancelFullScreen || element.mozCancelFullScreen || element.exitFullscreen;
+    if (requestMethod) { // cancel full screen.
+        requestMethod.call(element);
+    } else if (typeof window.ActiveXObject !== "undefined") { // Older IE.
+        let wscript = new ActiveXObject("WScript.Shell");
+        if (wscript !== null) {
+            wscript.SendKeys("{F11}");
+        }
+    }
+};
+
+let isFullScreen = false;
+const enterFullScreen = function () {
+    requestFullScreen(document.body);
+    isFullScreen = true;
+};
+
+const exitFullScreen = function () {
+    if (!isFullScreen) return;
+    cancelFullScreen(document.body);
+    isFullScreen = false;
+};
 
 // меня задолбала копипаста, поэтому я всё таки написал функции, но это по-прежнему индусский гавнокод
 const generateLoader = function () {
@@ -101,7 +139,6 @@ const generateLoader = function () {
 
 
 const generateCard = function (card) {
-
     let group = new Konva.Group({
         width: TABLE_CARD_WIDTH,
         height: TABLE_CARD_HEIGHT,
@@ -372,6 +409,7 @@ class GameController extends View {
     }
 
     hide() {
+        exitFullScreen();
         this.page_parts.get("Game").hidden = true;
         this._game && this._game.stop();
     }
@@ -424,7 +462,7 @@ class GameController extends View {
         window.addEventListener('orientationchange', fitStageIntoParentContainer);
 
         const exitButton = new Konva.Text({
-            x: STAGE_WIDTH - USERS_RIGHT - 85,
+            x: STAGE_WIDTH - USERS_RIGHT - 140,
             y: 15,
             align: 'center',
             fontSize: 20,
@@ -454,6 +492,42 @@ class GameController extends View {
             tween.play();
         }.bind(this));
         this._layerGame.add(exitButton);
+
+        const fullScreenButton = new Konva.Text({
+            x: STAGE_WIDTH - USERS_RIGHT - 20,
+            y: 15,
+            align: 'center',
+            fontSize: 20,
+            fontFamily: 'DigitalStrip',
+            text: 'О',
+        });
+
+        fullScreenButton.on('mousedown touchstart', function () {
+            if (isFullScreen) {
+                exitFullScreen();
+            } else {
+                enterFullScreen();
+            }
+        }.bind(this));
+        fullScreenButton.on('mouseover', function () {
+            this._stage.container().style.cursor = 'pointer';
+            let tween = new Konva.Tween({
+                node: fullScreenButton,
+                fontSize: 23,
+                duration: 0.2
+            });
+            tween.play();
+        }.bind(this));
+        fullScreenButton.on('mouseout', function () {
+            this._stage.container().style.cursor = 'default';
+            let tween = new Konva.Tween({
+                node: fullScreenButton,
+                fontSize: 20,
+                duration: 0.2
+            });
+            tween.play();
+        }.bind(this));
+        this._layerGame.add(fullScreenButton);
     }
 
     _updateHand() {

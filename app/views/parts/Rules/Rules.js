@@ -8,6 +8,7 @@ import './Rules.scss';
 import pugRules from './Rules.pug';
 
 import BorderConstruct from '../../constructs/BorderConstruct/BorderConstruct';
+
 import imagescontroller from '../../ImagesController';
 const RIGHT_IMG = imagescontroller.get_menu_img("Rules_page");
 const TITLE = "";

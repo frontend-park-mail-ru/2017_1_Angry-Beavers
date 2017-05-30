@@ -74,7 +74,7 @@ for(let i = 1; i<=10; ++i ){
     cacheUrls.push(ic.get_avatar_img(`${i}`))
 }
 
-for (let i = 1; i <= 430; ++i) {
+for (let i = 1; i <= 100; ++i) {
     cacheUrls.push(ic.get_game_img(`${i}`))
 }
 

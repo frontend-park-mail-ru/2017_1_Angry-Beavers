@@ -7,7 +7,7 @@
 import './Footer.scss';
 import pugFooter from './Footer.pug';
 
-const TEXT = "Copyright © Angry Beavers. All rights reserved.";
+const TEXT = "Copyright © Angry Beavers. All rights NOT reserved.";
 
 const Footer = function () {
     let footer = document.createElement('footer');
