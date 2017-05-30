@@ -36,6 +36,8 @@ const MenuGame = function MenuStart() {
     div.innerHTML = pugMenuGame({
         items: ITEMS
     });
+    let img_first = div.getElementsByTagName("img")[0];
+    img_first.classList.add("menuconstruct__mainimage");
     return div;
 };
 
