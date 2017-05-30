@@ -33,8 +33,8 @@ class ScoreListController extends View {
             this.router.go('/signin');
         } else {
             this.page_parts.get("UserHeader").hidden = false;
-            document.querySelectorAll('.userheader-login').forEach(a => a.innerHTML = this.session.user.login);
-            document.querySelectorAll('.userheader-score').forEach(a => a.innerHTML = this.session.user.score);
+            [...document.querySelectorAll('.userheader-login')].forEach(a => a.innerHTML = this.session.user.login);
+            [...document.querySelectorAll('.userheader-login')].forEach(a => a.innerHTML = this.session.user.score);
             this.page_parts.get("ScoreList").hidden = false;
 
             this.session.getScoreList()
