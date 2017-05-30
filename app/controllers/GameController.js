@@ -442,13 +442,25 @@ class GameController extends View {
         });
 
         let fitStageIntoParentContainer = function () {
-            let scale = Math.min(window.innerWidth / STAGE_WIDTH, window.innerHeight / STAGE_HEIGHT);
-            this._stage.width(STAGE_WIDTH * scale);
-            this._stage.height(STAGE_HEIGHT * scale);
-            this._stage.scale({x: scale, y: scale});
-            this._stage.draw();
+            const innerWidth = window.innerWidth;
+            const innerHeight = window.innerHeight;
+
+            if (innerWidth < innerHeight) {
+                this._stage.width(innerWidth);
+                this._stage.height(innerHeight);
+                this._stage.scale({x: 1, y: 1});
+                this._stage.draw();
+                this._showError('переверни экран', false);
+            } else {
+                let scale = Math.min(innerWidth / STAGE_WIDTH, innerHeight / STAGE_HEIGHT);
+                this._stage.width(STAGE_WIDTH * scale);
+                this._stage.height(STAGE_HEIGHT * scale);
+                this._stage.scale({x: scale, y: scale});
+                this._stage.draw();
+                this._showGame();
+            }
+
         }.bind(this);
-        fitStageIntoParentContainer();
 
         this._layerGame = new Konva.Layer();
         this._stage.add(this._layerGame);
@@ -528,6 +540,8 @@ class GameController extends View {
             tween.play();
         }.bind(this));
         this._layerGame.add(fullScreenButton);
+
+        fitStageIntoParentContainer();
     }
 
     _updateHand() {
@@ -1094,6 +1108,8 @@ class GameController extends View {
     }
 
     _showGame() {
+        if (window.innerWidth < window.innerHeight) return;
+
         if (this._groupError) {
             const errorTween = new Konva.Tween({
                 node: this._groupError,
@@ -1109,7 +1125,7 @@ class GameController extends View {
         }
     };
 
-    _showError(text) {
+    _showError(text, showLoader = true) {
         if (this._groupError) {
             this._groupErrorDescription.text(text);
             return;
@@ -1124,19 +1140,23 @@ class GameController extends View {
         const layerErrorBackground = new Konva.Rect({
             x: 0,
             y: 0,
-            width: STAGE_WIDTH,
-            height: STAGE_HEIGHT,
+            width: this._stage.getWidth(),
+            height: this._stage.getHeight(),
             fill: '#fbfbfb',
         });
 
-        const layerErrorLoader = generateLoader();
-        layerErrorLoader.setX(STAGE_WIDTH / 2);
-        layerErrorLoader.setY(STAGE_HEIGHT / 2);
+        if (showLoader) {
+            const layerErrorLoader = generateLoader();
+            layerErrorLoader.setX(this._stage.getWidth() / 2);
+            layerErrorLoader.setY(this._stage.getHeight() / 2);
+            this._groupError.add(layerErrorLoader);
+            layerErrorLoader.run();
+        }
 
         const layerErrorDescription = new Konva.Text({
             x: 0,
-            y: (STAGE_HEIGHT + ERROR_LOGO_SIZE) / 2 + 50,
-            width: STAGE_WIDTH,
+            y: (this._stage.getWidth() + ERROR_LOGO_SIZE) / 2 + 50,
+            width: this._stage.getWidth(),
             align: 'center',
             fontSize: 20,
             fontFamily: 'DigitalStrip',
@@ -1146,8 +1166,8 @@ class GameController extends View {
 
         const layerErrorButton = new Konva.Text({
             x: 0,
-            y: STAGE_HEIGHT - 50,
-            width: STAGE_WIDTH,
+            y: this._stage.getHeight() - 50,
+            width: this._stage.getWidth(),
             align: 'center',
             fontSize: 20,
             fontFamily: 'DigitalStrip',
@@ -1178,7 +1198,6 @@ class GameController extends View {
 
         this._groupError.add(layerErrorBackground);
         this._groupError.add(layerErrorDescription);
-        this._groupError.add(layerErrorLoader);
         this._groupError.add(layerErrorButton);
 
 
@@ -1188,7 +1207,6 @@ class GameController extends View {
             duration: 0.5,
         });
         errorTween.play();
-        layerErrorLoader.run();
     };
 }
 
