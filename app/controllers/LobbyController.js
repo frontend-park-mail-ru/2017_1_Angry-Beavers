@@ -40,7 +40,7 @@ class LobbyController extends View {
             this.page_parts.get("UserHeader").hidden = false;
             this.page_parts.get("Lobby").hidden = false;
             [...document.querySelectorAll('.userheader-login')].forEach(a => a.innerHTML = this.session.user.login);
-            [...document.querySelectorAll('.userheader-login')].forEach(a => a.innerHTML = this.session.user.score);
+            [...document.querySelectorAll('.userheader-score')].forEach(a => a.innerHTML = this.session.user.score);
 
             this._startLobby();
         }
