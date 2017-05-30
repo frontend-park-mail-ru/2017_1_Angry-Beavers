@@ -31,8 +31,8 @@ class AboutUsController extends View {
     show() {
         if (this.session.isAuth) {
             this.page_parts.get("UserHeader").hidden = false;
-            document.querySelectorAll('.userheader-login').forEach(a => a.innerHTML = this.session.user.login);
-            document.querySelectorAll('.userheader-score').forEach(a => a.innerHTML = this.session.user.score);
+            [...document.querySelectorAll('.userheader-login')].forEach(a => a.innerHTML = this.session.user.login);
+            [...document.querySelectorAll('.userheader-login')].forEach(a => a.innerHTML = this.session.user.score);
         } else {
             this.page_parts.get("AppName").hidden = false;
         }
