@@ -21,7 +21,7 @@ class GameFake {
         for (let i = 0; i < 7; ++i) {
             this._hand.push({
                 "red": Math.random() < 0.1,
-                "id": Math.round(Math.random() * 400)
+                "id": Math.round(Math.random() * 100)
             });
         }
 
