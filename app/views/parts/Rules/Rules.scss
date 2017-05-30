@@ -1,3 +1,14 @@
-.rules__title {
-    font-family: DigitalStrip;
+$font: DigitalStrip;
+
+.rules{
+    &__title {
+        font-family: $font;
+    }
+
+    p {
+        text-align: left;
+        font-family: $font;
+        font-size: medium;
+    }
 }
+
