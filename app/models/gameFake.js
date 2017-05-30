@@ -36,7 +36,7 @@ class GameFake {
         this._table = [
             {
                 "red": Math.random() < 0.1,
-                "id": Math.round(Math.random() * 400)
+                "id": Math.round(Math.random() * 100)
             }
         ];
         this._userCards = [];
