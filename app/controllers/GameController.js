@@ -395,7 +395,8 @@ class GameController extends View {
             this._game.onGameFinishedMessage = function () {
                 this._game.onClosed = undefined;
                 this._game.onError = undefined;
-                this._showError('игра закончена');
+                this._isGameOver = true;
+                this._updateTable();
             }.bind(this);
             this._game.onNewRoundMessage = function () {
                 this._updateHistory();
@@ -674,26 +675,45 @@ class GameController extends View {
 
         let newTable = [];
         let _i = 0;
-        (list || this._game.table).forEach(function (card, i) {
-            if (!card || typeof card === "string") return;
-            let __i = _i;
-            ++_i;
-            newTable.push({
-                id: card.id,
-                card: card,
-                index: i,
-                itemGenerator: () => {
-                    let group = generateCard.bind(this)(card);
-                    group.scale({
-                        x: TABLE_CARD_WIDTH / group.getWidth(),
-                        y: TABLE_CARD_HEIGHT / group.getHeight()
-                    });
-                    group.setX((TABLE_CARD_WIDTH + TABLE_CARD_OFFSET) * __i);
-                    group.setY(0);
-                    return group;
-                }
-            });
-        }.bind(this));
+        if (list || !this._isGameOver) {
+            (list || this._game.table).forEach(function (card, i) {
+                if (!card || typeof card === "string") return;
+                let __i = _i;
+                ++_i;
+                newTable.push({
+                    id: card.id,
+                    card: card,
+                    index: i,
+                    itemGenerator: () => {
+                        let group = generateCard.bind(this)(card);
+                        group.scale({
+                            x: TABLE_CARD_WIDTH / group.getWidth(),
+                            y: TABLE_CARD_HEIGHT / group.getHeight()
+                        });
+                        group.setX((TABLE_CARD_WIDTH + TABLE_CARD_OFFSET) * __i);
+                        group.setY(0);
+                        return group;
+                    }
+                });
+            }.bind(this));
+        } else {
+            newTable = [
+                {
+                    id: -100500,
+                    card: null,
+                    index: 0,
+                    itemGenerator: () => {
+                        let g = new Konva.Text({
+                            text: 'игра закончена',
+                            fontSize: 30,
+                            fontFamily: 'DigitalStrip',
+                        });
+
+                        return g;
+                    },
+                },
+            ]
+        }
         this._table = listUpdate(this._groupTable, this._table, newTable);
         this._layerGame.drawScene();
     }
@@ -710,6 +730,7 @@ class GameController extends View {
 
         let newUserCards = [];
         let _i = 0;
+
         (list || this._game.userCards).forEach(function (card, i) {
             if (!card || typeof card === "string") return;
             let __i = _i;
@@ -730,6 +751,7 @@ class GameController extends View {
                 }
             });
         }.bind(this));
+
         this._userCards = listUpdate(this._groupUserCards, this._userCards, newUserCards);
         this._layerGame.drawScene();
     }
