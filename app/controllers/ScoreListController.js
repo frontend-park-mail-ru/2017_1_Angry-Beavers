@@ -62,7 +62,19 @@ class ScoreListController extends View {
 
 
                     score.forEach((user, i) => {
-                        if (i === 10 && ((score.length === 13 && score[12].position !== 13) || (score.length === 12 && score[10].position !== 11))) {
+                        if (i === 10 && score.length === 13 && score[12].position !== 13) {
+                            const row = document.createElement('tr');
+                            row.className = 'scorelist__row';
+
+                            const userPosition = document.createElement('th');
+                            userPosition.className = 'scorelist__separator';
+                            userPosition.innerHTML = `...`;
+                            userPosition.setAttribute('colspan', '3');
+
+                            row.appendChild(userPosition);
+                            scoreList.appendChild(row);
+                        }
+                        if(i === 10 && score.length === 12 && score[10].position > 10){
                             const row = document.createElement('tr');
                             row.className = 'scorelist__row';
 
