@@ -52,6 +52,7 @@ const EntryMsg = function () {
         // document.getElementsByClassName("alertmsg__msg")[0].textContent = msg;
 
         _dot_count = 1;
+        __loop();
         __timerid = setInterval(__loop,1000);
 
         //Установим позицию по центру экрана
