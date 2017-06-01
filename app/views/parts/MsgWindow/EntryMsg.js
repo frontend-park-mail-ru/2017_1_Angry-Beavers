@@ -18,7 +18,7 @@ const EntryMsg = function () {
         for (let i = 0; i < _dot_count; ++i){
             text_value = text_value.concat(".");
         }
-        document.getElementsByClassName("entrymsg__msg")[0].textContent = text_value;
+        _win.childNodes[0].textContent = text_value;
         _dot_count = _dot_count < 3 ? _dot_count+1 : 0;
     };
 
@@ -52,7 +52,7 @@ const EntryMsg = function () {
         // document.getElementsByClassName("alertmsg__msg")[0].textContent = msg;
 
         _dot_count = 1;
-        //document.getElementsByClassName("entrymsg__msg")[0].textContent = text_value;
+        _win.childNodes[0].textContent = _msg;
         __timerid = setInterval(__loop,1000);
 
         //Установим позицию по центру экрана

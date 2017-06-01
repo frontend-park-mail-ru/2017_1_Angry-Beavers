@@ -60,7 +60,7 @@ const AlertMsg = function () {
         initWin(width, msg);
     };
 
-    document.myalert = show;
+    document.myalert = {show: show, close: close};
 };
 
 export default AlertMsg;
