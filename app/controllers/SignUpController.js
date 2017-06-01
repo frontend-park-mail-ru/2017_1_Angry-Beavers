@@ -27,13 +27,16 @@ class SignUpController extends View {
         document.getElementById('formSignUp_signUpBtn').addEventListener('click', event => {
             event.preventDefault();
 
+            document.myentrymsg.show();
             let credentials = this.validateForm();
             if (credentials) {
                 this.session.signUp(credentials.login, credentials.email, credentials.password)
                     .then(() => {
+                        document.myentrymsg.close();
                         this.router.go('/menu');
                     })
                     .catch(e => {
+                        document.myentrymsg.close();
                         document.myalert(e);
                     });
             }
@@ -52,26 +55,31 @@ class SignUpController extends View {
 
         // email check
         if (!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)) {
+            document.myentrymsg.close();
             document.myalert("Некорректный e-mail");
             return false;
         }
 
         // login check
         if (login.length < 4) {
+            document.myentrymsg.close();
             document.myalert("Минимальная длина логина - 4 символа");
             return false;
         }
         if (!/^[a-zA-Z0-9_]*$/.test(login)) {
+            document.myentrymsg.close();
             document.myalert("Логин может содержать только символы латинского алфавита, цифры и _");
             return false;
         }
 
         // password check
         if (passw.length < 6) {
+            document.myentrymsg.close();
             document.myalert("Минимальная длина пароля - 6 символов");
             return false;
         }
         if (passw !== passwRepeat) {
+            document.myentrymsg.close();
             document.myalert("Пароли не совпадают");
             return false;
         }
