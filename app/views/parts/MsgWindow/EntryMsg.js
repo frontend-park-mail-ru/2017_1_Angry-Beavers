@@ -64,8 +64,13 @@ const EntryMsg = function () {
     };
 
     let close = function() {
-        document.getElementsByClassName('blockscreen')[0].style.display = 'none';
-        document.getElementsByClassName('entrymsg')[0].style.display = 'none';
+        if(_block){
+            document.getElementsByClassName('blockscreen')[0].style.display = 'none';
+        }
+        if(_win){
+            document.getElementsByClassName('entrymsg')[0].style.display = 'none';
+        }
+
         clearTimeout(__timerid);
     };
 
