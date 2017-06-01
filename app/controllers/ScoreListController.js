@@ -62,7 +62,7 @@ class ScoreListController extends View {
 
 
                     score.forEach((user, i) => {
-                        if (i === 10 && score.length === 13 && score[12].position !== 13) {
+                        if (i === 10 && ((score.length === 13 && score[12].position !== 13) || (score.length === 12 && score[10].position !== 11))) {
                             const row = document.createElement('tr');
                             row.className = 'scorelist__row';
 
@@ -74,6 +74,7 @@ class ScoreListController extends View {
                             row.appendChild(userPosition);
                             scoreList.appendChild(row);
                         }
+
 
                         const row = document.createElement('tr');
                         row.className = 'scorelist__row';
@@ -87,6 +88,12 @@ class ScoreListController extends View {
                         const userScore = document.createElement('th');
                         userScore.className = 'col-lg-2 scorelist__cell';
                         userScore.innerHTML = user.score;
+
+                        if(user.login === this.session.user.login){
+                            userPosition.classList.add(' scorelist__thisuser');
+                            userNickname.classList.add(' scorelist__thisuser');
+                            userScore.classList.add(' scorelist__thisuser');
+                        }
 
                         row.appendChild(userPosition);
                         row.appendChild(userNickname);
