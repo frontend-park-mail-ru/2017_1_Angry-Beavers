@@ -199,6 +199,14 @@ class GameFake {
         this._onGetCardFromTable = value;
     }
 
+    get onGameFinishedMessage() {
+        return this._onGameFinishedMessage;
+    }
+
+    set onGameFinishedMessage(value) {
+        this._onGameFinishedMessage = value;
+    }
+
     get onNewRoundMessage() {
         return this._onNewRoundMessage;
     }
