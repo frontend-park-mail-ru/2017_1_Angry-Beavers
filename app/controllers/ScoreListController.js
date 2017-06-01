@@ -74,7 +74,7 @@ class ScoreListController extends View {
                             row.appendChild(userPosition);
                             scoreList.appendChild(row);
                         }
-                        if(i === 10 && score.length === 12 && score[10].position > 10){
+                        if (i === 10 && score.length === 12 && score[10].position !== 10) {
                             const row = document.createElement('tr');
                             row.className = 'scorelist__row';
 
@@ -86,26 +86,31 @@ class ScoreListController extends View {
                             row.appendChild(userPosition);
                             scoreList.appendChild(row);
                         }
-
-
                         const row = document.createElement('tr');
                         row.className = 'scorelist__row';
 
-                        const userPosition = document.createElement('th');
-                        userPosition.className = 'col-lg-2 scorelist__cell';
-                        userPosition.innerHTML = user.rank;
-                        const userNickname = document.createElement('th');
-                        userNickname.className = 'col-lg-2 scorelist__cell';
-                        userNickname.innerHTML = user.login;
-                        const userScore = document.createElement('th');
-                        userScore.className = 'col-lg-2 scorelist__cell';
-                        userScore.innerHTML = user.score;
-
-                        if(user.login === this.session.user.login){
-                            userPosition.classList.add(' scorelist__thisuser');
-                            userNickname.classList.add(' scorelist__thisuser');
-                            userScore.classList.add(' scorelist__thisuser');
+                        if(user.login === this.session.user.login) {
+                            const userPosition = document.createElement('th');
+                            userPosition.className = 'col-lg-2 scorelist__cell scorelist__thisuser';
+                            userPosition.textContent = user.rank;
+                            const userNickname = document.createElement('th');
+                            userNickname.className = 'col-lg-2 scorelist__cell scorelist__thisuser';
+                            userNickname.textContent = user.login;
+                            const userScore = document.createElement('th');
+                            userScore.className = 'col-lg-2 scorelist__cell scorelist__thisuser';
+                            userScore.textContent = user.score;
+                        } else {
+                            const userPosition = document.createElement('th');
+                            userPosition.className = 'col-lg-2 scorelist__cell ';
+                            userPosition.textContent = user.rank;
+                            const userNickname = document.createElement('th');
+                            userNickname.className = 'col-lg-2 scorelist__cell ';
+                            userNickname.textContent = user.login;
+                            const userScore = document.createElement('th');
+                            userScore.className = 'col-lg-2 scorelist__cell ';
+                            userScore.textContent = user.score;
                         }
+
 
                         row.appendChild(userPosition);
                         row.appendChild(userNickname);
