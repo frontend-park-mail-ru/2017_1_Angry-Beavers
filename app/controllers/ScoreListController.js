@@ -62,8 +62,7 @@ class ScoreListController extends View {
 
 
                     score.forEach((user, i) => {
-                        debugger;
-                        if (i === 10 && score.length >= 12 && score[12].position !== 13) {
+                        if (i === 10 && ((score.length === 13 && score[12].position !== 13) || (score.length === 12 && score[10].position !== 11))) {
                             const row = document.createElement('tr');
                             row.className = 'scorelist__row';
 
@@ -75,6 +74,7 @@ class ScoreListController extends View {
                             row.appendChild(userPosition);
                             scoreList.appendChild(row);
                         }
+
 
                         const row = document.createElement('tr');
                         row.className = 'scorelist__row';
