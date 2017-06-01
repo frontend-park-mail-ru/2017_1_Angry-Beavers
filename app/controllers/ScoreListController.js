@@ -88,6 +88,12 @@ class ScoreListController extends View {
                         userScore.className = 'col-lg-2 scorelist__cell';
                         userScore.innerHTML = user.score;
 
+                        if(user.login === this.session.user.login){
+                            userPosition.classList.add(' scorelist__thisuser');
+                            userNickname.classList.add(' scorelist__thisuser');
+                            userScore.classList.add(' scorelist__thisuser');
+                        }
+
                         row.appendChild(userPosition);
                         row.appendChild(userNickname);
                         row.appendChild(userScore);
