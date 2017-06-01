@@ -50,6 +50,7 @@ class LobbyController extends View {
         this._stopLobby();
         this.page_parts.get("UserHeader").hidden = true;
         this.page_parts.get("Lobby").hidden = true;
+        document.myconfirm.close();
     }
 
     _startLobby() {
@@ -64,13 +65,13 @@ class LobbyController extends View {
         this._lobby.onInfo = handler;
         this._lobby.onError = (function () {
             let obj = this;
-            document.myconfirm('Произошла ошибка. Поиграешь один?',val => {
+            document.myconfirm.show('Произошла ошибка. Поиграешь один?',val => {
                 obj.router.go(val ? '/gameFake' : '/');
             });
         }).bind(this);
         this._lobby.onClosed = (function () {
             let obj = this;
-            document.myconfirm('Произошла ошибка. Поиграешь один?',val => {
+            document.myconfirm.show('Произошла ошибка. Поиграешь один?',val => {
                 obj.router.go(val ? '/gameFake' : '/');
             });
         }).bind(this);

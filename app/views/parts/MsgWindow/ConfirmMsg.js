@@ -74,7 +74,7 @@ const ConfirmMsg = function () {
         initWin(width, msg, result_function);
     };
 
-    document.myconfirm = show;
+    document.myconfirm = {show: show, close: close};
 };
 
 export default ConfirmMsg;

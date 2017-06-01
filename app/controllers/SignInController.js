@@ -32,7 +32,7 @@ class SignInController extends View {
             let passw = document.getElementById('formSignIn_passwordInput').value;
             if (!login || !passw) {
                 document.myentrymsg.close();
-                document.myalert('Enter login and password');
+                document.myalert.show('Enter login and password');
             } else {
                 this.session.login(login, passw)
                     .then(() => {
@@ -41,7 +41,7 @@ class SignInController extends View {
                     })
                     .catch(e => {
                         document.myentrymsg.close();
-                        document.myalert(e);
+                        document.myalert.show(e);
                     });
             }
         });
@@ -69,6 +69,8 @@ class SignInController extends View {
         this.page_parts.get("AppName").hidden = true;
         this.page_parts.get("SignIn").hidden = true;
         this.page_parts.get("Footer").hidden = true;
+        document.myentrymsg.close();
+        document.myalert.close();
     }
 
 }

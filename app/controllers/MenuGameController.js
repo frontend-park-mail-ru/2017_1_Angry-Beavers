@@ -31,7 +31,7 @@ class MenuGameController extends View {
                     this.router.go('/');
                 })
                 .catch(e => {
-                    document.myalert(e);
+                    document.myalert.show(e);
                 });
         }));
         document.getElementById("menuGame_play").addEventListener('click', event => {
@@ -75,6 +75,7 @@ class MenuGameController extends View {
         this.page_parts.get("UserHeader").hidden = true;
         this.page_parts.get("MenuGame").hidden = true;
         this.page_parts.get("Footer").hidden = true;
+        document.myalert.close();
     }
 }
 
