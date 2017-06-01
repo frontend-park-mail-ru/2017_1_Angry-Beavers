@@ -397,6 +397,7 @@ class GameController extends View {
                 this._game.onError = undefined;
                 this._isGameOver = true;
                 this._updateTable();
+                this._moveTableCenter(true);
             }.bind(this);
             this._game.onNewRoundMessage = function () {
                 this._updateHistory();
@@ -703,17 +704,21 @@ class GameController extends View {
                     card: null,
                     index: 0,
                     itemGenerator: () => {
-                        let g = new Konva.Text({
+                        let gameOverLabel = new Konva.Text({
                             text: 'игра закончена',
                             fontSize: 30,
+                            y: TABLE_CARD_HEIGHT / 2 + 20,
                             fontFamily: 'DigitalStrip',
                         });
 
-                        return g;
+                        // gameOverLabel.setX(-gameOverLabel.getWidth() / 2);
+
+                        return gameOverLabel;
                     },
                 },
-            ]
+            ];
         }
+
         this._table = listUpdate(this._groupTable, this._table, newTable);
         this._layerGame.drawScene();
     }
@@ -797,11 +802,11 @@ class GameController extends View {
 
                     group.on('mouseover', function () {
                         this._updateTable(l);
-                        this._moveTableCenter();
+                        this._moveTableCenter(false);
                     }.bind(this));
                     group.on('mouseout', function () {
                         this._updateTable();
-                        this._moveTableCenter();
+                        this._moveTableCenter(false);
                     }.bind(this));
 
                     return group;
@@ -812,8 +817,8 @@ class GameController extends View {
         this._layerGame.drawScene();
     }
 
-    _moveTableCenter() {
-        const cardsWidth = this._table.length * (TABLE_CARD_OFFSET + TABLE_CARD_WIDTH) - TABLE_CARD_OFFSET;
+    _moveTableCenter(isGameOver = this._isGameOver) {
+        const cardsWidth = isGameOver ? 0 : this._table.length * (TABLE_CARD_OFFSET + TABLE_CARD_WIDTH) - TABLE_CARD_OFFSET;
         const tableWidth = STAGE_WIDTH - TABLE_LEFT - USERS_WIDTH - USERS_RIGHT * 2;
 
         const tween = new Konva.Tween({
