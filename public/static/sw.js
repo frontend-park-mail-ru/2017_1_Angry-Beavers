@@ -52,6 +52,7 @@ const cacheUrls = [
     '/lobby',
     '/game',
     '/gameFake',
+    '/fonts'
 ];
 var ic = new ImagesController();
 cacheUrls.push(ic.get_menu_img('Game'));
