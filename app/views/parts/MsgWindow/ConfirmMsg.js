@@ -65,8 +65,12 @@ const ConfirmMsg = function () {
     };
 
     let close = function() {
-        document.getElementsByClassName('blockscreen')[0].style.display = 'none';
-        document.getElementsByClassName('confirmmsg')[0].style.display = 'none';
+        if(_block){
+            document.getElementsByClassName('blockscreen')[0].style.display = 'none';
+        }
+        if(_win){
+            document.getElementsByClassName('confirmmsg')[0].style.display = 'none';
+        }
     };
 
     let show = function(msg,result_function, width = 300) {
