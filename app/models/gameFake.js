@@ -20,7 +20,6 @@ class GameFake {
         this._hand = [];
         for (let i = 0; i < 7; ++i) {
             this._hand.push({
-                "red": Math.random() < 0.1,
                 "id": Math.round(Math.random() * 100)
             });
         }
@@ -35,7 +34,6 @@ class GameFake {
         ]);
         this._table = [
             {
-                "red": Math.random() < 0.1,
                 "id": Math.round(Math.random() * 100)
             }
         ];
@@ -69,7 +67,6 @@ class GameFake {
             }
 
             this._hand[index] = {
-                "red": false,
                 "id": Math.round(Math.random() * 400)
             };
 
@@ -80,7 +77,6 @@ class GameFake {
                 this._userCards = [];
                 for (let i = 0; i < 3; ++i) {
                     this._userCards.push({
-                        "red": false,
                         "id": Math.round(Math.random() * 400)
                     });
                 }
