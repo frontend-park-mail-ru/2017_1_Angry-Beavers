@@ -101,7 +101,7 @@ class Session {
                 _this._user = {}; // todo: in ES6 rewrite with new User
                 _this._user.login = response.userLogin;
                 _this._user.email = response.userMail;
-                _this._user.score = 0;
+                _this._user.score = response.userScore;
                 return response;
             });
     }
@@ -115,10 +115,10 @@ class Session {
         return this._call('POST', 'user/login', {
             pass: password,
             userLogin: login
-        }).then(() => {
+        }).then((response) => {
             _this._user = {}; // todo: in ES6 rewrite with new User
-            _this._user.login = login;
-            _this._user.score = 0;
+            _this._user.login = response.login;
+            _this._user.score = response.score;
         });
     };
 
@@ -128,11 +128,11 @@ class Session {
             userLogin: login,
             pass: password,
             userMail: email
-        }).then(() => {
+        }).then((response) => {
             _this._user = {}; // todo: in ES6 rewrite with new User
-            _this._user.login = login;
-            _this._user.email = email;
-            _this._user.score = 0;
+            _this._user.login = response.login;
+            _this._user.email = response.email;
+            _this._user.score = response.score;
         });
     };
 
