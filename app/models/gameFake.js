@@ -67,7 +67,7 @@ class GameFake {
             }
 
             this._hand[index] = {
-                "id": Math.round(Math.random() * 400)
+                "id": Math.round(Math.random() * 100)
             };
 
             this._onTableInfo && this._onTableInfo();
