@@ -367,6 +367,7 @@ class GameController extends View {
                 this._updateUserCards([]);
                 this._moveHandCenter();
             }.bind(this);
+            this._isGameOver = false;
             this._createCanvas();
             this._showGame();
             this._game.start();
@@ -396,6 +397,7 @@ class GameController extends View {
             delete this._table;
             delete this._history;
             delete this._users;
+            delete this._hintText;
         }
 
         this._stage = new Konva.Stage({
