@@ -315,7 +315,6 @@ class GameController extends View {
             this._game.onHandInfo = this._updateHand.bind(this);
             this._game.onError = x => function () {
                 this._showError('произошла ошибка. пытаюсь соединиться с сервером...');
-                this._game.stop();
                 this._game.start();
             }.bind(this);
             this._game.onClosed = function () {

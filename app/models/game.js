@@ -79,6 +79,11 @@ class Game {
             this._ws.onmessage = undefined;
             this._ws.onclose = undefined;
             this._onError = undefined;
+
+            this._ws && this._ws.send(JSON.stringify({
+                "type": "UserExited",
+            }));
+
             this._ws.close();
         }
     }
