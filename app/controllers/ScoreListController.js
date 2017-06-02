@@ -86,31 +86,31 @@ class ScoreListController extends View {
                             row.appendChild(userPosition);
                             scoreList.appendChild(row);
                         }
+
                         const row = document.createElement('tr');
                         row.className = 'scorelist__row';
 
-                        if(user.login === this.session.user.login) {
+                        if(user.login === this.session.user.login){
                             const userPosition = document.createElement('th');
-                            userPosition.className = 'col-lg-2 scorelist__cell scorelist__thisuser';
-                            userPosition.textContent = user.rank;
+                            userPosition.className = 'col-lg-2 scorelist__cell scorelist_thisuser';
+                            userPosition.innerHTML = user.rank;
                             const userNickname = document.createElement('th');
-                            userNickname.className = 'col-lg-2 scorelist__cell scorelist__thisuser';
-                            userNickname.textContent = user.login;
+                            userNickname.className = 'col-lg-2 scorelist__cell scorelist_thisuser';
+                            userNickname.innerHTML = user.login;
                             const userScore = document.createElement('th');
-                            userScore.className = 'col-lg-2 scorelist__cell scorelist__thisuser';
-                            userScore.textContent = user.score;
+                            userScore.className = 'col-lg-2 scorelist__cell scorelist_thisuser';
+                            userScore.innerHTML = user.score;
                         } else {
                             const userPosition = document.createElement('th');
-                            userPosition.className = 'col-lg-2 scorelist__cell ';
-                            userPosition.textContent = user.rank;
+                            userPosition.className = 'col-lg-2 scorelist__cell';
+                            userPosition.innerHTML = user.rank;
                             const userNickname = document.createElement('th');
-                            userNickname.className = 'col-lg-2 scorelist__cell ';
-                            userNickname.textContent = user.login;
+                            userNickname.className = 'col-lg-2 scorelist__cell';
+                            userNickname.innerHTML = user.login;
                             const userScore = document.createElement('th');
-                            userScore.className = 'col-lg-2 scorelist__cell ';
-                            userScore.textContent = user.score;
+                            userScore.className = 'col-lg-2 scorelist__cell';
+                            userScore.innerHTML = user.score;
                         }
-
 
                         row.appendChild(userPosition);
                         row.appendChild(userNickname);
