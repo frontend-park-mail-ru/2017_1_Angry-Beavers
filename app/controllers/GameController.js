@@ -99,9 +99,7 @@ const generateLoader = function () {
     return layerErrorLoader;
 };
 
-
 const generateCard = function (card) {
-
     let group = new Konva.Group({
         width: TABLE_CARD_WIDTH,
         height: TABLE_CARD_HEIGHT,
@@ -674,16 +672,12 @@ class GameController extends View {
                     card: null,
                     index: 0,
                     itemGenerator: () => {
-                        let gameOverLabel = new Konva.Text({
+                        return new Konva.Text({
                             text: 'игра закончена',
                             fontSize: 30,
                             y: TABLE_CARD_HEIGHT / 2 + 20,
                             fontFamily: 'DigitalStrip',
                         });
-
-                        // gameOverLabel.setX(-gameOverLabel.getWidth() / 2);
-
-                        return gameOverLabel;
                     },
                 },
             ];
@@ -776,6 +770,10 @@ class GameController extends View {
                     }.bind(this));
                     group.on('mouseout', function () {
                         this._updateTable();
+                        this._moveTableCenter(false);
+                    }.bind(this));
+                    group.on('mousedown touchstart', function () {
+                        this._updateTable(l);
                         this._moveTableCenter(false);
                     }.bind(this));
 
