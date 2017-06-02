@@ -27,7 +27,7 @@ class SignUpController extends View {
         document.getElementById('formSignUp_signUpBtn').addEventListener('click', event => {
             event.preventDefault();
 
-            document.myentrymsg.show();
+            document.myentrymsg.show("Входим");
             let credentials = this.validateForm();
             if (credentials) {
                 this.session.signUp(credentials.login, credentials.email, credentials.password)
