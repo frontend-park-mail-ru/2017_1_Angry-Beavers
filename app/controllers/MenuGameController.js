@@ -63,6 +63,7 @@ class MenuGameController extends View {
             this.router.go('/signin');
         }
         else {
+            this.session.userData();
             this.page_parts.get("MenuGame").hidden = false;
 
             [...document.querySelectorAll('.userheader-login')].forEach(a => a.innerHTML = this.session.user.login);

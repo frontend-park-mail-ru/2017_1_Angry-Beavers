@@ -101,7 +101,7 @@ class Session {
                 _this._user = {}; // todo: in ES6 rewrite with new User
                 _this._user.login = response.userLogin;
                 _this._user.email = response.userMail;
-                _this._user.score = 0;
+                _this._user.score = response.userScore;
                 return response;
             });
     }
