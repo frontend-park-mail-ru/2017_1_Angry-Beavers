@@ -19,6 +19,7 @@ import UserHeader from './parts/UserHeader/UserHeader';
 import AlertMsg from './parts/MsgWindow/AlertMsg';
 import ConfirmMsg from './parts/MsgWindow/ConfirmMsg';
 import EntryMsg from  './parts/MsgWindow/EntryMsg';
+import RulesMsg from  './parts/MsgWindow/RulesMsg'
 
 class CreatePage {
     constructor() {
@@ -45,6 +46,7 @@ class CreatePage {
         AlertMsg();
         ConfirmMsg();
         EntryMsg();
+        RulesMsg();
     }
 
     addParts(parent, name, elem) {
