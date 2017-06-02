@@ -299,6 +299,8 @@ class GameController extends View {
     }
 
     show() {
+        document.myrules.close();
+
         if (!this.session.isAuth) {
             this.router.go('/signin');
         }
@@ -374,6 +376,7 @@ class GameController extends View {
     }
 
     hide() {
+        document.myrules.close();
         this.page_parts.get("Game").hidden = true;
         this._game && this._game.stop();
     }
@@ -389,8 +392,6 @@ class GameController extends View {
             delete this._groupHistory;
             delete this._groupTable;
             delete this._groupUsers;
-            delete this._groupTimerCircle;
-            delete this._groupTimerText;
 
             delete this._userCards;
             delete this._hand;
@@ -468,6 +469,49 @@ class GameController extends View {
             tween.play();
         }.bind(this));
         this._layerGame.add(exitButton);
+
+
+        const circle = new Konva.Circle({
+            x: TOOLTIP_TIMER_SIZE / 2 + 4,
+            y: TOOLTIP_TIMER_SIZE / 2 + 4,
+            radius: TOOLTIP_TIMER_SIZE / 2,
+            stroke: 'black',
+        });
+        this._layerGame.add(circle);
+
+        const circleText = new Konva.Text({
+            x: TOOLTIP_TIMER_SIZE / 10,
+            y: TOOLTIP_TIMER_SIZE / 2.8,
+            width: TOOLTIP_TIMER_SIZE,
+            align: 'center',
+            fontSize: 24,
+            text: '?',
+            fontFamily: 'DigitalStrip',
+        });
+        circleText.on('mousedown touchstart', function () {
+            document.myrules.close();
+            document.myrules.show();
+        }.bind(this));
+        circleText.on('mouseover', function () {
+            this._stage.container().style.cursor = 'pointer';
+            let tween = new Konva.Tween({
+                node: circleText,
+                fontSize: 27,
+                duration: 0.2
+            });
+            tween.play();
+        }.bind(this));
+        circleText.on('mouseout', function () {
+            this._stage.container().style.cursor = 'default';
+            let tween = new Konva.Tween({
+                node: circleText,
+                fontSize: 24,
+                duration: 0.2
+            });
+            tween.play();
+        }.bind(this));
+        this._layerGame.add(circleText);
+
 
         fitStageIntoParentContainer();
     }
@@ -947,23 +991,18 @@ class GameController extends View {
         switch (state) {
             case 'chooseCardFromHand':
                 this._updateTooltipText('Выбери карту, которая лучше всего подходит для комикса');
-                this._startTimer();
                 break;
             case 'chooseCardFromTable':
                 this._updateTooltipText('Выбери карту, из предложенных, которая лучше всего подходит для комикса');
-                this._startTimer();
                 break;
             case 'waitForPlayers':
                 this._updateTooltipText('Подожди пока другие игроки сделают выбор...');
-                this._stopTimer();
                 break;
             case 'waitForMaster':
                 this._updateTooltipText('Подожди пока ведущий выберет лучшую карту...');
-                this._stopTimer();
                 break;
             default:
                 this._updateTooltipText('');
-                this._stopTimer();
         }
     }
 
@@ -982,70 +1021,6 @@ class GameController extends View {
 
         this._hintText.text(text);
         this._layerGame.drawScene();
-    }
-
-    _startTimer() {
-        if (!this._groupTimerCircle) {
-            let circleBack = new Konva.Circle({
-                x: TOOLTIP_TIMER_SIZE / 2 + 4,
-                y: TOOLTIP_TIMER_SIZE / 2 + 4,
-                radius: TOOLTIP_TIMER_SIZE / 2,
-                stroke: 'gray',
-                strokeWidth: 2,
-            });
-            this._layerGame.add(circleBack);
-
-            let circleFront = new Konva.Arc({
-                x: TOOLTIP_TIMER_SIZE / 2 + 4,
-                y: TOOLTIP_TIMER_SIZE / 2 + 4,
-                innerRadius: TOOLTIP_TIMER_SIZE / 2 - 0.5,
-                outerRadius: TOOLTIP_TIMER_SIZE / 2 + 0.5,
-                angle: 360,
-                stroke: 'black',
-                fill: 'black',
-                scaleY: -1,
-                rotation: -90,
-            });
-            this._layerGame.add(circleFront);
-            this._groupTimerCircle = circleFront;
-
-            let text = new Konva.Text({
-                x: TOOLTIP_TIMER_SIZE / 10,
-                y: TOOLTIP_TIMER_SIZE / 2.5,
-                width: TOOLTIP_TIMER_SIZE,
-                align: 'center',
-                fontSize: 20,
-                fontFamily: 'DigitalStrip',
-            });
-            this._layerGame.add(text);
-            this._groupTimerText = text;
-        }
-
-        this._groupTimerCircle.angle(360);
-        this._groupTimerCircle.stroke('black');
-
-        let time = 40;
-
-        let tween = new Konva.Tween({
-            node: this._groupTimerCircle,
-            angle: 0,
-            stroke: 'red',
-            duration: time,
-        });
-        tween.play();
-
-        this._groupTimerText.opacity(1);
-        this._groupTimerCircle.opacity(1);
-
-        let _;
-        _ = () => {
-            if (time && this._groupTimerText.getAbsoluteOpacity() === 1) {
-                this._groupTimerText.text(--time);
-                this._layerGame.drawScene();
-                setTimeout(_, 1000);
-            }
-        };
-        _();
     }
 
     _stopTimer() {
