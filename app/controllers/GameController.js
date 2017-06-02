@@ -1022,14 +1022,6 @@ class GameController extends View {
         this._layerGame.drawScene();
     }
 
-    _stopTimer() {
-        if (this._groupTimerCircle) {
-            this._groupTimerText.opacity(0);
-            this._groupTimerCircle.opacity(0);
-        }
-        return new Promise(r => r());
-    }
-
     _showGame() {
         if (window.innerWidth < window.innerHeight) return;
 
