@@ -37,6 +37,8 @@ class ScoreListController extends View {
             [...document.querySelectorAll('.userheader-score')].forEach(a => a.innerHTML = this.session.user.score);
             this.page_parts.get("ScoreList").hidden = false;
 
+            document.myentrymsg.show("Загружаю");
+
             this.session.getScoreList()
                 .then(score => {
                     const scoreList = document.getElementById('score_list');
@@ -103,7 +105,9 @@ class ScoreListController extends View {
 
                         scoreList.appendChild(row);
                     });
+                    document.myentrymsg.close();
                 });
+            document.myentrymsg.close();
         }
 
         /*
@@ -117,6 +121,7 @@ class ScoreListController extends View {
         this.page_parts.get("UserHeader").hidden = true;
         this.page_parts.get("ScoreList").hidden = true;
         this.page_parts.get("Footer").hidden = true;
+        document.myentrymsg.close();
     }
 }
 
