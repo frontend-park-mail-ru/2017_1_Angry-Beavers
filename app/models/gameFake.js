@@ -58,7 +58,7 @@ class GameFake {
             if (this._table.length === 3) return;
 
             let card = this._hand[index];
-            if (this._table[this._table.length - 1].red) {
+            if (this._roundNum === 1) {
                 const a = this._table[this._table.length - 1];
                 this._table[this._table.length - 1] = card;
                 this._table.push(a);
@@ -72,16 +72,13 @@ class GameFake {
 
             this._onTableInfo && this._onTableInfo();
 
-            if (++this._roundNum === 3) {
-                this._needToSelectFromTable = true;
-                this._userCards = [];
-                for (let i = 0; i < 3; ++i) {
-                    this._userCards.push({
-                        "id": Math.round(Math.random() * 400)
-                    });
-                }
-                this._onUserCardsInfo && this._onUserCardsInfo();
-                this._onGetCardFromTable && this._onGetCardFromTable();
+            if (this._roundNum === 2) {
+                setTimeout(function () {
+                    this._history.push(this._table);
+                    this.stop();
+                    ++this._users[0].score;
+                    this.start();
+                }.bind(this), 3000);
             } else {
                 this._onHandInfo && this._onHandInfo();
                 this._onRoundInfo && this._onRoundInfo();
@@ -92,10 +89,13 @@ class GameFake {
                     this._onUserCardsInfo && this._onUserCardsInfo();
                 }.bind(this), 2000);
             }
+            ++this._roundNum;
         }.bind(this), 1000);
     }
 
     selectCardFromTable(index) {
+        return;
+
         this._needToSelectFromTable = false;
         let card = this._userCards[index];
         if (this._table[this._table.length - 1].red) {
@@ -108,11 +108,7 @@ class GameFake {
         this._history.push(this._table);
         this._hand = [];
         this._onHandInfo && this._onHandInfo();
-        setTimeout(function () {
-            this.stop();
-            ++this._users[0].score;
-            this.start();
-        }.bind(this), 3000);
+
     }
 
     get needToSelectFormHand() {
