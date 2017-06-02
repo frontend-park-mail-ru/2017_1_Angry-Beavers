@@ -861,8 +861,6 @@ class GameController extends View {
         listSubscribe({
             list: this._hand,
             onClick: function (c) {
-                if (c.card.red && this._game.roundCount - 1 !== this._game.roundNum) return;
-
                 moveCard(c.item, false);
 
                 this._stage.container().style.cursor = 'default';
@@ -878,12 +876,10 @@ class GameController extends View {
                 this._updateTooltip('waitForPlayers');
             }.bind(this),
             onMouseOver: function (c) {
-                if (c.card.red && this._game.roundCount - 1 !== this._game.roundNum) return;
-
                 moveCard(c.item, true);
 
                 const l = this._game.table;
-                if (l[l.length - 1] && l[l.length - 1].red) {
+                if (this._game.table.length === 1) {
                     const a = l[l.length - 1];
                     l[l.length - 1] = c.card;
                     l.push(a);
@@ -926,7 +922,7 @@ class GameController extends View {
             }.bind(this),
             onMouseOver: function (c) {
                 const l = this._game.table;
-                if (l[l.length - 1] && l[l.length - 1].red) {
+                if (this._game.table.length === 1) {
                     const a = l[l.length - 1];
                     l[l.length - 1] = c.card;
                     l.push(a);
