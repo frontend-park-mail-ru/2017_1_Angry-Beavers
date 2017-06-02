@@ -90,24 +90,21 @@ class ScoreListController extends View {
                         const row = document.createElement('tr');
                         row.className = 'scorelist__row';
 
+                        let userPosition = document.createElement('th');
+                        let userNickname = document.createElement('th');
+                        let userScore = document.createElement('th');
                         if(user.login === this.session.user.login){
-                            const userPosition = document.createElement('th');
                             userPosition.className = 'col-lg-2 scorelist__cell scorelist_thisuser';
                             userPosition.innerHTML = user.rank;
-                            const userNickname = document.createElement('th');
                             userNickname.className = 'col-lg-2 scorelist__cell scorelist_thisuser';
                             userNickname.innerHTML = user.login;
-                            const userScore = document.createElement('th');
                             userScore.className = 'col-lg-2 scorelist__cell scorelist_thisuser';
                             userScore.innerHTML = user.score;
                         } else {
-                            const userPosition = document.createElement('th');
                             userPosition.className = 'col-lg-2 scorelist__cell';
                             userPosition.innerHTML = user.rank;
-                            const userNickname = document.createElement('th');
                             userNickname.className = 'col-lg-2 scorelist__cell';
                             userNickname.innerHTML = user.login;
-                            const userScore = document.createElement('th');
                             userScore.className = 'col-lg-2 scorelist__cell';
                             userScore.innerHTML = user.score;
                         }
