@@ -531,7 +531,7 @@ class GameController extends View {
         this._game.hand.forEach(function (card, i) {
             if (!card || typeof card === "string") return;
             newHand.push({
-                id: card.id % 10 + 1,
+                id: card.id,
                 index: i,
                 card: card,
                 itemGenerator: () => {
