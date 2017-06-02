@@ -27,7 +27,7 @@ class SignInController extends View {
         document.getElementById("formSignIn_signInBtn").addEventListener('click', event => {
             event.preventDefault();
 
-            document.myentrymsg.show();
+            document.myentrymsg.show("Входим");
             let login = document.getElementById('formSignIn_loginInput').value;
             let passw = document.getElementById('formSignIn_passwordInput').value;
             if (!login || !passw) {

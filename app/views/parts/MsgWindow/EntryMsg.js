@@ -74,7 +74,8 @@ const EntryMsg = function () {
         clearTimeout(__timerid);
     };
 
-    let show = function(width = 200) {
+    let show = function(msg,width = 200) {
+        _msg = msg;
         initBlock();
         initWin(width);
     };
