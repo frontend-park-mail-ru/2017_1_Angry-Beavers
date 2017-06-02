@@ -360,6 +360,7 @@ class GameController extends View {
                 this._isGameOver = true;
                 this._updateTable();
                 this._moveTableCenter(true);
+                this.session.userData();
             }.bind(this);
             this._game.onNewRoundMessage = function () {
                 this._updateHistory();
@@ -923,9 +924,7 @@ class GameController extends View {
 
                 const l = this._game.table;
                 if (this._game.table.length && !this._game.table[0]) {
-                    const a = l[l.length - 1];
-                    l[l.length - 1] = c.card;
-                    l.push(a);
+                    l.unshift(c.card);
                 } else {
                     l.push(c.card);
                 }
@@ -966,9 +965,7 @@ class GameController extends View {
             onMouseOver: function (c) {
                 const l = this._game.table;
                 if (this._game.table.length && !this._game.table[0]) {
-                    const a = l[l.length - 1];
-                    l[l.length - 1] = c.card;
-                    l.push(a);
+                    l.unshift(c.card);
                 } else {
                     l.push(c.card);
                 }
