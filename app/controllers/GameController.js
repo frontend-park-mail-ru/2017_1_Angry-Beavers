@@ -738,6 +738,7 @@ class GameController extends View {
 
         let newHistory = [];
         let _i = 0;
+        document.__kek = false;
         (list || this._game.history).forEach(function (l, i) {
             if (!l) return;
 
@@ -773,8 +774,9 @@ class GameController extends View {
                         this._moveTableCenter(false);
                     }.bind(this));
                     group.on('mousedown touchstart', function () {
-                        this._updateTable(l);
+                        this._updateTable(document.__kek ? null : l);
                         this._moveTableCenter(false);
+                        document.__kek = !document.__kek;
                     }.bind(this));
 
                     return group;
