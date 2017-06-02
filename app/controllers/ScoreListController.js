@@ -94,11 +94,11 @@ class ScoreListController extends View {
                         let userNickname = document.createElement('th');
                         let userScore = document.createElement('th');
                         if(user.login === this.session.user.login){
-                            userPosition.className = 'col-lg-2 scorelist__cell scorelist_thisuser';
+                            userPosition.className = 'col-lg-2 scorelist__cell scorelist__thisuser';
                             userPosition.innerHTML = user.rank;
-                            userNickname.className = 'col-lg-2 scorelist__cell scorelist_thisuser';
+                            userNickname.className = 'col-lg-2 scorelist__cell scorelist__thisuser';
                             userNickname.innerHTML = user.login;
-                            userScore.className = 'col-lg-2 scorelist__cell scorelist_thisuser';
+                            userScore.className = 'col-lg-2 scorelist__cell scorelist__thisuser';
                             userScore.innerHTML = user.score;
                         } else {
                             userPosition.className = 'col-lg-2 scorelist__cell';
