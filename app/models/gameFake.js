@@ -176,7 +176,7 @@ class GameFake {
     }
 
     set onUserCardsInfo(value) {
-        this._onUserCardsInfo = value;
+        this.__kek_kostili__onUserCardsInfo = value;
     }
 
     get onGetCardFromHand() {
