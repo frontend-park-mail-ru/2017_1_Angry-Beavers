@@ -925,7 +925,7 @@ class GameController extends View {
                 moveCard(c.item, true);
 
                 const l = this._game.table;
-                if (this._game.table.length && !this._game.table[0]) {
+                if ((this._game.table.length && !this._game.table[0]) || this._game.table.length === 1) {
                     l.unshift(c.card);
                 } else {
                     l.push(c.card);
@@ -966,7 +966,7 @@ class GameController extends View {
             }.bind(this),
             onMouseOver: function (c) {
                 const l = this._game.table;
-                if (this._game.table.length && !this._game.table[0]) {
+                if ((this._game.table.length && !this._game.table[0]) || this._game.table.length === 1) {
                     l.unshift(c.card);
                 } else {
                     l.push(c.card);
