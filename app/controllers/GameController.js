@@ -357,6 +357,7 @@ class GameController extends View {
             this._game.onGameFinishedMessage = function () {
                 this._game.onClosed = undefined;
                 this._game.onError = undefined;
+                this._updateTooltip('gameOver');
                 this._isGameOver = true;
                 this._updateTable();
                 this._moveTableCenter(true);
